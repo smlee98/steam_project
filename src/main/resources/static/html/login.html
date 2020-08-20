@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css" href="css/login.css" />
+
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
+		style="height: 15vh;">
+		<div class="container">
+			<a class="navbar-brand" href="main"><img src="image/logo.png"
+				width="50" height="50" alt="logo"></a>
+			<div class="collapse navbar-collapse" id="navbarsExample07">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="#">스토어<span
+							class="sr-only">(current)</span></a></li>
+				</ul>
+				<form class="form-inline my-2 my-md-0">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item"><a class="nav-link" href="login">로그인</a></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container"
+		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+		<div class="row" style="color: #fff; padding: 30px;">
+			<div class="col-sm-5">
+				<div class="login-form" style="height: 80%">
+					<h2>로그인</h2>
+					<h4>계정이 이미 있다면</h4>
+					<form>
+						<div class="form-group">
+							<label>아이디</label> <input type="text" class="form-control"
+								placeholder="" id="id_input">
+						</div>
+						<div class="form-group">
+							<label>비밀번호</label> <input type="password" class="form-control"
+								placeholder="" id="pw_input">
+						</div>
+						<label> <input type="checkbox" name="remember">
+							아이디 저장
+						</label>
+					</form>
+				</div>
+				<button type="submit" class="btn btn-black">로그인</button>
+			</div>
+			<div class="col-sm-7">
+				<div class="inform-page" style="height: 80%">
+					<h2>회원가입</h2>
+					<h4>계정을 만들어보세요!</h4>
+					<form>
+						<label>다음과 같이 구현되어 있습니다.</label><br> <label><strong>일반
+								사용자</strong>는 다운로드를 할 수 있고,</label><br> <label><strong>관리자</strong>는
+							업로드를 할 수 있으며,</label><br> <label><strong>최상위 관리자</strong>는
+							대시보드를 확인 할 수 있습니다.</label>
+					</form>
+				</div>
+				<a href="register"><button type="button" class="btn btn-black">회원가입</button></a>
+			</div>
+		</div>
+	</div>
+	<footer class="section footer-classic context-dark bg-image">
+		<div class="container">
+			<div class="rule"></div>
+			<h5>Steam Project</h5>
+			<p>개발자 : 이승민 | TEL : 010-4146-8375</p>
+			<div class="rule"></div>
+		</div>
+	</footer>
+</body>
+</html>

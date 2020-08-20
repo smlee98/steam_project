@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	function maxLengthCheck(object) {
+		if (object.value.length > object.maxLength) {
+			object.value = object.value.slice(0, object.maxLength);
+		}
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="css/register.css" />
+
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
+		style="height: 15vh;">
+		<div class="container-md">
+			<a class="navbar-brand" href="main"><img src="image/logo.png"
+				width="50" height="50" alt="logo"></a>
+			<div class="collapse navbar-collapse" id="navbarsExample07">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="#">스토어<span
+							class="sr-only">(current)</span></a></li>
+				</ul>
+				<form class="form-inline my-2 my-md-0">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item"><a class="nav-link" href="login">로그인</a></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-md"
+		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+		<div class="row" style="color: #fff; padding: 30px;">
+			<div class="container-md">
+				<div class="row">
+					<form>
+						<h2>회원가입</h2>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputEmail1">아이디</label> <input type="email"
+								class="form-control" id="exampleInputEmail1"
+								aria-describedby="emailHelp"><small id="emailHelp"
+								class="form-text text-muted">이메일 형식으로 입력해주세요.</small>
+						</div>
+						<div class="form-group">
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-6" id="password"
+										style="flex: 1; margin-right: 25px;">
+										<label for="exampleInputPassword1">비밀번호</label> <input
+											type="password" class="form-control"
+											id="exampleInputPassword1">
+									</div>
+									<div class="col-sm-6" id="password_check" style="flex: 1;">
+										<label for="exampleInputPassword2">비밀번호 확인</label> <input
+											type="password" class="form-control"
+											id="exampleInputPassword2">
+									</div>
+								</div>
+							</div>
+							<small id="pwHelp" class="form-text text-muted">비밀번호의
+								첫글자는 특수문자이고, 연속된 문자는 사용할 수 없습니다.<br>영/숫자 혼합 8자리 이상 12자리 이하로
+								입력이 가능합니다.
+							</small>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputName">이름</label> <input type="text"
+								class="form-control" id="exampleInputName"
+								aria-describedby="nameHelp">
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputGender">성별</label> <select
+								class="form-control">
+								<option value="남">남</option>
+								<option value="여">여</option>
+							</select>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputAddress">주소</label>
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-4" id="address1"
+										style="flex: 1; margin-right: 25px; padding: 0;">
+										<select class="form-control">
+											<optgroup title="bigCity" label="특별시" id="bigCity">
+												<option value="서울특별시">서울특별시</option>
+											</optgroup>
+											<optgroup title="medCity1" label="괌역시" id="medCity1">
+												<option value="부산광역시">부산광역시</option>
+												<option value="대구광역시">대구광역시</option>
+												<option value="인천광역시">인천광역시</option>
+												<option value="광주광역시">광주광역시</option>
+												<option value="대전광역시">대전광역시</option>
+												<option value="울산광역시">울산광역시</option>
+											</optgroup>
+											<optgroup title="medCity2" label="특별자치시" id="medCity2">
+												<option value="세종특별자치시">세종특별자치시</option>
+											</optgroup>
+											<optgroup title="smallCity" label="도" id="smallCity">
+												<option value="경기도">경기도</option>
+												<option value="강원도">강원도</option>
+												<option value="충청북도">충청북도</option>
+												<option value="충청남도">충청남도</option>
+												<option value="경상북도">경상북도</option>
+												<option value="경상남도">경상남도</option>
+												<option value="전라북도">전라북도</option>
+												<option value="전라남도">전라남도</option>
+											</optgroup>
+											<optgroup title="etcCity" label="특별자치도" id="etcCity">
+												<option value="제주특별자치도">제주특별자치도</option>
+											</optgroup>
+										</select>
+									</div>
+									<div class="col-sm-8" id="address2"
+										style="flex: 1; padding: 0;">
+										<input type="text" class="form-control"
+											id="exampleInputAddress" aria-describedby="addressHelp">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputPhone">전화번호</label><br>
+							<div class="numberSet" style="display: inline-flex">
+								<input type="number" class="form-control" id="exampleInputNum1"
+									aria-describedby="num1Help" readonly="readonly" value="010">
+								<label style="margin-left: 5px; margin-right: 5px;">-</label> <input
+									type="number" class="form-control" id="exampleInputNum2"
+									aria-describedby="num2Help" maxlength="4"
+									oninput="maxLengthCheck(this)"> <label
+									style="margin-left: 5px; margin-right: 5px;">-</label> <input
+									type="number" class="form-control" id="exampleInputNum3"
+									aria-describedby="num3Help" maxlength="4"
+									oninput="maxLengthCheck(this)">
+							</div>
+						</div>
+
+						<div class="form-check" style="padding: 0;">
+							<label for="exampleInputFav">관심분야</label><br>
+							<div class="favSet" style="display: inline-flex">
+								<div class="form-group">
+									<input type="checkbox" id="shooting"> <label
+										for="shooting">슈팅</label>
+								</div>
+								<div class="form-group">
+									<input type="checkbox" id="action"> <label for="action">액션</label>
+								</div>
+								<div class="form-group">
+									<input type="checkbox" id="advanture"> <label
+										for="advanture">어드벤처</label>
+								</div>
+								<div class="form-group">
+									<input type="checkbox" id="simulation"> <label
+										for="simulation">시뮬레이션</label>
+								</div>
+								<div class="form-group">
+									<input type="checkbox" id="sports"> <label for="sports">스포츠</label>
+								</div>
+								<div class="form-group">
+									<input type="checkbox" id="fps"> <label for="fps">FPS</label>
+								</div>
+							</div>
+							<small id="favHelp"
+								class="form-text text-muted" style="margin-top: -5%">최대 3가지의 관심분야를 고를수 있습니다.</small>
+						</div>
+
+						<div class="submit" style="text-align: right;">
+							<button type="submit" class="btn btn-primary">회원가입</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="section footer-classic context-dark bg-image">
+		<div class="container">
+			<div class="rule"></div>
+			<h5>Steam Project</h5>
+			<p>개발자 : 이승민 | TEL : 010-4146-8375</p>
+			<div class="rule"></div>
+		</div>
+	</footer>
+</body>
+</html>

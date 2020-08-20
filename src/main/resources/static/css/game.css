@@ -1,0 +1,192 @@
+@charset "UTF-8";
+
+body {
+	background-image: url('/image/bg.jpg');
+	}
+	
+h4 {
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 1em;
+	letter-spacing: 2px;
+	font-weight: bold;
+	color: white;
+}
+
+#sidebar{
+	padding: 0;
+}
+
+#sidebar li{
+	list-style-type: none;
+}
+
+.submenu_header{
+	font-weight: bold;
+	color: #c6d4f4;
+}
+
+.col-sm-5 a{
+	color: white;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+@charset "UTF-8";
+
+body {
+	background-image: url('/image/bg.jpg');
+	}
+	
+h2 {
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 2em;
+	letter-spacing: 2px;
+	font-weight: bold;
+	color: white;
+}
+
+h4 {
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 1em;
+	letter-spacing: 2px;
+	font-weight: bold;
+	color: white;
+}
+
+#sidebar{
+	padding: 0;
+}
+
+#sidebar li{
+	list-style-type: none;
+}
+
+.container-md::-webkit-scrollbar{
+	display: none;	
+}
+
+#id_input, #pw_input{
+	background: rgb(18,26,36);
+	border:none;
+	border-right: 1px solid rgb(69,85,108);
+	border-bottom: 1px solid rgb(69,85,108);
+	color: white;
+}
+
+.form-group input,.form-group input:read-only{
+	background: rgb(18,26,36);
+	border:none;
+	border-right: 1px solid rgb(69,85,108);
+	border-bottom: 1px solid rgb(69,85,108);
+	color: white;
+}
+
+input:focus{
+	background: rgb(18,26,36);
+	border:none;
+	border-right: 1px solid rgb(69,85,108);
+	border-bottom: 1px solid rgb(69,85,108);
+	color: white;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.form-group select{
+	background: rgb(18,26,36);
+	border:none;
+	border-right: 1px solid rgb(69,85,108);
+	border-bottom: 1px solid rgb(69,85,108);
+	color: white;
+}
+
+#password, #password_check{
+	padding: 0;
+}
+
+.col-sm-5 div{
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+.col-sm-5 button{
+	background: rgb(39,65,85);
+	color: rgb(103,169,183);
+	border: none;
+	font-weight: bold;
+}
+
+.col-sm-7 div{
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+.col-sm-7 button{
+	background: rgb(39,65,85);
+	color: rgb(103,169,183);
+	border: none;
+	font-weight: bold;
+}
+
+.submit button{
+	background: rgb(39,65,85);
+	color: rgb(103,169,183);
+	border: none;
+	font-weight: bold;
+}
+
+.date{
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.date_header{
+	background: rgb(39,65,85);
+	color: rgb(103,169,183);
+	border: none;
+	border-radius: 5px;
+	padding: 2px;
+	margin-right: 5px;
+	font-weight: bold;
+	width: fit-content;
+    float: left;
+}
+
+.purchase{
+	font-size: 1.5em;
+}
+
+.purchase p{
+	margin-bottom: 0;
+}
+
+#game_name{
+	float: left;
+	margin-right: 5px;
+}
+
+#purchase_button{
+	background: rgb(96,148,29);
+	color: white;
+	border: none;
+	font-weight: bold;
+	width: inherit;
+	height: inherit;
+}
+
+footer{
+	color: white;
+}
+
+footer .rule {
+    height: 8px;
+    border-top: 1px solid #363c44;

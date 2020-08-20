@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	function maxLengthCheck(object) {
+		if (object.value.length > object.maxLength) {
+			object.value = object.value.slice(0, object.maxLength);
+		}
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="css/register.css" />
+
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
+		style="height: 15vh;">
+		<div class="container-md">
+			<a class="navbar-brand" href="main"><img src="image/logo.png"
+				width="50" height="50" alt="logo"></a>
+			<div class="collapse navbar-collapse" id="navbarsExample07">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="#">스토어<span
+							class="sr-only">(current)</span></a></li>
+				</ul>
+				<form class="form-inline my-2 my-md-0">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item"><a class="nav-link" href="login">로그인</a></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-md"
+		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+		<div class="row" style="color: #fff; padding: 30px;">
+			<div class="container-md">
+				<div class="row">
+					<form>
+						<h2>마이페이지</h2>
+						<h4>비밀번호 변경</h4>
+						<div class="form-group" style="display: inline-flex;">
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-6" id="password"
+										style="flex: 1; margin-right: 25px;">
+										<label for="exampleInputPassword1">비밀번호</label> <input
+											type="password" class="form-control"
+											id="exampleInputPassword1">
+									</div>
+									<div class="col-sm-6" id="password_check"
+										style="flex: 1; display: inline-block;">
+										<label for="exampleInputPassword2">비밀번호 확인</label> <input
+											type="password" class="form-control"
+											id="exampleInputPassword2">
+									</div>
+								</div>
+							</div>
+							<button type="button" class="btn btn-primary" id="changeit">변경</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="section footer-classic context-dark bg-image">
+		<div class="container">
+			<div class="rule"></div>
+			<h5>Steam Project</h5>
+			<p>개발자 : 이승민 | TEL : 010-4146-8375</p>
+			<div class="rule"></div>
+		</div>
+	</footer>
+</body>
+</html>
