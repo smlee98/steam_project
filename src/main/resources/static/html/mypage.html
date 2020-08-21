@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>메인페이지</title>
@@ -35,17 +36,19 @@
 <body>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
 		style="height: 15vh;">
-		<div class="container-md">
+		<div class="container">
 			<a class="navbar-brand" href="main"><img src="image/logo.png"
 				width="50" height="50" alt="logo"></a>
 			<div class="collapse navbar-collapse" id="navbarsExample07">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="#">스토어<span
+					<li class="nav-item active"><a class="nav-link" href="#"
+						style="font-size: 18px; font-weight: bold;">스토어<span
 							class="sr-only">(current)</span></a></li>
 				</ul>
 				<form class="form-inline my-2 my-md-0">
 					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="login">로그인</a></li>
+						<li class="nav-item"><a class="nav-link" href="login"
+							style="font-size: 18px; font-weight: bold;">로그인</a></li>
 					</ul>
 				</form>
 			</div>
@@ -59,7 +62,7 @@
 				<div class="row">
 					<form>
 						<h2>마이페이지</h2>
-						<h4>비밀번호 변경</h4>
+						<h4 style="margin-top: 25px;">비밀번호 변경</h4>
 						<div class="form-group" style="display: inline-flex;">
 							<div class="container">
 								<div class="row">
@@ -79,6 +82,22 @@
 							</div>
 							<button type="button" class="btn btn-primary" id="changeit">변경</button>
 						</div>
+						<h4 style="margin-top: 25px;">충전내역</h4>
+						<!-- <table id="userTable">
+							<thead>
+								<tr>
+									<th>날짜</th>
+									<th>금액</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="user : ${userList}">
+									<td th:text="${user.email}">2020.08.21</td>
+									<td th:text="${user.fullNmKr}">33,000</td>
+								</tr>
+							</tbody>
+						</table> -->
+						<label style="font-style: italic;">타임리프 그리드 계획중...</label>
 					</form>
 				</div>
 			</div>

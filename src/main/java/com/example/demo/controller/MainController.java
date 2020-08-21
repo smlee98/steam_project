@@ -16,6 +16,16 @@ public class MainController {
 		return "main_user";
 	}
 	
+	@RequestMapping(value="/main_admin", method=RequestMethod.GET)
+	public String main_admin() {
+		return "main_admin";
+	}
+	
+	@RequestMapping(value="/main_super", method=RequestMethod.GET)
+	public String main_super() {
+		return "main_super";
+	}
+	
 	@RequestMapping(value="/mypage", method=RequestMethod.GET)
 	public String mypage() {
 		return "mypage";
