@@ -4,6 +4,10 @@ body {
 	background-image: url('/image/bg.jpg');
 	}
 	
+.bg-dark{
+	background-color: rgba(23,26,33,0.95)!important;
+}
+	
 h4 {
 	margin: 0;
 	padding-top: 3px;

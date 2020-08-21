@@ -26,6 +26,21 @@
 			object.value = object.value.slice(0, object.maxLength);
 		}
 	}
+	
+	function count_ck(object){
+		var chkbox = document.getElementsByName("chk");
+		var chkCnt = 0;
+		for(var i=0;i<chkbox.length; i++){
+			if(chkbox[i].checked){
+				chkCnt++;
+			}
+		}
+		if(chkCnt>3){
+			alert("관심분야는 3개까지만 선택할 수 있습니다.");
+			object.checked = false;
+			return false;
+		}
+	}
 </script>
 
 <link rel="stylesheet" type="text/css" href="css/register.css" />
@@ -35,17 +50,17 @@
 <body>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
 		style="height: 15vh;">
-		<div class="container-md">
+		<div class="container">
 			<a class="navbar-brand" href="main"><img src="image/logo.png"
 				width="50" height="50" alt="logo"></a>
 			<div class="collapse navbar-collapse" id="navbarsExample07">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="#">스토어<span
+					<li class="nav-item active"><a class="nav-link" href="#" style="font-size: 18px; font-weight: bold;">스토어<span
 							class="sr-only">(current)</span></a></li>
 				</ul>
 				<form class="form-inline my-2 my-md-0">
 					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="login">로그인</a></li>
+						<li class="nav-item"><a class="nav-link" href="login" style="font-size: 18px; font-weight: bold;">로그인</a></li>
 					</ul>
 				</form>
 			</div>
@@ -162,25 +177,25 @@
 							<label for="exampleInputFav">관심분야</label><br>
 							<div class="favSet" style="display: inline-flex">
 								<div class="form-group">
-									<input type="checkbox" id="shooting"> <label
+									<input type="checkbox" id="shooting" name="chk" onclick="count_ck(this)"> <label
 										for="shooting">슈팅</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="action"> <label for="action">액션</label>
+									<input type="checkbox" id="action" name="chk" onclick="count_ck(this)"> <label for="action">액션</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="advanture"> <label
+									<input type="checkbox" id="advanture" name="chk" onclick="count_ck(this)"> <label
 										for="advanture">어드벤처</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="simulation"> <label
+									<input type="checkbox" id="simulation" name="chk" onclick="count_ck(this)"> <label
 										for="simulation">시뮬레이션</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="sports"> <label for="sports">스포츠</label>
+									<input type="checkbox" id="sports" name="chk" onclick="count_ck(this)"> <label for="sports">스포츠</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="fps"> <label for="fps">FPS</label>
+									<input type="checkbox" id="fps" name="chk" onclick="count_ck(this)"> <label for="fps">FPS</label>
 								</div>
 							</div>
 							<small id="favHelp"
