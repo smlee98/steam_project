@@ -45,4 +45,9 @@ public class MainController {
 	public String game_1() {
 		return "game_1";
 	}
+	
+	@RequestMapping(value="/upload", method=RequestMethod.GET)
+	public String upload() {
+		return "upload";
+	}
 }
