@@ -1,0 +1,161 @@
+@charset "UTF-8";
+
+body {
+	background-image: url('/image/bg.jpg');
+}
+
+.bg-dark {
+	background-color: rgba(23, 26, 33, 0.95) !important;
+}
+
+h4 {
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 1em;
+	letter-spacing: 2px;
+	font-weight: bold;
+	color: white;
+}
+
+#sidebar {
+	padding: 0;
+}
+
+#sidebar li {
+	list-style-type: none;
+}
+
+.submenu_header {
+	font-weight: bold;
+	color: #c6d4f4;
+}
+
+.submenu_context a {
+	color: #66c0f4;
+}
+
+.container::-webkit-scrollbar {
+	display: none;
+}
+
+@charset "UTF-8";
+
+body {
+	background-image: url('/image/bg.jpg');
+}
+
+h2 {
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 2em;
+	letter-spacing: 2px;
+	font-weight: bold;
+	color: white;
+}
+
+h4 {
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 1em;
+	letter-spacing: 2px;
+	font-weight: bold;
+	color: white;
+}
+
+#sidebar {
+	padding: 0;
+}
+
+#sidebar li {
+	list-style-type: none;
+}
+
+#id_input, #pw_input {
+	background: rgb(18, 26, 36);
+	border: none;
+	border-right: 1px solid rgb(69, 85, 108);
+	border-bottom: 1px solid rgb(69, 85, 108);
+	color: white;
+}
+
+.col-sm-5 div {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.col-sm-5 button {
+	background: rgb(39, 65, 85);
+	color: rgb(103, 169, 183);
+	border: none;
+	font-weight: bold;
+}
+
+.col-sm-7 div {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.col-sm-7 button {
+	background: rgb(39, 65, 85);
+	color: rgb(103, 169, 183);
+	border: none;
+	font-weight: bold;
+}
+
+.inform-page label {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.upload-btn-wrapper {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+}
+
+.upload-btn {
+	border: 2px solid gray;
+	color: gray;
+	background-color: white;
+	padding: 8px 20px;
+	border-radius: 8px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+	font-size: 100px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+}
+
+#fileDragDesc {
+	width: 100%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+}
+
+#downimage{
+	width:100px;
+	height: auto;
+	margin-bottom: 10px;
+}
+
+footer {
+	color: white;
+}
+
+footer .rule {
+	height: 8px;
+	border-top: 1px solid #363c44;
+}

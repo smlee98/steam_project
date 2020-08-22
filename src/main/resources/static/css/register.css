@@ -112,6 +112,14 @@ input[type="number"]::-webkit-inner-spin-button{
 	color: white;
 }
 
+.form-control{
+	background: rgb(18,26,36);
+	border:none;
+	border-right: 1px solid rgb(69,85,108);
+	border-bottom: 1px solid rgb(69,85,108);
+	color: white;
+}
+
 #password, #password_check{
 	padding: 0;
 }
@@ -133,6 +141,15 @@ input[type="number"]::-webkit-inner-spin-button{
 }
 
 #changeit{
+	background: rgb(39,65,85);
+	color: rgb(103,169,183);
+	border: none;
+	font-weight: bold;
+	width: 100px;
+	margin-left: 25px;
+}
+
+#purchaseit{
 	background: rgb(39,65,85);
 	color: rgb(103,169,183);
 	border: none;
@@ -212,7 +229,6 @@ input[type="number"]::-webkit-inner-spin-button{
 	border: none;
 	font-weight: bold;
 }
-
 
 footer{
 	color: white;

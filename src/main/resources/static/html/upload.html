@@ -29,7 +29,8 @@
 	}
 </script>
 
-<link rel="stylesheet" type="text/css" href="css/register.css" />
+<link rel="stylesheet" type="text/css" href="css/upload.css" />
+<script src="js/upload.js"></script>
 
 
 </head>
@@ -60,57 +61,31 @@
 		<div class="row" style="color: #fff; padding: 30px;">
 			<div class="container-md">
 				<div class="row">
-					<form>
-						<h2>마이페이지</h2>
-						<h4 style="margin-top: 25px;">비밀번호 변경</h4>
-						<div class="form-group" style="display: inline-flex;">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-6" id="password"
-										style="flex: 1; margin-right: 25px;">
-										<label for="exampleInputPassword1">비밀번호</label> <input
-											type="password" class="form-control"
-											id="exampleInputPassword1">
-									</div>
-									<div class="col-sm-6" id="password_check"
-										style="flex: 1; display: inline-block;">
-										<label for="exampleInputPassword2">비밀번호 확인</label> <input
-											type="password" class="form-control"
-											id="exampleInputPassword2">
-									</div>
+					<div class="col-sm-7">
+						<!-- <div class="upload-btn-wrapper">
+							<input type="file" id="input_file" multiple="multiple"
+								style="height: 100%;" />
+							<button class="upload-btn">파일선택</button>
+						</div>
+						<br> -->
+						<form name="uploadForm" id="uploadForm"
+							enctype="multipart/form-data" method="post">
+							<div id="dropZone"
+								style="width: 500px; height: 300px; border-style: solid; border-color: black; display: table-cell; vertical-align: middle;">
+								<div id="fileDragDesc">
+								<img src="image/down_image.png" id="downimage"><br>
+								<label>파일을 드래그 해주세요.</label>
 								</div>
+								<table id="fileListTable" style="width: 100%; border: none;">
+									<tbody id="fileTableTbody">
+									</tbody>
+								</table>
 							</div>
-							<button type="button" class="btn btn-primary" id="changeit">변경</button>
-						</div>
-						<h4 style="margin-top: 25px;">충전</h4>
-						<div class="form-group" style="display: inline-flex;">
-						<select class="form-control">
-							<option value="1000">1000원</option>
-							<option value="3000">3000원</option>
-							<option value="5000">5000원</option>
-							<option value="10000">10000원</option>
-							<option value="30000">30000원</option>
-							<option value="50000">50000원</option>
-						</select>
-						<button type="button" class="btn btn-primary" id="purchaseit">충전</button>
-						</div>
-						<h4 style="margin-top: 25px;">충전내역</h4>
-						<!-- <table id="userTable">
-							<thead>
-								<tr>
-									<th>날짜</th>
-									<th>금액</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="user : ${userList}">
-									<td th:text="${user.email}">2020.08.21</td>
-									<td th:text="${user.fullNmKr}">33,000</td>
-								</tr>
-							</tbody>
-						</table> -->
-						<label style="font-style: italic;">타임리프 그리드 계획중...</label>
-					</form>
+						</form>
+						<input type="button" onclick="uploadFile(); return false;"
+							class="btn bg_01" value="파일 업로드">
+					</div>
+					<div class="col-sm-5"></div>
 				</div>
 			</div>
 		</div>
