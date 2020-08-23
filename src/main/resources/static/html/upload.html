@@ -22,11 +22,15 @@
 	crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-	function maxLengthCheck(object) {
-		if (object.value.length > object.maxLength) {
-			object.value = object.value.slice(0, object.maxLength);
-		}
-	}
+$(document).ready(function() {
+	var textbox = $('#exampleInputThumbnail').val();
+	
+	$('input[type=file]').change(function(e){
+		var naming = e.target.files[0].name;
+		textbox = naming; /* 원인파악중 */
+		console.log("filename : " + naming);
+	});
+});
 </script>
 
 <link rel="stylesheet" type="text/css" href="css/upload.css" />
@@ -71,10 +75,10 @@
 						<form name="uploadForm" id="uploadForm"
 							enctype="multipart/form-data" method="post">
 							<div id="dropZone"
-								style="width: 500px; height: 300px; border-style: solid; border-color: black; display: table-cell; vertical-align: middle;">
+								style="width: 550px; height: 845px; border-style: dashed; border-color: white; display: table-cell; vertical-align: middle;">
 								<div id="fileDragDesc">
-								<img src="image/down_image.png" id="downimage"><br>
-								<label>파일을 드래그 해주세요.</label>
+									<img src="image/down_image.png" id="downimage"><br>
+									<label>파일을 드래그 해주세요.</label>
 								</div>
 								<table id="fileListTable" style="width: 100%; border: none;">
 									<tbody id="fileTableTbody">
@@ -82,10 +86,56 @@
 								</table>
 							</div>
 						</form>
-						<input type="button" onclick="uploadFile(); return false;"
-							class="btn bg_01" value="파일 업로드">
 					</div>
-					<div class="col-sm-5"></div>
+					<div class="col-sm-5">
+						<form>
+							<h2>게임 등록</h2>
+							<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputThumbnail">썸네일 등록</label>
+								<input type="text" class="form-control" id="exampleInputThumbnail"
+									aria-describedby="thumbnailHelp" readonly>
+									<div class="filebox" style="float:right;">
+								<label for="ex_file">업로드</label>
+								<input type="file" id="ex_file">
+								</div>
+									<small id="thumbnailHelp" class="form-text text-muted">최소 500px의 이미지 사이즈를 권장합니다.</small>
+							</div><br>
+							<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputGamename">게임명</label>
+								<input type="text" class="form-control" id="exampleInputGamename"
+									aria-describedby="GamenameHelp">
+							</div>
+							<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputCategory">게임 카테고리</label>
+								<select class="form-control">
+								<option value="shooting">슈팅</option>
+								<option value="action">액션</option>
+								<option value="advanture">어드벤처</option>
+								<option value="simulation">시뮬레이션</option>
+								<option value="sports">스포츠</option>
+								<option value="fps">FPS</option>
+							</select>
+							</div>
+							<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputVersion">게임 버전</label>
+								<input type="text" class="form-control" id="exampleInputVersion"
+									aria-describedby="VersionHelp">
+							</div>
+							<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputMoney">게임 금액</label>
+								<input type="number" class="form-control" id="exampleInputMoney"
+									aria-describedby="MoneyHelp" style="width: 95%; display: inline-flex;"><p style="float:right; line-height: 36px; font-weight: bold;">원</p>
+							</div>
+							<div class="form-group" style="margin-top: 10px;">
+							<label for="exampleInputMoney">게임 설명</label>
+								<textarea cols="50" rows="10"></textarea>
+							</div>
+							<div class="submitit" style="text-align: right;">
+							<input type="button" onclick="uploadFile(); return false;"
+							class="btn btn-black" value="파일 업로드" style="background: rgb(39, 65, 85); color: rgb(103, 169, 183); border: none; font-weight: bold;">
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
