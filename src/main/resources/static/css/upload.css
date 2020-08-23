@@ -39,10 +39,10 @@ h4 {
 	display: none;
 }
 
-@charset "UTF-8";
-
-body {
-	background-image: url('/image/bg.jpg');
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 h2 {
@@ -53,24 +53,6 @@ h2 {
 	letter-spacing: 2px;
 	font-weight: bold;
 	color: white;
-}
-
-h4 {
-	margin: 0;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	font-size: 1em;
-	letter-spacing: 2px;
-	font-weight: bold;
-	color: white;
-}
-
-#sidebar {
-	padding: 0;
-}
-
-#sidebar li {
-	list-style-type: none;
 }
 
 #id_input, #pw_input {
@@ -126,17 +108,33 @@ h4 {
 	font-weight: bold;
 }
 
-.upload-btn-wrapper input[type=file] {
-	font-size: 100px;
+.filebox label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: rgb(103, 169, 183);
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: rgb(39, 65, 85);
+	cursor: pointer;
+	border: none;
+	border-radius: .25em;
+	font-weight: bold;
+}
+
+.filebox input[type="file"] {
+	/* 파일 필드 숨기기 */
 	position: absolute;
-	left: 0;
-	top: 0;
-	opacity: 0;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
 }
 
 #fileDragDesc {
-	width: 100%;
-	height: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 5px;
@@ -145,10 +143,40 @@ h4 {
 	font-weight: bold;
 }
 
-#downimage{
-	width:100px;
+#downimage {
+	width: 100px;
 	height: auto;
 	margin-bottom: 10px;
+}
+
+#dropZone input[type=button] {
+	background: rgb(39, 65, 85);
+	border: none;
+	color: white;
+	font-weight: bold;
+	border-radius: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.form-group .form-control {
+	background: rgb(18, 26, 36);
+	border: none;
+	border-right: 1px solid rgb(69, 85, 108);
+	border-bottom: 1px solid rgb(69, 85, 108);
+	color: white;
+}
+
+textarea{
+	width: 100%;
+    background: rgb(18, 26, 36);
+	border: none;
+	color: white;
+    border-radius: 0.5em;
+    resize: none;
+    padding: 5px;
+    border-right: 1px solid rgb(69, 85, 108);
+	border-bottom: 1px solid rgb(69, 85, 108);
 }
 
 footer {

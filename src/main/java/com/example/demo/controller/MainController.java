@@ -26,9 +26,14 @@ public class MainController {
 		return "main_super";
 	}
 	
-	@RequestMapping(value="/mypage", method=RequestMethod.GET)
-	public String mypage() {
-		return "mypage";
+	@RequestMapping(value="/mypage_user", method=RequestMethod.GET)
+	public String mypage_user() {
+		return "mypage_user";
+	}
+	
+	@RequestMapping(value="/mypage_admin", method=RequestMethod.GET)
+	public String mypage_admin() {
+		return "mypage_admin";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
@@ -49,5 +54,15 @@ public class MainController {
 	@RequestMapping(value="/upload", method=RequestMethod.GET)
 	public String upload() {
 		return "upload";
+	}
+	
+	@RequestMapping(value="/dashboard_1", method=RequestMethod.GET)
+	public String dashboard_1() {
+		return "dashboard_1";
+	}
+	
+	@RequestMapping(value="/dashboard_2", method=RequestMethod.GET)
+	public String dashboard_2() {
+		return "dashboard_2";
 	}
 }

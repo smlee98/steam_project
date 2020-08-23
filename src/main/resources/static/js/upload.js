@@ -1,11 +1,4 @@
-$(document).ready(function() {
-                $("#input_file").bind('change', function() {
-                    selectFile(this.files);
-                    //this.files[0].size gets the size of your file.
-                    //alert(this.files[0].size);
-                });
-            });
-        
+    
             // 파일 리스트 번호
             var fileIndex = 0;
             // 등록할 전체 파일 사이즈
@@ -31,25 +24,17 @@ $(document).ready(function() {
                 dropZone.on('dragenter', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    // 드롭다운 영역 css
-                   /* dropZone.css('background-color', '#E3F2FC');*/
                 });
                 dropZone.on('dragleave', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    // 드롭다운 영역 css
-                    dropZone.css('background-color', 'rgba(0,0,0,0)');
                 });
                 dropZone.on('dragover', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    // 드롭다운 영역 css
-                    /*dropZone.css('background-color', '#E3F2FC');*/
                 });
                 dropZone.on('drop', function(e) {
                     e.preventDefault();
-                    // 드롭다운 영역 css
-                    /*dropZone.css('background-color', '#FFFFFF');*/
     
                     var files = e.originalEvent.dataTransfer.files;
                     if (files != null) {
@@ -161,7 +146,7 @@ $(document).ready(function() {
     
                 var html = "";
                 html += "<tr id='fileTr_" + fIndex + "'>";
-                html += "    <td id='dropZone' class='left' >";
+                html += "    <td id='dropZone' class='left' style='padding-left: 30px;'>";
                 html += fileName + " (" + fileSizeStr +") " 
                         //+ "<a href='#' onclick='deleteFile(" + fIndex + "); return false;' class='btn small bg_02'> 삭제</a>"
                         
