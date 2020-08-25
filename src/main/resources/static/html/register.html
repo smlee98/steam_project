@@ -28,7 +28,7 @@
 	}
 	
 	function count_ck(object){
-		var chkbox = document.getElementsByName("chk");
+		var chkbox = document.getElementsByName("favorite");
 		var chkCnt = 0;
 		for(var i=0;i<chkbox.length; i++){
 			if(chkbox[i].checked){
@@ -41,10 +41,32 @@
 			return false;
 		}
 	}
+	
+	function ck_none(chkbox2){
+		var chkbox = document.getElementById("none");
+		var chkbox2 = document.getElementsByName("favorite");
+		
+		if(chkbox.checked)
+		{
+			$("#shooting").prop('checked', false) ;
+			$("#shooting").attr('checked', false) ;
+			$("#action").prop('checked', false) ;
+			$("#action").attr('checked', false) ;
+			$("#advanture").prop('checked', false) ;
+			$("#advanture").attr('checked', false) ;
+			$("#simulation").prop('checked', false) ;
+			$("#simulation").attr('checked', false) ;
+			$("#sports").prop('checked', false) ;
+			$("#sports").attr('checked', false) ;
+			$("#fps").prop('checked', false) ;
+			$("#fps").attr('checked', false) ;
+		}
+	}
 </script>
 
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <link rel="stylesheet" type="text/css" href="css/register.css" />
-
+<script src="js/register.js"></script>
 
 </head>
 <body>
@@ -72,27 +94,31 @@
 		<div class="row" style="color: #fff; padding: 30px;">
 			<div class="container-md">
 				<div class="row">
-					<form>
+					<form name="register" action="./register.do" method="post" onsubmit="return validate();">
 						<h2>회원가입</h2>
 						<div class="form-group" style="margin-top: 10px;">
-							<label for="exampleInputEmail1">아이디</label> <input type="email"
-								class="form-control" id="exampleInputEmail1"
-								aria-describedby="emailHelp"><small id="emailHelp"
+							<label for="id">아이디</label> <input type="email"
+								class="form-control" id="id" name="id"
+								aria-describedby="idHelp"><small id="idHelp"
 								class="form-text text-muted">이메일 형식으로 입력해주세요.</small>
 						</div>
 						<div class="form-group">
 							<div class="container">
 								<div class="row">
-									<div class="col-sm-6" id="password"
-										style="flex: 1; margin-right: 25px;">
-										<label for="exampleInputPassword1">비밀번호</label> <input
+									<div class="col-sm-6" id="password_normal"
+										style="flex: 1; padding-left: 0;">
+										<label for="password">비밀번호</label> <input
 											type="password" class="form-control"
-											id="exampleInputPassword1">
+											id="password" name="password" maxlength="12">
 									</div>
 									<div class="col-sm-6" id="password_check" style="flex: 1;">
-										<label for="exampleInputPassword2">비밀번호 확인</label> <input
+										<label for="password2">비밀번호 확인</label> <input
 											type="password" class="form-control"
-											id="exampleInputPassword2">
+											id="password2" onblur="pw_check(this)" maxlength="12">
+									</div>
+									<div class="eye" style="align-self: flex-end; line-height: 44px;">
+										<i id="eyecon" class="fas fa-eye" style="cursor: pointer;"></i>
+										<div class="" id="eyestat" style="display: none;"></div>
 									</div>
 								</div>
 							</div>
@@ -102,28 +128,29 @@
 							</small>
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
-							<label for="exampleInputName">이름</label> <input type="text"
-								class="form-control" id="exampleInputName"
-								aria-describedby="nameHelp">
+							<label for="name">이름</label> <input type="text"
+								class="form-control" id="name"
+								aria-describedby="nameHelp" name="name">
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
-							<label for="exampleInputGender">성별</label> <select
-								class="form-control">
+							<label for="gender">성별</label> <select
+								class="form-control" id="gender" name="gender">
 								<option value="남">남</option>
 								<option value="여">여</option>
 							</select>
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
-							<label for="exampleInputAddress">주소</label>
+							<label for="address">주소</label>
+							<input type="text" id="address" name="address" style="display: none;"/>
 							<div class="container">
 								<div class="row">
-									<div class="col-sm-4" id="address1"
+									<div class="col-sm-4" id="address_main"
 										style="flex: 1; margin-right: 25px; padding: 0;">
-										<select class="form-control">
+										<select class="form-control" id="address1">
 											<optgroup title="bigCity" label="특별시" id="bigCity">
 												<option value="서울특별시">서울특별시</option>
 											</optgroup>
-											<optgroup title="medCity1" label="괌역시" id="medCity1">
+											<optgroup title="medCity1" label="광역시" id="medCity1">
 												<option value="부산광역시">부산광역시</option>
 												<option value="대구광역시">대구광역시</option>
 												<option value="인천광역시">인천광역시</option>
@@ -149,25 +176,26 @@
 											</optgroup>
 										</select>
 									</div>
-									<div class="col-sm-8" id="address2"
+									<div class="col-sm-8" id="address_sub"
 										style="flex: 1; padding: 0;">
 										<input type="text" class="form-control"
-											id="exampleInputAddress" aria-describedby="addressHelp">
+											id="address2" aria-describedby="addressHelp">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
-							<label for="exampleInputPhone">전화번호</label><br>
+							<label for="phone">전화번호</label><br>
+							<input type="text" id="phone" name="phone" style="display: none;"/>
 							<div class="numberSet" style="display: inline-flex">
-								<input type="number" class="form-control" id="exampleInputNum1"
+								<input type="number" class="form-control" id="phone1"
 									aria-describedby="num1Help" readonly="readonly" value="010">
 								<label style="margin-left: 5px; margin-right: 5px;">-</label> <input
-									type="number" class="form-control" id="exampleInputNum2"
+									type="number" class="form-control" id="phone2"
 									aria-describedby="num2Help" maxlength="4"
 									oninput="maxLengthCheck(this)"> <label
 									style="margin-left: 5px; margin-right: 5px;">-</label> <input
-									type="number" class="form-control" id="exampleInputNum3"
+									type="number" class="form-control" id="phone3"
 									aria-describedby="num3Help" maxlength="4"
 									oninput="maxLengthCheck(this)">
 							</div>
@@ -177,25 +205,29 @@
 							<label for="exampleInputFav">관심분야</label><br>
 							<div class="favSet" style="display: inline-flex">
 								<div class="form-group">
-									<input type="checkbox" id="shooting" name="chk" onclick="count_ck(this)"> <label
+									<input type="checkbox" id="none" name="favorite" value="없음" onclick="ck_none(this)"> <label
+										for="none">없음</label>
+								</div>
+								<div class="form-group">
+									<input type="checkbox" id="shooting" name="favorite" value="슈팅" onclick="count_ck(this); ck_none(this);"> <label
 										for="shooting">슈팅</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="action" name="chk" onclick="count_ck(this)"> <label for="action">액션</label>
+									<input type="checkbox" id="action" name="favorite" value="액션" onclick="count_ck(this); ck_none(this);"> <label for="action">액션</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="advanture" name="chk" onclick="count_ck(this)"> <label
+									<input type="checkbox" id="advanture" name="favorite" value="어드벤처" onclick="count_ck(this); ck_none(this);"> <label
 										for="advanture">어드벤처</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="simulation" name="chk" onclick="count_ck(this)"> <label
+									<input type="checkbox" id="simulation" name="favorite" value="시뮬레이션" onclick="count_ck(this); ck_none(this);"> <label
 										for="simulation">시뮬레이션</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="sports" name="chk" onclick="count_ck(this)"> <label for="sports">스포츠</label>
+									<input type="checkbox" id="sports" name="favorite" value="스포츠" onclick="count_ck(this); ck_none(this);"> <label for="sports">스포츠</label>
 								</div>
 								<div class="form-group">
-									<input type="checkbox" id="fps" name="chk" onclick="count_ck(this)"> <label for="fps">FPS</label>
+									<input type="checkbox" id="fps" name="favorite" value="FPS" onclick="count_ck(this); ck_none(this);"> <label for="fps">FPS</label>
 								</div>
 							</div>
 							<small id="favHelp"

@@ -1,12 +1,21 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.demo.dto.RegisterDTO;
+import com.example.demo.service.RegisterService;
 
 @Controller
 public class MainController {
-	@RequestMapping(value="/main", method=RequestMethod.GET)
+	
+	@Autowired
+	RegisterService resService;
+	
+	@RequestMapping(value="/main")
 	public String main() {
 		return "main";
 	}
@@ -41,9 +50,18 @@ public class MainController {
 		return "login";
 	}
 	
-	@RequestMapping(value="/register", method=RequestMethod.GET)
+	@RequestMapping(value="/register")
 	public String register() {
 		return "register";
+	}
+	
+	@RequestMapping(value="/register.do")
+	public String register(@RequestParam("id")String id, @RequestParam("password")String password, @RequestParam("name")String name, @RequestParam("gender")String gender, @RequestParam("address")String address, @RequestParam("phone")String phone, @RequestParam("favorite")String favorite) {
+		RegisterDTO resDTO= new RegisterDTO(id, password, name, gender, address, phone, favorite);	
+		System.out.println("id="+id+"password="+password+"name="+name+"gender="+gender+"address="+address+"phone="+phone+"favorite="+favorite);
+		resService.insertOne(resDTO);
+
+		return "main";
 	}
 	
 	@RequestMapping(value="/game_1", method=RequestMethod.GET)
