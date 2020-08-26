@@ -102,6 +102,10 @@
 								aria-describedby="idHelp"><small id="idHelp"
 								class="form-text text-muted">이메일 형식으로 입력해주세요.</small>
 						</div>
+						<div class="idWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">아이디가 입력되지 않았습니다!</label>
+						</div>
 						<div class="form-group">
 							<div class="container">
 								<div class="row">
@@ -117,7 +121,7 @@
 											id="password2" onblur="pw_check(this)" maxlength="12">
 									</div>
 									<div class="eye" style="align-self: flex-end; line-height: 44px;">
-										<i id="eyecon" class="fas fa-eye" style="cursor: pointer;"></i>
+										<i id="eyecon" class="fas fa-eye" style="cursor: pointer;" onclick="onoffPassword();"></i>
 										<div class="" id="eyestat" style="display: none;"></div>
 									</div>
 								</div>
@@ -127,10 +131,18 @@
 								입력이 가능합니다.
 							</small>
 						</div>
+						<div class="pwWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">비밀번호를 확인해주세요!</label>
+						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="name">이름</label> <input type="text"
 								class="form-control" id="name"
 								aria-describedby="nameHelp" name="name">
+						</div>
+						<div class="nameWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">이름이 입력되지 않았습니다!</label>
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="gender">성별</label> <select
@@ -184,6 +196,10 @@
 								</div>
 							</div>
 						</div>
+						<div class="addressWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">주소가 입력되지 않았습니다!</label>
+						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="phone">전화번호</label><br>
 							<input type="text" id="phone" name="phone" style="display: none;"/>
@@ -200,7 +216,10 @@
 									oninput="maxLengthCheck(this)">
 							</div>
 						</div>
-
+						<div class="numberWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">번호가 입력되지 않았습니다!</label>
+						</div>
 						<div class="form-check" style="padding: 0;">
 							<label for="exampleInputFav">관심분야</label><br>
 							<div class="favSet" style="display: inline-flex">
@@ -232,6 +251,10 @@
 							</div>
 							<small id="favHelp"
 								class="form-text text-muted" style="margin-top: -5%">최대 3가지의 관심분야를 고를수 있습니다.</small>
+						</div>
+						<div class="favWarn"  style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">관심분야가 선택되지 않았습니다!</label>
 						</div>
 
 						<div class="submit" style="text-align: right;">
