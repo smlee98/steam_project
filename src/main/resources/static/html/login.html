@@ -51,7 +51,7 @@
 				<div class="login-form" style="height: 80%">
 					<h2>로그인</h2>
 					<h4>계정이 이미 있다면</h4>
-					<form>
+					<form action="/login.do">
 						<div class="form-group">
 							<label>아이디</label> <input type="text" class="form-control"
 								placeholder="" id="id_input">
@@ -63,9 +63,10 @@
 						<label> <input type="checkbox" name="remember">
 							아이디 저장
 						</label>
+						<br><br>
+						<button type="submit" class="btn btn-black">로그인</button>
 					</form>
 				</div>
-				<button type="submit" class="btn btn-black">로그인</button>
 			</div>
 			<div class="col-sm-7">
 				<div class="inform-page" style="height: 80%">
@@ -76,9 +77,10 @@
 								사용자</strong>는 다운로드를 할 수 있고,</label><br> <label><strong>관리자</strong>는
 							업로드를 할 수 있으며,</label><br> <label><strong>최상위 관리자</strong>는
 							대시보드를 확인 할 수 있습니다.</label>
+							<br>
+							<a href="register"><button type="button" class="btn btn-black">회원가입</button></a>
 					</form>
 				</div>
-				<a href="register"><button type="button" class="btn btn-black">회원가입</button></a>
 			</div>
 		</div>
 	</div>
