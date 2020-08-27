@@ -58,9 +58,8 @@ public class MainController {
 	@RequestMapping(value="/register.do")
 	public String register(@RequestParam("id")String id, @RequestParam("password")String password, @RequestParam("name")String name, @RequestParam("gender")String gender, @RequestParam("address")String address, @RequestParam("phone")String phone, @RequestParam("favorite")String favorite) {
 		RegisterDTO resDTO= new RegisterDTO(id, password, name, gender, address, phone, favorite);	
-		System.out.println("id="+id+"password="+password+"name="+name+"gender="+gender+"address="+address+"phone="+phone+"favorite="+favorite);
+		System.out.println("id="+id+" / "+"password="+password+" / "+"name="+name+" / "+"gender="+gender+" / "+"address="+address+" / "+"phone="+phone+" / "+"favorite="+favorite);
 		resService.insertOne(resDTO);
-
 		return "main";
 	}
 	
