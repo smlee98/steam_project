@@ -105,10 +105,14 @@ function pw_check(){
 	if(userPwCheck.test(user_pw1)){
 		if (user_pw1 != user_pw2) {
 			console.log("비밀번호가 일치하지 않음");
+			$('.pwCheckOn').css('display', 'none');
+			$('.pwCheckOff').css('display', '');
 		}
 		else if (user_pw1 == user_pw2) {
 			console.log("비밀번호가 일치함");
 			bPWCheck = "true";
+			$('.pwCheckOn').css('display', '');
+			$('.pwCheckOff').css('display', 'none');
 		}
 	}
 	else{
