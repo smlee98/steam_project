@@ -4,8 +4,26 @@
 
 
 <mapper namespace="register">
-	<insert id="insertOne" parameterType="com.example.demo.dto.RegisterDTO">
+	<insert id="joinUser" parameterType="com.example.demo.dto.RegisterDTO">
 		insert into tb_user
-		values(#{number},#{id},#{password},#{name},#{gender},#{address},#{phone},#{favorite})
+		values(#{number},#{id},#{password},#{name},#{gender},#{address},#{phone},#{favorite},#{role},#{auth})
 	</insert>
+	
+	<select id="findbyID" parameterType="String" resultType="com.example.demo.dto.RegisterDTO">
+	select *
+	from tb_user
+	where id = #{id}
+	</select>
+	
+	<select id="validateMember" parameterType="HashMap" resultType="com.example.demo.dto.RegisterDTO">
+	select id, password, name, gender, address, phone, favorite, role
+	from tb_user
+	where id = #{id} and password = #{password}
+	</select>
+	
+	<select id="login" parameterType="com.example.demo.dto.RegisterDTO">
+		select count(*)
+		from tb_user
+		where id = #{id} AND password = #{password}
+	</select>
 </mapper>
