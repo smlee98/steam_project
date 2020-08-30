@@ -11,13 +11,13 @@ public class RegisterDTO {
 	String favorite;
 	String role;
 	String auth;
-	
-	// for login
-	public RegisterDTO(String id, String password) {
+
+
+	// for auth
+	public RegisterDTO(String id) {
 		this.id = id;
-		this.password = password;
 	}
-	
+
 	// for register
 	public RegisterDTO(String id, String password, String name, String gender, String address, String phone,
 			String favorite) {
@@ -29,7 +29,7 @@ public class RegisterDTO {
 		this.phone = phone;
 		this.favorite = favorite;
 	}
-		
+
 	public RegisterDTO(int number, String id, String password, String name, String gender, String address, String phone,
 			String favorite, String role, String auth) {
 		this.number = number;
@@ -43,7 +43,7 @@ public class RegisterDTO {
 		this.role = role;
 		this.auth = auth;
 	}
-	
+
 	public String getRole() {
 		return role;
 	}
@@ -51,7 +51,7 @@ public class RegisterDTO {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+
 	public String getAuth() {
 		return auth;
 	}
@@ -59,7 +59,7 @@ public class RegisterDTO {
 	public void setAuth(String auth) {
 		this.auth = auth;
 	}
-	
+
 	public int getNumber() {
 		return number;
 	}
@@ -142,7 +142,10 @@ public class RegisterDTO {
 	@Override
 	public String toString() {
 		return "RegisterDTO [number=" + number + ", id=" + id + ", password=" + password + ", name=" + name
-				+ ", gender=" + gender + ", address=" + address + ", phone=" + phone + ", favorite=" + favorite + "]";
+				+ ", gender=" + gender + ", address=" + address + ", phone=" + phone + ", favorite=" + favorite
+				+ ", role=" + role + ", auth=" + auth + "]";
 	}
 	
+	
+
 }

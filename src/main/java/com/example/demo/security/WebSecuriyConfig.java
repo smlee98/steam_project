@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 import com.example.demo.service.RegisterService;
 
@@ -26,8 +28,8 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
     }
 	
 	@Bean
-		public PasswordEncoder PasswordEncoder() {
-		return new BCryptPasswordEncoder();
+	public PasswordEncoder passwordEncoder() {
+		return new StandardPasswordEncoder();
 	}
 	
 	@Override
@@ -37,15 +39,16 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/main","/register").permitAll()
 				.antMatchers(HttpMethod.POST,"/login.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/register.**").permitAll()
-				.antMatchers("/authmail").hasRole("USER")
+				.antMatchers(HttpMethod.POST,"/authmail.**").permitAll()
+				.antMatchers("/authmail").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
 				.loginPage("/login")
-				.loginProcessingUrl("/login.do")
 				.usernameParameter("id")
 				.passwordParameter("password")
 				.defaultSuccessUrl("/main", true)
+				/* .failureHandler("loginFailureHandler") */
 				.permitAll()
 				.and()
 			.logout()
@@ -53,4 +56,9 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 				.permitAll()
 				.invalidateHttpSession(true);
 	}
+	
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(resService).passwordEncoder(passwordEncoder());
+    }
 }

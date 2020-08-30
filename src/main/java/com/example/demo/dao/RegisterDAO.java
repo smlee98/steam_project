@@ -19,6 +19,10 @@ public class RegisterDAO implements RegisterMapper{
 		sqlSession.insert("register.joinUser", registerDTO);
 	}
 	
+	public void authSuccess(RegisterDTO registerDTO) {
+		sqlSession.update("register.authSuccess", registerDTO);
+	}
+	
 	public RegisterDTO findByID(String id) {
 		return sqlSession.selectOne("register.findByID", id);
 	}
@@ -26,10 +30,5 @@ public class RegisterDAO implements RegisterMapper{
 	@Override
 	public RegisterDTO validateMember(HashMap<String, String> map) {
 		return sqlSession.selectOne("register.validateMember", map);
-	}
-	
-	
-	public void login(RegisterDTO registerDTO) {			
-		sqlSession.selectOne("register.login", registerDTO);
 	}
 }
