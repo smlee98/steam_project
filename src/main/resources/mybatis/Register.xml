@@ -9,12 +9,6 @@
 		values(#{number},#{id},#{password},#{name},#{gender},#{address},#{phone},#{favorite},#{role},#{auth})
 	</insert>
 	
-	<insert id="authSuccess" parameterType="com.example.demo.dto.RegisterDTO">
-		update tb_user
-		set auth = #{auth}
-		where id = #{id}
-	</insert>
-	
 	<select id="findByID" parameterType="String" resultType="com.example.demo.dto.RegisterDTO">
 	select *
 	from tb_user

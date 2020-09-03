@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.RegisterDTO;
+import com.example.demo.service.AuthService;
 import com.example.demo.service.RegisterService;
 
 @Controller
@@ -31,7 +32,8 @@ public class MainController {
 
 	@Autowired
 	RegisterService resService;
-
+	@Autowired
+	AuthService authService;
 
 	/* 권한 상관 X */
 	@RequestMapping(value="/main")
@@ -60,16 +62,16 @@ public class MainController {
 	@RequestMapping(value="/authmail", method = RequestMethod.GET)
 	@ResponseBody
 	public String authmail(String id){
-		String authCode = resService.authMail(id);
+		String authCode = authService.authMail(id);
 		
 		System.out.println("authCode : "+ authCode);
 		return authCode;
 	}
 
 	@RequestMapping(value="/authmail.do", method = RequestMethod.POST)
-	public String authmail2(String id) throws Exception {
+	public String authcode(String id) throws Exception {
 		RegisterDTO resDTO = new RegisterDTO(id);
-		resService.authSuccess(resDTO);
+		authService.authSuccess(resDTO);
 		return "all/main";
 	}
 

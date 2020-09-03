@@ -27,8 +27,8 @@
 	var code = $("input[name='code']").val();
 	
 	$(document).ready(function() {
-		
-		$.ajax({
+		alert("인증번호가 메일로 발송되었습니다!");
+		/* $.ajax({
 			url : '/authmail',
 			type : 'get',
 			data : {
@@ -36,13 +36,12 @@
 			},
 			success : function(data) {
 				console.log("authcode : " + data);
-				code = data;
-				alert("인증번호가 메일로 발송되었습니다!");
+				code = data;	
 			},
 			error : function() {
 				console.log("실패");
 			}
-		});
+		}); */
 	});
 	
 	function validate() {
