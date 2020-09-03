@@ -19,10 +19,6 @@ public class RegisterDAO implements RegisterMapper{
 		sqlSession.insert("register.joinUser", registerDTO);
 	}
 	
-	public void authSuccess(RegisterDTO registerDTO) {
-		sqlSession.update("register.authSuccess", registerDTO);
-	}
-	
 	public RegisterDTO findByID(String id) {
 		return sqlSession.selectOne("register.findByID", id);
 	}

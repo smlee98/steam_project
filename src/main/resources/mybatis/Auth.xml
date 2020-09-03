@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="auth">	
+	<insert id="authSuccess" parameterType="com.example.demo.dto.RegisterDTO">
+		update tb_user
+		set auth = #{auth}
+		where id = #{id}
+	</insert>
+	
+	<insert id="authCreate" parameterType="com.example.demo.dto.RegisterDTO">
+		insert into tb_auth
+		values(#{id},#{code})	
+	</insert>
+	
+	<update id="authUpdate" parameterType="com.example.demo.dto.RegisterDTO">
+		update tb_auth
+		set code = #{code}
+		where id = #{id}		
+	</update>
+	
+	<delete id="authDelete" parameterType="com.example.demo.dto.RegisterDTO">
+		delete from tb_auth
+		where id = #{id}		
+	</delete>
+</mapper>
