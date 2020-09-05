@@ -36,26 +36,34 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception{
 		http.csrf().disable() // 이게 있어야지만 post에 접근이 가능했다...
 			.authorizeRequests()
+				.antMatchers("/user/**").hasAnyRole("USER,ADMIN,SUPER")
+				.antMatchers("/admin/**").hasAnyRole("ADMIN,SUPER")
+				.antMatchers("/super/**").hasRole("SUPER")
 				.antMatchers("/main","/register").permitAll()
+				.antMatchers("/authmail").permitAll()
+				.antMatchers("/check").permitAll()
 				.antMatchers(HttpMethod.POST,"/login.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/register.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/authmail.**").permitAll()
 				.antMatchers("/game_1").permitAll()
-				.antMatchers("/authmail").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
 				.loginPage("/login")
 				.usernameParameter("id")
 				.passwordParameter("password")
-				.defaultSuccessUrl("/main", true)
+				.defaultSuccessUrl("/super/main_super", true)
 				/* .failureHandler("loginFailureHandler") */
 				.permitAll()
 				.and()
 			.logout()
-				.logoutSuccessUrl("/main")
+				.logoutUrl("/logout")
+				.logoutSuccessUrl("/login")
 				.permitAll()
-				.invalidateHttpSession(true);
+				.invalidateHttpSession(true)
+				.and()
+			.exceptionHandling()
+				.accessDeniedPage("/denied");
 	}
 	
 	@Override

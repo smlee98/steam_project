@@ -67,6 +67,7 @@
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <link rel="stylesheet" type="text/css" href="css/register.css" />
 <script src="js/register.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 </head>
 <body>
@@ -94,17 +95,21 @@
 		<div class="row" style="color: #fff; padding: 30px;">
 			<div class="container-md">
 				<div class="row">
-					<form name="register" action="./register.do" method="post" onsubmit="return validate();">
+					<form name="register" action="./register.do" method="post" onsubmit="return validate();" style="width: 50%">
 						<h2>회원가입</h2>
 						<div class="form-group" style="margin-top: 10px;">
-							<label for="id">아이디</label> <input type="email"
+							<label for="id">아이디</label> <input type="text"
 								class="form-control" id="id" name="id"
-								aria-describedby="idHelp"><small id="idHelp"
+								aria-describedby="idHelp" onblur="id_check(this)"><small id="idHelp"
 								class="form-text text-muted">이메일 형식으로 입력해주세요.</small>
 						</div>
 						<div class="idWarn" style="display: none;">
 						<i class="badge badge-danger" style="font-style: normal;">!</i>
 						<label style="font-weight: bold; color:red;">아이디가 입력되지 않았습니다!</label>
+						</div>
+						<div class="idExist" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;" id="toggleId">!</i>
+						<label style="font-weight: bold; color:red;" id="id_check">WARNING!</label>
 						</div>
 						<div class="form-group">
 							<div class="container">
@@ -113,12 +118,12 @@
 										style="flex: 1; padding-left: 0;">
 										<label for="password">비밀번호</label> <input
 											type="password" class="form-control"
-											id="password" name="password" maxlength="12">
+											id="password" name="password">
 									</div>
 									<div class="col-sm-6" id="password_check" style="flex: 1;">
 										<label for="password2">비밀번호 확인</label> <input
 											type="password" class="form-control"
-											id="password2" onblur="pw_check(this)" maxlength="12">
+											id="password2" onblur="pw_check(this)">
 									</div>
 									<div class="eye" style="align-self: flex-end; line-height: 44px;">
 										<i id="eyecon" class="fas fa-eye" style="cursor: pointer;" onclick="onoffPassword();"></i>
