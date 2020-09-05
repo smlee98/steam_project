@@ -9,6 +9,12 @@
 		values(#{number},#{id},#{password},#{name},#{gender},#{address},#{phone},#{favorite},#{role},#{auth})
 	</insert>
 	
+	<select id="checkID" parameterType="String" resultType="Integer">
+		select count(*)
+		from tb_user
+		where id = #{id}
+	</select>
+	
 	<select id="findByID" parameterType="String" resultType="com.example.demo.dto.RegisterDTO">
 	select *
 	from tb_user

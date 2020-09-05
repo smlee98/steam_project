@@ -58,6 +58,16 @@ public class MainController {
 		m.addAttribute("id", id);
 		return "all/authmail";
 	}
+	
+	@RequestMapping(value = "/check", method = RequestMethod.GET)
+	@ResponseBody
+	public int idCheck(@RequestParam("id") String id) {
+
+		int result = resService.userIDCheck(id);
+
+		return result;
+
+	}
 
 	@RequestMapping(value="/authmail", method = RequestMethod.GET)
 	@ResponseBody
@@ -82,46 +92,46 @@ public class MainController {
 	}
 
 	/* 유저 */
-	@RequestMapping(value="/main_user", method=RequestMethod.GET)
+	@RequestMapping(value="user/main_user", method=RequestMethod.GET)
 	public String main_user() {
 		return "user/main_user";
 	}
 
-	@RequestMapping(value="/mypage_user", method=RequestMethod.GET)
+	@RequestMapping(value="user/mypage_user", method=RequestMethod.GET)
 	public String mypage_user() {
 		return "user/mypage_user";
 	}
 
 	/* 관리자 */
 
-	@RequestMapping(value="/main_admin", method=RequestMethod.GET)
+	@RequestMapping(value="admin/main_admin", method=RequestMethod.GET)
 	public String main_admin() {
 		return "admin/main_admin";
 	}
 
-	@RequestMapping(value="/mypage_admin", method=RequestMethod.GET)
+	@RequestMapping(value="admin/mypage_admin", method=RequestMethod.GET)
 	public String mypage_admin() {
 		return "admin/mypage_admin";
 	}
 
-	@RequestMapping(value="/upload", method=RequestMethod.GET)
+	@RequestMapping(value="admin/upload", method=RequestMethod.GET)
 	public String upload() {
 		return "admin/upload";
 	}
 
 	/* 슈퍼 관리자 */
 
-	@RequestMapping(value="/main_super", method=RequestMethod.GET)
+	@RequestMapping(value="super/main_super", method=RequestMethod.GET)
 	public String main_super() {
 		return "super/main_super";
 	}
 
-	@RequestMapping(value="/dashboard_1", method=RequestMethod.GET)
+	@RequestMapping(value="super/dashboard_1", method=RequestMethod.GET)
 	public String dashboard_1() {
 		return "super/dashboard_1";
 	}
 
-	@RequestMapping(value="/dashboard_2", method=RequestMethod.GET)
+	@RequestMapping(value="super/dashboard_2", method=RequestMethod.GET)
 	public String dashboard_2() {
 		return "super/dashboard_2";
 	}

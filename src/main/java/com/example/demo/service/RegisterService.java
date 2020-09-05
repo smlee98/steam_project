@@ -32,34 +32,42 @@ import com.example.demo.security.Role;
 
 @Service
 public class RegisterService implements UserDetailsService {
-	
+
 	@Autowired
 	RegisterDAO resDAO;
-		
+
+	public int userIDCheck(String id) {
+
+		int result = resDAO.checkID(id);
+
+		return result;
+	}
+
+
 	public void joinUser(RegisterDTO resDTO) throws Exception{
 		resDTO.setPassword(passwordEncoder().encode(resDTO.getPassword()));
 		resDTO.setAuth("X");
-		
+
 		if (resDTO.getId().equals("admin@gridone.co.kr")) {
 			resDTO.setRole(Role.SUPER.getValue());
 		} else {
 			resDTO.setRole(Role.USER.getValue());
 		}
-		
+
 		System.out.println(resDTO);
 		resDAO.joinUser(resDTO);
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException{
-		
+
 		System.out.println("loadUserByUsername : "+id);
-		
+
 		RegisterDTO resDTO = resDAO.findByID(id);
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		
+
 		System.out.println("resDTO : "+resDTO);
-		
+
 		if (resDTO.getRole().equals(Role.SUPER.getValue())) {
 			authorities.add(new SimpleGrantedAuthority(Role.SUPER.getValue()));
 		} else if (resDTO.getRole().equals(Role.ADMIN.getValue())) {
@@ -67,10 +75,10 @@ public class RegisterService implements UserDetailsService {
 		} else {
 			authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
 		}
-		
+
 		return new RegisterDetail(resDTO);
 	}
-	
+
 	public PasswordEncoder passwordEncoder() 
 	{
 		return new StandardPasswordEncoder();
