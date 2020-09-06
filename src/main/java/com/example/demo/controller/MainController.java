@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.RegisterDTO;
+import com.example.demo.dto.UploadDTO;
+import com.example.demo.service.UploadService;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.RegisterService;
 
@@ -34,6 +36,8 @@ public class MainController {
 	RegisterService resService;
 	@Autowired
 	AuthService authService;
+	@Autowired
+	UploadService upService;
 
 	/* 권한 상관 X */
 	@RequestMapping(value="/main")
@@ -117,6 +121,14 @@ public class MainController {
 	@RequestMapping(value="admin/upload", method=RequestMethod.GET)
 	public String upload() {
 		return "admin/upload";
+	}
+	
+	@RequestMapping(value="admin/upload.do", method = RequestMethod.POST)
+	public String upload(Model m, @RequestParam("file")String file, @RequestParam("thumbnail")String thumbnail, @RequestParam("name")String name, @RequestParam("category")String category, @RequestParam("version")String version, @RequestParam("amount")int amount, @RequestParam("explain")String explain) throws Exception{
+		UploadDTO upDTO= new UploadDTO(file, thumbnail, name, category, version, amount, explain);
+		upService.uploadGame(upDTO);
+		m.addAttribute("name", name);
+		return "admin/main_admin";
 	}
 
 	/* 슈퍼 관리자 */
