@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.RegisterDTO;
 import com.example.demo.dto.UploadDTO;
@@ -70,6 +72,14 @@ public class MainController {
 		int result = resService.userIDCheck(id);
 
 		return result;
+
+	}
+	
+	@RequestMapping(value = "/findpw.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String findpw() throws Exception {
+
+		return "/findpw.do";
 
 	}
 
@@ -124,10 +134,13 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="admin/upload.do", method = RequestMethod.POST)
-	public String upload(Model m, @RequestParam("file")String file, @RequestParam("thumbnail")String thumbnail, @RequestParam("name")String name, @RequestParam("category")String category, @RequestParam("version")String version, @RequestParam("amount")int amount, @RequestParam("explain")String explain) throws Exception{
-		UploadDTO upDTO= new UploadDTO(file, thumbnail, name, category, version, amount, explain);
+	public String upload(Model m, MultipartFile mf, HttpSession session, @RequestParam("orgfile")String orgfile, @RequestParam("thumbnail")String thumbnail, @RequestParam("name")String name, @RequestParam("category")String category, @RequestParam("version")String version, @RequestParam("amount")int amount, @RequestParam("explain")String explain, @RequestParam("files")MultipartFile files) throws Exception{
+		UploadDTO upDTO= new UploadDTO(orgfile, thumbnail, name, category, version, amount, explain, files);
 		upService.uploadGame(upDTO);
+		upService.fileSet(upDTO, mf, session);
+		
 		m.addAttribute("name", name);
+		
 		return "admin/main_admin";
 	}
 

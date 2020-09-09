@@ -6,7 +6,7 @@ $(document).ready(function() {
 		} else {
 			var filename = $(this).val().split('/').pop().split('\\').pop();
 		}
-		$('#file').val(filename);
+		$('#orgfile').val(filename);
 	});
 
 	$('#thumbfile_file').on('change', function(){

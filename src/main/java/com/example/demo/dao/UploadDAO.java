@@ -18,4 +18,8 @@ public class UploadDAO{
 	public void uploadGame(UploadDTO UploadDTO) {
 		sqlSession.insert("upload.enroll", UploadDTO);
 	}
+	
+	public void setNewFile(UploadDTO UploadDTO) {
+		sqlSession.update("upload.newfileName", UploadDTO);
+	}
 }
