@@ -52,15 +52,15 @@
 		<div class="row" style="color: #fff; padding: 30px;">
 			<div class="container-md">
 				<div class="row">
-					<form action="./upload.do" method="post" style="width: 50%">
+					<form action="./upload.do" method="post" enctype="multipart/form-data" style="width: 50%">
 						<h2>게임 등록</h2>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="file">게임파일 등록</label>
 							<div style="width:85%; float: left; margin-right: 7px;">
-							<input type="text" class="form-control" id="file" aria-describedby="GameHelp" name="file" readonly>
+							<input type="text" class="form-control" id="orgfile" aria-describedby="GameHelp" name="orgfile" readonly>
 							</div>
 							<div class="filebox">
-								<label for="gamefile_file">업로드</label> <input type="file" id="gamefile_file" accept=".zip">
+								<label for="gamefile_file">업로드</label> <input type="file" id="gamefile_file" name="files" accept=".zip">
 							</div>
 							<small id="uploadHelp1" class="form-text text-muted">'.zip'파일만 등록 가능합니다.</small>
 						</div>

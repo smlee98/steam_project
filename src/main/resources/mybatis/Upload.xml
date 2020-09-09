@@ -6,6 +6,12 @@
 <mapper namespace="upload">
 	<insert id="enroll" parameterType="com.example.demo.dto.UploadDTO">
 		insert into tb_upload
-		values(#{number},#{file},#{thumbnail},#{name},#{category},#{version},#{amount},#{explain})
+		values(#{number},#{orgfile},#{newfile},#{thumbnail},#{name},#{category},#{version},#{amount},#{explain})
 	</insert>
+	
+	<update id="newfileName" parameterType="com.example.demo.dto.UploadDTO">
+		update tb_upload
+		set newfile = #{newfile}
+		where name = #{name}
+	</update>
 </mapper>
