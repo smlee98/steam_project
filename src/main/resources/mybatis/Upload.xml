@@ -14,4 +14,10 @@
 		set newfile = #{newfile}
 		where name = #{name}
 	</update>
+	
+	<update id="newthumbName" parameterType="com.example.demo.dto.UploadDTO">
+		update tb_upload
+		set thumbnail = #{thumbnail}
+		where name = #{name}
+	</update>
 </mapper>

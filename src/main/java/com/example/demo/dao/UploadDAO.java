@@ -22,4 +22,8 @@ public class UploadDAO{
 	public void setNewFile(UploadDTO UploadDTO) {
 		sqlSession.update("upload.newfileName", UploadDTO);
 	}
+	
+	public void setThumbFile(UploadDTO UploadDTO) {
+		sqlSession.update("upload.newthumbName", UploadDTO);
+	}
 }

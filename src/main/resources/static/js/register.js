@@ -38,36 +38,42 @@ function validate() {
 		if (phone2.value == "" || phone3.value == "") {
 			if (phone2.value == "") phone2.focus();
 			else if (phone3.value == "") phone3.focus();
+			init();
 			$('.numberWarn').css('display', '');
 			return false;
 		}
 
 		if (name.value == "") {
 			name.focus();
+			init();
 			$('.nameWarn').css('display', '');
 			return false;
 		}
 
 		if (address2.value == "") {
 			address2.focus();
+			init();
 			$('.addressWarn').css('display', '');
 			return false;
 		}
 
 		if (id.value == "") {
 			id.focus();
+			init();
 			$('.idWarn').css('display', '');
 			return false;
 		}
 
 		if (password.value == "") {
 			password.focus();
+			init();
 			$('.pwWarn').css('display', '');
 			return false;
 		}
 
 		if (password.value != password2.value) {
 			password2.focus();
+			init();
 			$('.pwWarn').css('display', '');
 			return false;
 		}
@@ -81,6 +87,7 @@ function validate() {
 		}
 
 		if(checked == 0){
+			init();
 			$('.favWarn').css('display', '');
 			return false;
 		}
@@ -159,4 +166,13 @@ function id_check(){
 		$("#id_check").css("color", "red");
 		$('.idExist').css('display', '');
 	}		
+}
+
+function init(){
+	$('.numberWarn').css('display', 'none');
+	$('.nameWarn').css('display', 'none');
+	$('.addressWarn').css('display', 'none');
+	$('.idWarn').css('display', 'none');
+	$('.pwWarn').css('display', 'none');
+	$('.favWarn').css('display', 'none');
 }

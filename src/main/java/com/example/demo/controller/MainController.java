@@ -134,10 +134,11 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="admin/upload.do", method = RequestMethod.POST)
-	public String upload(Model m, MultipartFile mf, HttpSession session, @RequestParam("orgfile")String orgfile, @RequestParam("thumbnail")String thumbnail, @RequestParam("name")String name, @RequestParam("category")String category, @RequestParam("version")String version, @RequestParam("amount")int amount, @RequestParam("explain")String explain, @RequestParam("files")MultipartFile files) throws Exception{
-		UploadDTO upDTO= new UploadDTO(orgfile, thumbnail, name, category, version, amount, explain, files);
+	public String upload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, @RequestParam("orgfile")String orgfile, @RequestParam("thumbnail")String thumbnail, @RequestParam("name")String name, @RequestParam("category")String category, @RequestParam("version")String version, @RequestParam("amount")int amount, @RequestParam("explain")String explain, @RequestParam("files")MultipartFile files, @RequestParam("thumbs")MultipartFile thumbs) throws Exception{
+		UploadDTO upDTO= new UploadDTO(orgfile, thumbnail, name, category, version, amount, explain, files, thumbs);
 		upService.uploadGame(upDTO);
 		upService.fileSet(upDTO, mf, session);
+		upService.thumbSet(upDTO, mf2, session);
 		
 		m.addAttribute("name", name);
 		

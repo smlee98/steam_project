@@ -42,6 +42,15 @@ public class RegisterService implements UserDetailsService {
 
 		return result;
 	}
+	
+	public String login(RegisterDTO resDTO) {
+
+		String role = resDTO.getRole();
+		
+		System.out.println(role);
+
+		return role;
+	}
 
 
 	public void joinUser(RegisterDTO resDTO) throws Exception{
@@ -67,6 +76,7 @@ public class RegisterService implements UserDetailsService {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 
 		System.out.println("resDTO : "+resDTO);
+		System.out.println(id+"의 Role = "+resDTO.getRole());
 
 		if (resDTO.getRole().equals(Role.SUPER.getValue())) {
 			authorities.add(new SimpleGrantedAuthority(Role.SUPER.getValue()));

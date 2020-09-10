@@ -13,9 +13,10 @@ public class UploadDTO {
 	String explain;
 	
 	private MultipartFile files;
+	private MultipartFile thumbs;
 	
 	public UploadDTO(String orgfile, String thumbnail, String name, String category, String version, int amount,
-			String explain, MultipartFile files) {
+			String explain, MultipartFile files , MultipartFile thumbs) {
 		this.orgfile = orgfile;
 		this.thumbnail = thumbnail;
 		this.name = name;
@@ -24,6 +25,7 @@ public class UploadDTO {
 		this.amount = amount;
 		this.explain = explain;
 		this.files = files;
+		this.thumbs = thumbs;
 	}
 	
 	public UploadDTO(int number, String orgfile, String thumbnail, String name, String category, String version,
@@ -116,6 +118,14 @@ public class UploadDTO {
 
 	public void setFiles(MultipartFile files) {
 		this.files = files;
+	}
+
+	public MultipartFile getThumbs() {
+		return thumbs;
+	}
+
+	public void setThumbs(MultipartFile thumbs) {
+		this.thumbs = thumbs;
 	}
 
 	@Override
