@@ -58,23 +58,31 @@ public class UploadService {
 		final String path = session.getServletContext().getRealPath("/resources/upload");
 		mf = upDTO.getFiles();
 		
-		System.out.println("time : "+time);
-		System.out.println("path : "+path);
-		System.out.println("mf : "+mf);
-		
 		if(!mf.isEmpty()) {
 			String orgName = mf.getOriginalFilename();
-			String newName = orgName+time+mf.getSize();
+			String newName = time + "_" + orgName;
 			File files =  new File(path + File.separator+newName);
 			upDTO.setOrgfile(orgName);
 			upDTO.setNewfile(newName);
 			mf.transferTo(files);
-			
-			System.out.println("orgName : "+orgName);
-			System.out.println("newName : "+newName);
-			System.out.println("files : "+files);
 		}
 		
 		upDAO.setNewFile(upDTO);
+	}
+	
+	public void thumbSet(UploadDTO upDTO, MultipartFile mf2, HttpSession session) throws Exception{
+		long time = System.currentTimeMillis();
+		final String path = session.getServletContext().getRealPath("/resources/thumbnail");
+		mf2 = upDTO.getThumbs();
+		
+		if(!mf2.isEmpty()) {
+			String orgName = mf2.getOriginalFilename();
+			String newName = time + "_" + orgName;
+			File thumbnail =  new File(path + File.separator+newName);
+			upDTO.setThumbnail(newName);
+			mf2.transferTo(thumbnail);
+		}
+		
+		upDAO.setThumbFile(upDTO);
 	}
 }
