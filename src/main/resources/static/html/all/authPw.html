@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var mail = [[ ${id} ]];
+var code = [[ ${code} ]];
+
+/*]]*/
+</script>
+
+
+<script type="text/javascript">	
+	function validation() {
+		var authcode_in = document.getElementById("authcode_in").value;
+		
+		console.log(mail+" : "+authcode_in);
+		
+		if(code == authcode_in){
+			alert("인증에 성공했습니다.");
+			$("#form").submit();
+			$("#authcode_in").attr("readonly", true);
+			$('#changepw').css('display', '');
+		}
+		else{
+			alert("인증에 실패했습니다.");
+			return false;
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#temp_id').val(mail);
+		console.log(mail);
+	});
+	
+	function pw_same() {
+	var user_pw1 = $('#password').val();
+	var user_pw2 = $('#password2').val();
+	var userPwCheck = RegExp(/^[!@#$%^*()\-_=+\\\|\[\]{};:\'",.<>\/?](?=.*[a-zA-Z])(?=.*[0-9]).{8,12}$/);
+
+	if(userPwCheck.test(user_pw1)){
+		if (user_pw1 != user_pw2) {
+			console.log("비밀번호가 일치하지 않음");
+			$('.pwCheckOn').css('display', 'none');
+			$('.pwCheckOff').css('display', '');
+			return false;
+		}
+		else if (user_pw1 == user_pw2) {
+			console.log("비밀번호가 일치함");
+			bPWCheck = "true";
+			$('.pwCheckOn').css('display', '');
+			$('.pwCheckOff').css('display', 'none');
+			return true;
+		}
+	}
+	else{
+		console.log("비밀번호 규격에 맞지않음");
+		return false;
+	}
+}
+</script>
+
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<link rel="stylesheet" type="text/css" href="css/register.css" />
+<script src="js/register.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
+		style="height: 15vh;">
+		<div class="container">
+			<a class="navbar-brand" href="main"><img src="image/logo.png"
+				width="50" height="50" alt="logo"></a>
+			<div class="collapse navbar-collapse" id="navbarsExample07">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="#"
+						style="font-size: 18px; font-weight: bold;">스토어<span
+							class="sr-only">(current)</span></a></li>
+				</ul>
+				<form class="form-inline my-2 my-md-0">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item"><a class="nav-link" href="login"
+							style="font-size: 18px; font-weight: bold;">로그인</a></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-md"
+		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+		<div class="row" style="color: #fff; padding: 30px;">
+			<div class="container-md">
+				<div class="row">
+					<form name="checkauth" id="checkauth" method="post"
+						style="width: 50%;">
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="authcode_in">인증번호</label> <input type="text"
+								class="form-control" id="authcode_in" name="authcode_in"
+								aria-describedby="codeHelp">
+						</div>
+						<div class="submit" style="text-align: right;">
+							<button type="button" class="btn btn-primary"
+								onclick="return validation();">확인</button>
+						</div>
+					</form>
+				</div>
+				<div class="row">
+					<form name="changepw" id="changepw" action="/authpw.do"
+						method="post" onsubmit="return pw_same();"
+						style="width: 50%; display: none;">
+						<input type="text" id="temp_id" name="id" style="display: none;">
+						<div class="form-group"
+							style="margin-top: 10px; width: 100%; display: inline-flex;">
+							<div class="col-sm-6" id="password_normal"
+								style="flex: 1; padding-left: 0;">
+								<label for="password">변경할 비밀번호</label> <input type="password"
+									class="form-control" id="password" name="password">
+							</div>
+							<div class="col-sm-6" id="password_check" style="flex: 1;">
+								<label for="password2">비밀번호 확인</label> <input type="password"
+									class="form-control" id="password2">
+							</div>
+							<div class="eye" style="align-self: flex-end; line-height: 44px;">
+								<i id="eyecon" class="fas fa-eye" style="cursor: pointer;"
+									onclick="onoffPassword();"></i>
+								<div class="" id="eyestat" style="display: none;"></div>
+							</div>
+						</div>
+						<div class="pwCheckOn" style="display: none;">
+						<i class="badge badge-success" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:green;">비밀번호가 일치합니다.</label>
+						</div>
+						<div class="pwCheckOff" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">비밀번호가 일치하지 않습니다.</label>
+						</div>
+						<div class="submit" style="text-align: right;">
+							<button type="submit" class="btn btn-primary">확인</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="section footer-classic context-dark bg-image">
+		<div class="container">
+			<div class="rule"></div>
+			<h5>Steam Project</h5>
+			<p>개발자 : 이승민 | TEL : 010-4146-8375</p>
+			<div class="rule"></div>
+		</div>
+	</footer>
+</body>
+</html>
