@@ -1,19 +1,5 @@
 package com.example.demo.controller;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +15,7 @@ import com.example.demo.dto.RegisterDTO;
 import com.example.demo.dto.UploadDTO;
 import com.example.demo.service.UploadService;
 import com.example.demo.service.AuthService;
+import com.example.demo.service.DashService;
 import com.example.demo.service.RegisterService;
 
 @Controller
@@ -40,6 +27,8 @@ public class MainController {
 	AuthService authService;
 	@Autowired
 	UploadService upService;
+	@Autowired
+	DashService dashService;
 
 	/* 권한 상관 X */
 	@RequestMapping(value="/main")
@@ -58,10 +47,17 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/register.do")
-	public String register(Model m, @RequestParam("id")String id, @RequestParam("password")String password, @RequestParam("name")String name, @RequestParam("gender")String gender, @RequestParam("address")String address, @RequestParam("phone")String phone, @RequestParam("favorite")String favorite) throws Exception{
-		RegisterDTO resDTO= new RegisterDTO(id, password, name, gender, address, phone, favorite);
+	public String register(Model m, RegisterDTO resDTO) throws Exception{
 		resService.joinUser(resDTO);
+		
+		String id = resDTO.getId();
+		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
+		
+		String authCode = authService.authMail(id);
+		System.out.println("authCode : "+ authCode);
+		m.addAttribute("code", authCode);
+		
 		return "all/authmail";
 	}
 	
@@ -74,28 +70,36 @@ public class MainController {
 		return result;
 
 	}
-	
-	@RequestMapping(value = "/findpw.do", method = RequestMethod.POST)
-	@ResponseBody
-	public String findpw() throws Exception {
-
-		return "/findpw.do";
-
-	}
-
-	@RequestMapping(value="/authmail", method = RequestMethod.GET)
-	@ResponseBody
-	public String authmail(String id){
-		String authCode = authService.authMail(id);
-		
-		System.out.println("authCode : "+ authCode);
-		return authCode;
-	}
 
 	@RequestMapping(value="/authmail.do", method = RequestMethod.POST)
-	public String authcode(String id) throws Exception {
-		RegisterDTO resDTO = new RegisterDTO(id);
+	public String authcode(RegisterDTO resDTO) throws Exception {
+		String id = resDTO.getId();
+		System.out.println("id : "+ id);
 		authService.authSuccess(resDTO);
+		return "all/main";
+	}
+	
+	@RequestMapping(value = "/findpw", method = RequestMethod.GET)
+	public String findpw() throws Exception {
+		return "all/findPw";
+	}
+	
+	@RequestMapping(value="/authpw", method = RequestMethod.POST)
+	public String authpw(Model m, RegisterDTO resDTO) throws Exception {
+		String id = resDTO.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		String authCode = authService.authpw(id);
+		System.out.println("authCode : "+ authCode);
+		m.addAttribute("code", authCode);
+		
+		return "all/authPw";
+	}
+	
+	@RequestMapping(value="/authpw.do", method = RequestMethod.POST)
+	public String changepw(RegisterDTO resDTO) throws Exception {
+		authService.pwSuccess(resDTO);
 		return "all/main";
 	}
 
@@ -106,10 +110,6 @@ public class MainController {
 	}
 
 	/* 유저 */
-	@RequestMapping(value="user/main_user", method=RequestMethod.GET)
-	public String main_user() {
-		return "user/main_user";
-	}
 
 	@RequestMapping(value="user/mypage_user", method=RequestMethod.GET)
 	public String mypage_user() {
@@ -117,11 +117,6 @@ public class MainController {
 	}
 
 	/* 관리자 */
-
-	@RequestMapping(value="admin/main_admin", method=RequestMethod.GET)
-	public String main_admin() {
-		return "admin/main_admin";
-	}
 
 	@RequestMapping(value="admin/mypage_admin", method=RequestMethod.GET)
 	public String mypage_admin() {
@@ -134,12 +129,13 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="admin/upload.do", method = RequestMethod.POST)
-	public String upload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, @RequestParam("orgfile")String orgfile, @RequestParam("thumbnail")String thumbnail, @RequestParam("name")String name, @RequestParam("category")String category, @RequestParam("version")String version, @RequestParam("amount")int amount, @RequestParam("explain")String explain, @RequestParam("files")MultipartFile files, @RequestParam("thumbs")MultipartFile thumbs) throws Exception{
-		UploadDTO upDTO= new UploadDTO(orgfile, thumbnail, name, category, version, amount, explain, files, thumbs);
+	public String upload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{
 		upService.uploadGame(upDTO);
 		upService.fileSet(upDTO, mf, session);
 		upService.thumbSet(upDTO, mf2, session);
 		
+		String name = upDTO.getName();
+		System.out.println("name : "+ name);
 		m.addAttribute("name", name);
 		
 		return "admin/main_admin";
@@ -147,13 +143,12 @@ public class MainController {
 
 	/* 슈퍼 관리자 */
 
-	@RequestMapping(value="super/main_super", method=RequestMethod.GET)
-	public String main_super() {
-		return "super/main_super";
-	}
-
 	@RequestMapping(value="super/dashboard_1", method=RequestMethod.GET)
 	public String dashboard_1() {
+		dashService.getFulldisk();
+		dashService.getUsabledisk();
+		dashService.getHeapmemory();
+		dashService.getNonHeapmemory();
 		return "super/dashboard_1";
 	}
 

@@ -12,38 +12,6 @@ public class RegisterDTO {
 	String role;
 	String auth;
 
-
-	// for auth
-	public RegisterDTO(String id) {
-		this.id = id;
-	}
-
-	// for register
-	public RegisterDTO(String id, String password, String name, String gender, String address, String phone,
-			String favorite) {
-		this.id = id;
-		this.password = password;
-		this.name = name;
-		this.gender = gender;
-		this.address = address;
-		this.phone = phone;
-		this.favorite = favorite;
-	}
-
-	public RegisterDTO(int number, String id, String password, String name, String gender, String address, String phone,
-			String favorite, String role, String auth) {
-		this.number = number;
-		this.id = id;
-		this.password = password;
-		this.name = name;
-		this.gender = gender;
-		this.address = address;
-		this.phone = phone;
-		this.favorite = favorite;
-		this.role = role;
-		this.auth = auth;
-	}
-
 	public String getRole() {
 		return role;
 	}
@@ -145,7 +113,4 @@ public class RegisterDTO {
 				+ ", gender=" + gender + ", address=" + address + ", phone=" + phone + ", favorite=" + favorite
 				+ ", role=" + role + ", auth=" + auth + "]";
 	}
-	
-	
-
 }
