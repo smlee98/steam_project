@@ -11,6 +11,10 @@ public class AuthDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	public void pwSuccess(RegisterDTO registerDTO) {
+		sqlSession.update("auth.pwSuccess", registerDTO);
+	}
+	
 	public void authSuccess(RegisterDTO registerDTO) {
 		sqlSession.update("auth.authSuccess", registerDTO);
 	}

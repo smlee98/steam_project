@@ -37,7 +37,10 @@
 				</ul>
 				<form class="form-inline my-2 my-md-0">
 					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="login" style="font-size: 18px; font-weight: bold;">로그인</a></li>
+						<li class="nav-item"><a class="nav-link" href="login" sec:authorize="isAnonymous()" style="font-size: 18px; font-weight: bold;">로그인</a></li>
+						<li class="nav-item"><a class="nav-link" href="login" sec:authorize="isAuthenticated()" style="font-size: 18px; font-weight: bold;">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link" href="/user/mypage_user" sec:authorize="hasRole('USER')" style="font-size: 18px; font-weight: bold;">마이페이지</a></li>
+						<li class="nav-item"><a class="nav-link" href="/admin/mypage_admin" sec:authorize="hasRole('ADMIN')" style="font-size: 18px; font-weight: bold;">마이페이지</a></li>
 					</ul>
 				</form>
 			</div>
@@ -49,7 +52,14 @@
 			style="background-color: rgb(54,112,150);">
 			<div class="collapse navbar-collapse" id="navbarColor03">
 				<ul class="navbar-nav mr-auto">
-					<!-- <li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#">구매내역</a></li> -->
+					<!-- FOR USER -->
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#" sec:authorize="hasRole('USER')">구매내역</a></li>
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#" sec:authorize="hasRole('USER')">충전</a></li>
+					<!-- FOR ADMIN -->
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="upload" sec:authorize="hasAnyRole('ADMIN,SUPER')">업로드</a></li>
+					<!-- FOR SUPER -->
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#" sec:authorize="hasRole('SUPER')">회원관리</a></li>
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#" sec:authorize="hasRole('SUPER')">대시보드</a></li>
 				</ul>
 				<form class="form-inline" style="border: 1px solid rgb(49,98,130); border-radius: 3px; padding: 1px 3px; background: rgb(49,98,130); line-height: 32px;">
 					<input class="form-control mr-sm-2" type="search"

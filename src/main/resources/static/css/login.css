@@ -114,6 +114,12 @@ h4 {
 	margin-bottom: 20px;
 }
 
+#findpw{
+	color: #999999;
+	text-decoration: none;
+	font-weight: bold;
+}
+
 footer{
 	color: white;
 }

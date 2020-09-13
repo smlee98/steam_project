@@ -14,31 +14,6 @@ public class UploadDTO {
 	
 	private MultipartFile files;
 	private MultipartFile thumbs;
-	
-	public UploadDTO(String orgfile, String thumbnail, String name, String category, String version, int amount,
-			String explain, MultipartFile files , MultipartFile thumbs) {
-		this.orgfile = orgfile;
-		this.thumbnail = thumbnail;
-		this.name = name;
-		this.category = category;
-		this.version = version;
-		this.amount = amount;
-		this.explain = explain;
-		this.files = files;
-		this.thumbs = thumbs;
-	}
-	
-	public UploadDTO(int number, String orgfile, String thumbnail, String name, String category, String version,
-			int amount, String explain) {
-		this.number = number;
-		this.orgfile = orgfile;
-		this.thumbnail = thumbnail;
-		this.name = name;
-		this.category = category;
-		this.version = version;
-		this.amount = amount;
-		this.explain = explain;
-	}
 
 	public int getNumber() {
 		return number;
