@@ -4,6 +4,11 @@
 
 
 <mapper namespace="upload">
+	<select id="getgamecount" resultType="int">
+		select count(*)
+		from tb_upload
+	</select>
+
 	<insert id="enroll" parameterType="com.example.demo.dto.UploadDTO">
 		insert into tb_upload
 		values(#{number},#{orgfile},#{newfile},#{thumbnail},#{name},#{category},#{version},#{amount},#{explain})

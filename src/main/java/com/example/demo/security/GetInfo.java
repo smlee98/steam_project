@@ -4,7 +4,7 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
-import java.lang.management.OperatingSystemMXBean;
+import com.sun.management.OperatingSystemMXBean;
 
 public class GetInfo {
 	
@@ -26,17 +26,15 @@ public class GetInfo {
 			return String.valueOf((int) (size / (1024 * 1024 * 1024)));
 		}
 		
-		/*
-		public String[] getCPUProcess() throws Exception {
+		public String[] getCPUProcess() {
 			
 			OperatingSystemMXBean osbean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();		
 			String cpuUsage = String.format("%.2f", osbean.getSystemCpuLoad() * 100);
-			String[] list = new String[2];
+			String[] list = new String[1];
 			list[0] = cpuUsage;
 			
 			return list;
 		}
-		*/
 		
 		public String[] getMemory() {
 			MemoryMXBean membean = (MemoryMXBean) ManagementFactory.getMemoryMXBean();

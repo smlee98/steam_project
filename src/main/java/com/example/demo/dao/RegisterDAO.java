@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,9 @@ public class RegisterDAO implements RegisterMapper{
 	@Override
 	public RegisterDTO validateMember(HashMap<String, String> map) {
 		return sqlSession.selectOne("register.validateMember", map);
+	}
+	
+	public List<RegisterDTO> memberList(){
+		return sqlSession.selectList("register.memberList");
 	}
 }

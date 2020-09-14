@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,22 +140,41 @@ public class MainController {
 		System.out.println("name : "+ name);
 		m.addAttribute("name", name);
 		
-		return "admin/main_admin";
+		return "all/main";
 	}
 
 	/* 슈퍼 관리자 */
 
 	@RequestMapping(value="super/dashboard_1", method=RequestMethod.GET)
-	public String dashboard_1() {
-		dashService.getFulldisk();
-		dashService.getUsabledisk();
-		dashService.getHeapmemory();
-		dashService.getNonHeapmemory();
+	public String dashboard_1(Model m) {
+		String fulldisk = dashService.getFulldisk();
+		String usabledisk = dashService.getUsabledisk();
+		String cpuprocess = dashService.getCpuprocess();
+		String heapmemory = dashService.getHeapmemory();
+		String nonheapmemory = dashService.getNonHeapmemory();
+		
+		m.addAttribute("fulldisk", fulldisk);
+		m.addAttribute("usabledisk", usabledisk);
+		m.addAttribute("cpuprocess", cpuprocess);
+		m.addAttribute("heapmemory", heapmemory);
+		m.addAttribute("nonheapmemory", nonheapmemory);
+		
 		return "super/dashboard_1";
 	}
 
 	@RequestMapping(value="super/dashboard_2", method=RequestMethod.GET)
-	public String dashboard_2() {
+	public String dashboard_2(Model m) {
+		int gameCount = dashService.getGameCount();
+		m.addAttribute("gameCount", gameCount);
+		
 		return "super/dashboard_2";
+	}
+	
+	@RequestMapping(value="super/memberList", method=RequestMethod.GET)
+	public String memberList(Model m) {
+		List<RegisterDTO> list = resService.memberList();
+		m.addAttribute("list", list);
+		
+		return "super/memberList";
 	}
 }

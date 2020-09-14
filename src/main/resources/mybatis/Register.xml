@@ -27,6 +27,12 @@
 	where id = #{id} and password = #{password}
 	</select>
 	
+	<select id="memberList" resultType="com.example.demo.dto.RegisterDTO">
+		select id, name, gender, address, phone, favorite, role, auth
+		from tb_user
+		order by id
+	</select>
+	
 	<select id="login" parameterType="com.example.demo.dto.RegisterDTO">
 		select count(*)
 		from tb_user
