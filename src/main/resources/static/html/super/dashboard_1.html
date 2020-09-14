@@ -21,6 +21,28 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var fulldisk = [[ ${fulldisk} ]];
+var usabledisk = [[ ${usabledisk} ]];
+var cpuprocess = [[ ${cpuprocess} ]];
+var heapmemory = [[ ${heapmemory} ]];
+var nonheapmemory = [[ ${nonheapmemory} ]];
+
+/*]]*/
+
+    $(document).ready(function(){    	
+    	document.getElementById("fulldisk").innerHTML = fulldisk + "GB";
+    	document.getElementById("usabledisk").innerHTML = usabledisk + "GB";
+    	document.getElementById("cpuprocess").innerHTML = cpuprocess;
+    	document.getElementById("heapmemory").innerHTML = heapmemory;
+    	document.getElementById("nonheapmemory").innerHTML = nonheapmemory;
+    });
+
+</script>
+
 <script type="text/javascript">
 	function maxLengthCheck(object) {
 		if (object.value.length > object.maxLength) {
@@ -69,7 +91,7 @@
 									<li class="nav-item" style="font-weight: bold;"><a
 										class="nav-link" style="color: white;" href="#">서버 자원</a></li>
 									<li class="nav-item" style="font-weight: bold;"><a
-										class="nav-link" style="color: white;" href="#">통계</a></li>
+										class="nav-link" style="color: white;" href="dashboard_2">통계</a></li>
 								</ul>
 							</div>
 						</nav>
@@ -78,20 +100,22 @@
 							<div class="numval">
 								<label
 									style="padding: 15px; border: none; font-weight: bold; background: rgb(39, 65, 85);">디스크
-									용량</label><br> <small>O월 O일 기준</small><br>
-									<label>d3.js 이용 예정</label>
+									용량</label><br>
+									<label>총 디스크 : </label>&nbsp;<label id="fulldisk">-</label><br>
+									<label>여유 디스크 : </label>&nbsp;<label id="usabledisk">-</label>
 							</div>
 							<div class="numval">
 								<label
 									style="padding: 15px; border: none; font-weight: bold; background: rgb(39, 65, 85);">CPU
-									사용량</label><br> <small>O월 O일 기준</small><br>
-									<label>d3.js 이용 예정</label>
+									사용량</label><br>
+									<label>CPU 프로세스 : </label>&nbsp;<label id="cpuprocess">-</label>
 							</div>
 							<div class="numval">
 								<label
 									style="padding: 15px; border: none; font-weight: bold; background: rgb(39, 65, 85);">메모리
-									사용량</label><br> <small>O월 O일 기준</small><br>
-									<label>d3.js 이용 예정</label>
+									사용량</label><br>
+									<label>힙 메모리 : </label>&nbsp;<label id="heapmemory">-</label><br>
+									<label>논힙 메모리 : </label>&nbsp;<label id="nonheapmemory">-</label>
 							</div>
 					</div>
 				</div>

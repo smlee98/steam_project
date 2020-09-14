@@ -21,6 +21,20 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var list = [[ ${list} ]];
+
+/*]]*/
+
+    $(document).ready(function(){    	
+    	console.log(list);
+    });
+
+</script>
+
 <script type="text/javascript">
 	function maxLengthCheck(object) {
 		if (object.value.length > object.maxLength) {
@@ -29,7 +43,7 @@
 	}
 </script>
 
-<link rel="stylesheet" type="text/css" href="/css/register.css" />
+<link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
 
 
 </head>
@@ -37,7 +51,7 @@
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
 		style="height: 15vh;">
 		<div class="container">
-			<a class="navbar-brand" href="main"><img src="/image/logo.png"
+			<a class="navbar-brand" href="/main"><img src="/image/logo.png"
 				width="50" height="50" alt="logo"></a>
 			<div class="collapse navbar-collapse" id="navbarsExample07">
 				<ul class="navbar-nav mr-auto">
@@ -60,57 +74,33 @@
 		<div class="row" style="color: #fff; padding: 30px;">
 			<div class="container-md">
 				<div class="row">
-					<form>
-						<h2>마이페이지</h2>
-						<h4 style="margin-top: 25px;">비밀번호 변경</h4>
-						<div class="form-group" style="display: inline-flex;">
-							<div class="container">
-								<div class="row">
-									<div class="col-sm-6" id="password"
-										style="flex: 1; margin-right: 25px;">
-										<label for="exampleInputPassword1">비밀번호</label> <input
-											type="password" class="form-control"
-											id="exampleInputPassword1">
-									</div>
-									<div class="col-sm-6" id="password_check"
-										style="flex: 1; display: inline-block;">
-										<label for="exampleInputPassword2">비밀번호 확인</label> <input
-											type="password" class="form-control"
-											id="exampleInputPassword2">
-									</div>
-								</div>
-							</div>
-							<button type="button" class="btn btn-primary" id="changeit">변경</button>
-						</div>
-						<h4 style="margin-top: 25px;">충전</h4>
-						<div class="form-group" style="display: inline-flex;">
-						<select class="form-control">
-							<option value="1000">1000원</option>
-							<option value="3000">3000원</option>
-							<option value="5000">5000원</option>
-							<option value="10000">10000원</option>
-							<option value="30000">30000원</option>
-							<option value="50000">50000원</option>
-						</select>
-						<button type="button" class="btn btn-primary" id="purchaseit">충전</button>
-						</div>
-						<h4 style="margin-top: 25px;">충전내역</h4>
-						<!-- <table id="userTable">
+					<h2>회원목록</h2>
+					<div class="container-md" style="margin-top: 25px;">
+							<table border="1" style="border: 2px solid white; width: 100%; text-align: center;">
 							<thead>
-								<tr>
-									<th>날짜</th>
-									<th>금액</th>
+								<tr style="border-bottom: double white;">
+									<th>아이디</th>
+									<th>이름</th>
+									<th>성별</th>
+									<th>주소</th>
+									<th>전화번호</th>
+									<th>관심분야</th>
+									<th>역할</th>
+									<th>인증</th>
 								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="user : ${userList}">
-									<td th:text="${user.email}">2020.08.21</td>
-									<td th:text="${user.fullNmKr}">33,000</td>
-								</tr>
-							</tbody>
-						</table> -->
-						<label style="font-style: italic;">타임리프 그리드 계획중...</label>
-					</form>
+								</thead>
+								<tbody id="tableContent" th:each="list:${list}" >
+									<td th:text="${list.id}"></td>
+									<td th:text="${list.name}"></td>
+									<td th:text="${list.gender}"></td>
+									<td th:text="${list.address}"></td>
+									<td th:text="${list.phone}"></td>
+									<td th:text="${list.favorite}"></td>
+									<td th:text="${list.role}"></td>
+									<td th:text="${list.auth}"></td>
+								</tbody>
+							</table>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -36,6 +36,10 @@ public class RegisterService implements UserDetailsService {
 	@Autowired
 	RegisterDAO resDAO;
 
+	public List<RegisterDTO> memberList(){
+		return resDAO.memberList();
+	}
+	
 	public int userIDCheck(String id) {
 
 		int result = resDAO.checkID(id);

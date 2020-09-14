@@ -15,6 +15,11 @@ public class UploadDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	public int getGameCount() {
+		int count = sqlSession.selectOne("upload.getgamecount");
+		return count;
+	}
+	
 	public void uploadGame(UploadDTO UploadDTO) {
 		sqlSession.insert("upload.enroll", UploadDTO);
 	}

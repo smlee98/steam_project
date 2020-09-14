@@ -56,10 +56,10 @@
 					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#" sec:authorize="hasRole('USER')">구매내역</a></li>
 					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#" sec:authorize="hasRole('USER')">충전</a></li>
 					<!-- FOR ADMIN -->
-					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="upload" sec:authorize="hasAnyRole('ADMIN,SUPER')">업로드</a></li>
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="/admin/upload" sec:authorize="hasAnyRole('ADMIN,SUPER')">업로드</a></li>
 					<!-- FOR SUPER -->
-					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#" sec:authorize="hasRole('SUPER')">회원관리</a></li>
-					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="#" sec:authorize="hasRole('SUPER')">대시보드</a></li>
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="/super/memberList" sec:authorize="hasRole('SUPER')">회원목록</a></li>
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="/super/dashboard_1" sec:authorize="hasRole('SUPER')">대시보드</a></li>
 				</ul>
 				<form class="form-inline" style="border: 1px solid rgb(49,98,130); border-radius: 3px; padding: 1px 3px; background: rgb(49,98,130); line-height: 32px;">
 					<input class="form-control mr-sm-2" type="search"
