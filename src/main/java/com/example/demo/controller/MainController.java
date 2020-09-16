@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.extras.springsecurity5.util.SpringSecurityContextUtils;
 
 import com.example.demo.dto.RegisterDTO;
+import com.example.demo.dto.RegisterDetail;
 import com.example.demo.dto.UploadDTO;
 import com.example.demo.service.UploadService;
 import com.example.demo.service.AuthService;
@@ -34,12 +37,12 @@ public class MainController {
 
 	/* 권한 상관 X */
 	@RequestMapping(value="/main")
-	public String main() {
+	public String main(RegisterDTO resDTO) {
 		return "all/main";
 	}
-
+	
 	@RequestMapping(value="/login")
-	public String login() {
+	public String login(Model m, RegisterDTO resDTO) {		
 		return "all/login";
 	}
 
@@ -71,6 +74,22 @@ public class MainController {
 
 		return result;
 
+	}
+	
+	@RequestMapping(value="/mypage", method=RequestMethod.GET)
+	public String mypage_admin(Model m, RegisterDTO resDTO) throws Exception { 
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println("user : "+ user);
+		m.addAttribute("user", user);
+		
+		return "all/mypage";
+	}
+	
+	@RequestMapping(value = "/mypage.do", method = RequestMethod.POST)
+	public String mypage(RegisterDTO resDTO, HttpSession session) {
+		resService.myPage(resDTO);
+		session.invalidate();
+		return "redirect:main";
 	}
 
 	@RequestMapping(value="/authmail.do", method = RequestMethod.POST)
@@ -106,25 +125,14 @@ public class MainController {
 	}
 
 
-	@RequestMapping(value="/game_1", method=RequestMethod.GET)
+	@RequestMapping(value="/game", method=RequestMethod.GET)
 	public String game_1() {
-		return "all/game_1";
+		return "all/game";
 	}
 
 	/* 유저 */
 
-	@RequestMapping(value="user/mypage_user", method=RequestMethod.GET)
-	public String mypage_user() {
-		return "user/mypage_user";
-	}
-
 	/* 관리자 */
-
-	@RequestMapping(value="admin/mypage_admin", method=RequestMethod.GET)
-	public String mypage_admin() {
-		return "admin/mypage_admin";
-	}
-
 	@RequestMapping(value="admin/upload", method=RequestMethod.GET)
 	public String upload() {
 		return "admin/upload";

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css" href="../css/fragment.css" />
+
+</head>
+<body>
+<div th:fragment="navBar">
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
+		style="height: 15vh;">
+		<div class="container">
+			<a class="navbar-brand" href="../main"><img src="../image/logo.png"
+				width="50" height="50" alt="logo"></a>
+			<div class="collapse navbar-collapse" id="navbarsExample07">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="#" style="font-size: 18px; font-weight: bold;">스토어<span
+							class="sr-only">(current)</span></a></li>
+				</ul>
+				<form class="form-inline my-2 my-md-0">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" style="font-size: 12px; font-weight: bold; color:white; line-height: 24px;"><label sec:authentication="principal.name" style="float:left;"></label><label>님 환영합니다 :)</label></a></li>
+						<li class="nav-item"><a class="nav-link" href="../login" sec:authorize="isAnonymous()" style="font-size: 18px; font-weight: bold;">로그인</a></li>
+						<li class="nav-item"><a class="nav-link" href="../logout" sec:authorize="isAuthenticated()" style="font-size: 18px; font-weight: bold;">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link" href="../mypage" sec:authorize="hasAnyRole('USER,ADMIN')" style="font-size: 18px; font-weight: bold;">마이페이지</a></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</nav>
+</div>
+</body>
+</html>

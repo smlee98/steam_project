@@ -153,12 +153,3 @@ textarea{
     border-right: 1px solid rgb(69, 85, 108);
 	border-bottom: 1px solid rgb(69, 85, 108);
 }
-
-footer {
-	color: white;
-}
-
-footer .rule {
-	height: 8px;
-	border-top: 1px solid #363c44;
-}

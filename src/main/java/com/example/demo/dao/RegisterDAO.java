@@ -16,8 +16,8 @@ public class RegisterDAO implements RegisterMapper{
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public void joinUser(RegisterDTO registerDTO) {
-		sqlSession.insert("register.joinUser", registerDTO);
+	public void joinUser(RegisterDTO resDTO) {
+		sqlSession.insert("register.joinUser", resDTO);
 	}
 	
 	public int checkID(String id) {			
@@ -36,5 +36,9 @@ public class RegisterDAO implements RegisterMapper{
 	
 	public List<RegisterDTO> memberList(){
 		return sqlSession.selectList("register.memberList");
+	}
+	
+	public void myPage(RegisterDTO resDTO){
+		sqlSession.update("register.myPage", resDTO);
 	}
 }

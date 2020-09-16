@@ -90,26 +90,7 @@ var code = [[ ${code} ]];
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
-		style="height: 15vh;">
-		<div class="container">
-			<a class="navbar-brand" href="main"><img src="image/logo.png"
-				width="50" height="50" alt="logo"></a>
-			<div class="collapse navbar-collapse" id="navbarsExample07">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="#"
-						style="font-size: 18px; font-weight: bold;">스토어<span
-							class="sr-only">(current)</span></a></li>
-				</ul>
-				<form class="form-inline my-2 my-md-0">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="login"
-							style="font-size: 18px; font-weight: bold;">로그인</a></li>
-					</ul>
-				</form>
-			</div>
-		</div>
-	</nav>
+	<div th:replace="fragment/header :: navBar"></div>
 
 	<div class="container-md"
 		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
@@ -167,13 +148,6 @@ var code = [[ ${code} ]];
 			</div>
 		</div>
 	</div>
-	<footer class="section footer-classic context-dark bg-image">
-		<div class="container">
-			<div class="rule"></div>
-			<h5>Steam Project</h5>
-			<p>개발자 : 이승민 | TEL : 010-4146-8375</p>
-			<div class="rule"></div>
-		</div>
-	</footer>
+	<div th:replace="fragment/footer :: footer"></div>
 </body>
 </html>
