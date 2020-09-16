@@ -40,6 +40,10 @@ public class RegisterService implements UserDetailsService {
 		return resDAO.memberList();
 	}
 	
+	public void myPage(RegisterDTO resDTO){
+		resDAO.myPage(resDTO);
+	}
+	
 	public int userIDCheck(String id) {
 
 		int result = resDAO.checkID(id);
@@ -80,7 +84,6 @@ public class RegisterService implements UserDetailsService {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 
 		System.out.println("resDTO : "+resDTO);
-		System.out.println(id+"의 Role = "+resDTO.getRole());
 
 		if (resDTO.getRole().equals(Role.SUPER.getValue())) {
 			authorities.add(new SimpleGrantedAuthority(Role.SUPER.getValue()));
@@ -89,6 +92,9 @@ public class RegisterService implements UserDetailsService {
 		} else {
 			authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
 		}
+		
+		System.out.println(id+"의 Role = "+resDTO.getRole());
+		System.out.println(id+"의 인증 상태 : "+resDTO.getAuth());
 
 		return new RegisterDetail(resDTO);
 	}

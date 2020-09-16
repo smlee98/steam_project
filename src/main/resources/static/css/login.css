@@ -39,40 +39,6 @@ h4 {
 	display: none;	
 }
 
-@charset "UTF-8";
-
-body {
-	background-image: url('/image/bg.jpg');
-	}
-	
-h2 {
-	margin: 0;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	font-size: 2em;
-	letter-spacing: 2px;
-	font-weight: bold;
-	color: white;
-}
-
-h4 {
-	margin: 0;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	font-size: 1em;
-	letter-spacing: 2px;
-	font-weight: bold;
-	color: white;
-}
-
-#sidebar{
-	padding: 0;
-}
-
-#sidebar li{
-	list-style-type: none;
-}
-
 #id_input, #pw_input{
 	background: rgb(18,26,36);
 	border:none;
@@ -119,11 +85,3 @@ h4 {
 	text-decoration: none;
 	font-weight: bold;
 }
-
-footer{
-	color: white;
-}
-
-footer .rule {
-    height: 8px;
-    border-top: 1px solid #363c44;

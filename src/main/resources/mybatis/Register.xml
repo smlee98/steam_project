@@ -33,6 +33,12 @@
 		order by id
 	</select>
 	
+	<update id="myPage" parameterType="com.example.demo.dto.RegisterDTO">
+		update tb_user
+		set name = #{name}, address = #{address}, phone = #{phone}
+		where id = #{id}
+	</update>
+	
 	<select id="login" parameterType="com.example.demo.dto.RegisterDTO">
 		select count(*)
 		from tb_user
