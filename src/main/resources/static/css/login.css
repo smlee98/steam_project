@@ -18,6 +18,16 @@ h4 {
 	color: white;
 }
 
+h2 {
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 2em;
+	letter-spacing: 2px;
+	font-weight: bold;
+	color: white;
+}
+
 #sidebar{
 	padding: 0;
 }

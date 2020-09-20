@@ -24,6 +24,21 @@
 <link rel="stylesheet" type="text/css" href="/css/upload.css" />
 <script type="text/javascript" src="/js/upload.js"></script>
 
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var id = [[ ${id} ]];
+
+/*]]*/
+    $(document).ready(function(){
+    	console.log(id);
+    	
+    	$('#id_input').val(id);
+    });
+
+</script>
+
 </head>
 <body>
 	<div th:replace="fragment/header :: navBar"></div>
@@ -35,6 +50,7 @@
 				<div class="row">
 					<form action="./upload.do" method="post" enctype="multipart/form-data" onsubmit="return validate();" style="width: 50%">
 						<h2>게임 등록</h2>
+						<input type="text" id="id_input" name ="id" style="display: none;"/>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="file">게임파일 등록</label>
 							<div style="width:85%; float: left; margin-right: 7px;">
@@ -63,6 +79,11 @@
 						<div class="thumbnailWarn" style="display: none;">
 						<i class="badge badge-danger" style="font-style: normal;">!</i>
 						<label style="font-weight: bold; color:red;">썸네일이 첨부되지 않았습니다!</label>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="name">YOUTUBE 링크</label> <input type="text"
+								class="form-control" id="youtube"
+								aria-describedby="GamenameHelp" name="youtube">
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="name">게임명</label> <input type="text"
