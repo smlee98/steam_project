@@ -1,7 +1,12 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +23,7 @@ import org.thymeleaf.extras.springsecurity5.util.SpringSecurityContextUtils;
 import com.example.demo.dto.RegisterDTO;
 import com.example.demo.dto.RegisterDetail;
 import com.example.demo.dto.UploadDTO;
+import com.example.demo.security.GetInfo;
 import com.example.demo.service.UploadService;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.DashService;
@@ -37,8 +43,28 @@ public class MainController {
 
 	/* 권한 상관 X */
 	@RequestMapping(value="/main")
-	public String main(RegisterDTO resDTO) {
+	public String main(Model m) {
+		List<UploadDTO> list = upService.viewRecent();
+		m.addAttribute("list", list);
+		
 		return "all/main";
+	}
+	
+	@RequestMapping(value="/genre")
+	public String genre(Model m, String category) {
+		List<UploadDTO> genre = upService.viewGenre(category);
+		m.addAttribute("genre", genre);
+		m.addAttribute("category", category);
+		
+		return "all/genre";
+	}
+	
+	@RequestMapping(value="/search")
+	public String search(@RequestParam(value = "keyword") String keyword, Model m) {
+		List<UploadDTO> list = upService.searchList(keyword);
+		m.addAttribute("list", list);
+		System.out.println(list);
+		return "all/search";
 	}
 	
 	@RequestMapping(value="/login")
@@ -126,7 +152,18 @@ public class MainController {
 
 
 	@RequestMapping(value="/game", method=RequestMethod.GET)
-	public String game_1() {
+	public String game(Model m, UploadDTO upDTO, ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
+		String number = String.valueOf(upDTO.getNumber());
+		System.out.println(number);
+		
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println("user : "+ user);
+		m.addAttribute("user", user);
+		
+		upService.doFilter(servletRequest, servletResponse);
+		
+		List<UploadDTO> list = upService.gameDetail();
+		m.addAttribute("list", list);
 		return "all/game";
 	}
 
@@ -134,12 +171,30 @@ public class MainController {
 
 	/* 관리자 */
 	@RequestMapping(value="admin/upload", method=RequestMethod.GET)
-	public String upload() {
+	public String upload(Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
 		return "admin/upload";
 	}
 	
+	@RequestMapping(value="admin/upload_my", method=RequestMethod.GET)
+	public String upload_my(Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		
+		System.out.println(id);
+		
+		List<UploadDTO> list = upService.uploadList(id);
+		m.addAttribute("list", list);
+		
+		return "admin/uploadList";
+	}
+	
 	@RequestMapping(value="admin/upload.do", method = RequestMethod.POST)
-	public String upload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{
+	public String upload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{		
 		upService.uploadGame(upDTO);
 		upService.fileSet(upDTO, mf, session);
 		upService.thumbSet(upDTO, mf2, session);
@@ -154,18 +209,20 @@ public class MainController {
 	/* 슈퍼 관리자 */
 
 	@RequestMapping(value="super/dashboard_1", method=RequestMethod.GET)
-	public String dashboard_1(Model m) {
+	public String dashboard_1(Model m) {		
 		String fulldisk = dashService.getFulldisk();
 		String usabledisk = dashService.getUsabledisk();
 		String cpuprocess = dashService.getCpuprocess();
-		String heapmemory = dashService.getHeapmemory();
-		String nonheapmemory = dashService.getNonHeapmemory();
+		String fullmemory = dashService.getFullMem();
+		String usablememory = dashService.getUsableMem();
+		String[] avgdata = dashService.getAvgData();
 		
 		m.addAttribute("fulldisk", fulldisk);
 		m.addAttribute("usabledisk", usabledisk);
 		m.addAttribute("cpuprocess", cpuprocess);
-		m.addAttribute("heapmemory", heapmemory);
-		m.addAttribute("nonheapmemory", nonheapmemory);
+		m.addAttribute("fullmemory", fullmemory);
+		m.addAttribute("usablememory", usablememory);
+		m.addAttribute("avgdata", avgdata);
 		
 		return "super/dashboard_1";
 	}

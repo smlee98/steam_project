@@ -11,7 +11,7 @@
 
 	<insert id="enroll" parameterType="com.example.demo.dto.UploadDTO">
 		insert into tb_upload
-		values(#{number},#{orgfile},#{newfile},#{thumbnail},#{name},#{category},#{version},#{amount},#{explain})
+		values(#{number},#{id},#{orgfile},#{newfile},#{thumbnail},#{name},#{category},#{version},#{amount},#{explain},#{youtube},#{orgdate},#{newdate})
 	</insert>
 	
 	<update id="newfileName" parameterType="com.example.demo.dto.UploadDTO">
@@ -25,4 +25,40 @@
 		set thumbnail = #{thumbnail}
 		where name = #{name}
 	</update>
+	
+	<select id="uploadList" resultType="com.example.demo.dto.UploadDTO">
+		select name, category, version, amount
+		from tb_upload
+		where id = #{id}
+		order by number
+	</select>
+	
+	<select id="searchList" resultType="com.example.demo.dto.UploadDTO">
+		select name, category, version, amount
+		from tb_upload
+		where name like CONCAT('%',#{keyword},'%')
+		order by number
+	</select>
+	
+	<select id="gameDetail" resultType="com.example.demo.dto.UploadDTO">
+		select *
+		from tb_upload
+		where number = 1
+	</select>
+	
+	<select id="viewRecent" resultType="com.example.demo.dto.UploadDTO">
+		select *
+		from tb_upload
+		order by number desc limit 4
+	</select>
+	
+	<select id="viewGenre" parameterType="String" resultType="com.example.demo.dto.UploadDTO">
+		select name, category, version, amount
+		from tb_upload
+		<where>
+			<if test='_parameter != null and _parameter.equals("all")'>1=1</if>
+    		<if test='_parameter != null and !_parameter.equals("all")'>category = #{category}</if>
+		</where>
+     	order by number
+	</select>
 </mapper>

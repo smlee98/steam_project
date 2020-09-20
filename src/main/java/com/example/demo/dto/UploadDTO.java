@@ -1,8 +1,10 @@
 package com.example.demo.dto;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UploadDTO {
 	int number;
+	String id;
 	String orgfile;
 	String newfile;
 	String thumbnail;
@@ -10,6 +12,9 @@ public class UploadDTO {
 	String category;
 	String version;
 	int amount;
+	String orgdate;
+	String newdate;
+	String youtube;
 	String explain;
 	
 	private MultipartFile files;
@@ -21,6 +26,14 @@ public class UploadDTO {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getOrgfile() {
@@ -78,6 +91,30 @@ public class UploadDTO {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+	
+	public String getOrgdate() {
+		return orgdate;
+	}
+
+	public void setOrgdate(String orgdate) {
+		this.orgdate = orgdate;
+	}
+
+	public String getNewdate() {
+		return newdate;
+	}
+
+	public void setNewdate(String newdate) {
+		this.newdate = newdate;
+	}
+
+	public String getYoutube() {
+		return youtube;
+	}
+
+	public void setYoutube(String youtube) {
+		this.youtube = youtube;
+	}
 
 	public String getExplain() {
 		return explain;
@@ -105,9 +142,10 @@ public class UploadDTO {
 
 	@Override
 	public String toString() {
-		return "UploadDTO [number=" + number + ", orgfile=" + orgfile + ", newfile=" + newfile + ", thumbnail="
-				+ thumbnail + ", name=" + name + ", category=" + category + ", version=" + version + ", amount="
-				+ amount + ", explain=" + explain + "]";
+		return "UploadDTO [number=" + number + ", id=" + id + ", orgfile=" + orgfile + ", newfile=" + newfile
+				+ ", thumbnail=" + thumbnail + ", name=" + name + ", category=" + category + ", version=" + version
+				+ ", amount=" + amount + ", orgdate=" + orgdate + ", newdate=" + newdate + ", youtube=" + youtube
+				+ ", explain=" + explain + ", files=" + files + ", thumbs=" + thumbs + "]";
 	}
 	
 }

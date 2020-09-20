@@ -35,16 +35,16 @@ public class DashService {
 		return result;
 	}
 	
-	public String getHeapmemory() {
-		String heapMemory = getInfo.getMemory()[0];
-		String result = heapMemory;
+	public String getFullMem() {
+		String fullMem = getInfo.getMemory()[0];
+		String result = fullMem;
 		
 		return result;
 	}
 	
-	public String getNonHeapmemory() {
-		String nonheapMemory = getInfo.getMemory()[1];
-		String result = nonheapMemory;
+	public String getUsableMem() {
+		String usableMem = getInfo.getMemory()[1];
+		String result = usableMem;
 		
 		return result;
 	}
@@ -54,5 +54,18 @@ public class DashService {
 		int result = gameCount;
 		
 		return result;
+	}
+	
+	public String[] getAvgData() {
+		String avgDisk = getInfo.getDiskSpace()[2];
+		String avgCpu = getInfo.getCPUProcess()[1];
+		String avgMem = getInfo.getMemory()[2];
+		
+		String[] list = new String[3];
+		list[0] = avgDisk;
+		list[1] = avgCpu;
+		list[2] = avgMem;
+		
+		return list;
 	}
 }

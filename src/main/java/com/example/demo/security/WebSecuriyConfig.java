@@ -24,7 +24,7 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/image/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/image/**","/thumbnail/**","/upload/**");
     }
 	
 	@Bean
@@ -44,14 +44,16 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/check").permitAll()
 				.antMatchers("/findpw").permitAll()
 				.antMatchers("/authpw").permitAll()
+				.antMatchers("/search").permitAll()
+				.antMatchers("/game").permitAll()
+				.antMatchers("/genre").permitAll()
+				.antMatchers("/fragment/**").permitAll()
 				.antMatchers(HttpMethod.POST,"/mypage.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/authpw.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/login.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/register.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/authmail.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/admin/upload.**").permitAll()
-				.antMatchers("/game").permitAll()
-				.antMatchers("/fragment/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()

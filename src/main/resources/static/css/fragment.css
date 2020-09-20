@@ -1,7 +1,7 @@
-footer{
+*{
 	color: white;
 }
 
 footer .rule {
-    height: 8px;
-    border-top: 1px solid #363c44;
+    height: 8px; border-top: 1px solid #363c44;
+}
