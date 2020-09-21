@@ -7,12 +7,18 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +29,7 @@ import org.thymeleaf.extras.springsecurity5.util.SpringSecurityContextUtils;
 import com.example.demo.dto.RegisterDTO;
 import com.example.demo.dto.RegisterDetail;
 import com.example.demo.dto.UploadDTO;
+import com.example.demo.handler.LoginHandler;
 import com.example.demo.security.GetInfo;
 import com.example.demo.service.UploadService;
 import com.example.demo.service.AuthService;
@@ -43,10 +50,9 @@ public class MainController {
 
 	/* 권한 상관 X */
 	@RequestMapping(value="/main")
-	public String main(Model m) {
+	public String main(Model m) {		
 		List<UploadDTO> list = upService.viewRecent();
 		m.addAttribute("list", list);
-		
 		return "all/main";
 	}
 	
@@ -67,8 +73,8 @@ public class MainController {
 		return "all/search";
 	}
 	
-	@RequestMapping(value="/login")
-	public String login(Model m, RegisterDTO resDTO) {		
+	@GetMapping("/login")
+	public String Login() {
 		return "all/login";
 	}
 
@@ -115,7 +121,7 @@ public class MainController {
 	public String mypage(RegisterDTO resDTO, HttpSession session) {
 		resService.myPage(resDTO);
 		session.invalidate();
-		return "redirect:main";
+		return "redirect:/main";
 	}
 
 	@RequestMapping(value="/authmail.do", method = RequestMethod.POST)
@@ -123,7 +129,7 @@ public class MainController {
 		String id = resDTO.getId();
 		System.out.println("id : "+ id);
 		authService.authSuccess(resDTO);
-		return "all/main";
+		return "redirect:/main";
 	}
 	
 	@RequestMapping(value = "/findpw", method = RequestMethod.GET)
@@ -147,22 +153,25 @@ public class MainController {
 	@RequestMapping(value="/authpw.do", method = RequestMethod.POST)
 	public String changepw(RegisterDTO resDTO) throws Exception {
 		authService.pwSuccess(resDTO);
-		return "all/main";
+		return "redirect:/main";
 	}
 
 
 	@RequestMapping(value="/game", method=RequestMethod.GET)
-	public String game(Model m, UploadDTO upDTO, ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
-		String number = String.valueOf(upDTO.getNumber());
-		System.out.println(number);
-		
-		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println("user : "+ user);
-		m.addAttribute("user", user);
+	public String game(Model m, UploadDTO upDTO, RegisterDTO resDTO, String number, ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
+		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
+			RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String id = user.getId();
+			System.out.println("id : "+ id);
+			m.addAttribute("id", id);
+		}
+		else {
+			m.addAttribute("id", "anonymous");
+		}
 		
 		upService.doFilter(servletRequest, servletResponse);
 		
-		List<UploadDTO> list = upService.gameDetail();
+		List<UploadDTO> list = upService.gameDetail(number);
 		m.addAttribute("list", list);
 		return "all/game";
 	}
@@ -203,7 +212,31 @@ public class MainController {
 		System.out.println("name : "+ name);
 		m.addAttribute("name", name);
 		
-		return "all/main";
+		return "redirect:/main";
+	}
+	
+	@RequestMapping(value="admin/mod_upload", method=RequestMethod.GET)
+	public String modUpload(Model m, String number) {
+		List<UploadDTO> list = upService.gameDetail(number);
+		m.addAttribute("list", list);
+		
+		return "admin/mod_upload";
+	}
+	
+	@RequestMapping(value="admin/mod_upload.do", method=RequestMethod.POST)
+	public String modUpload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{
+		upService.modUpload(upDTO);
+		upService.modFileSet(upDTO, mf, session);
+		upService.modThumbSet(upDTO, mf2, session);
+		
+		return "redirect:/admin/upload_my";
+	}
+	
+	@RequestMapping(value="admin/del_upload", method=RequestMethod.GET)
+	public String delUpload(Model m, UploadDTO upDTO) throws Exception{
+		upService.delUpload(upDTO);
+		
+		return "redirect:/admin/upload_my";
 	}
 
 	/* 슈퍼 관리자 */

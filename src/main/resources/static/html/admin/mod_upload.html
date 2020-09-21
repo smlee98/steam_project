@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/upload.css" />
+<script type="text/javascript" src="/js/upload.js"></script>
+
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var list = [[ ${list} ]];
+var path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnail\\";
+
+/*]]*/
+    $(document).ready(function(){
+    	document.getElementById("number_input").value = list[0].number;
+    	//document.getElementById("orgfile").value = list[0].orgfile;
+    	//document.getElementById("thumbnail").value = list[0].thumbnail.replaceAll(path,"").split('_')[1];
+    	document.getElementById("youtube").value = list[0].youtube;
+    	document.getElementById("name").value = list[0].name;
+    	document.getElementById("category").value = list[0].category;
+    	document.getElementById("version").value = list[0].version;
+    	document.getElementById("amount").value = list[0].amount;
+    	document.getElementById("explain").value = list[0].explain;
+    	
+    	console.log(list);
+    });
+
+</script>
+
+</head>
+<body>
+	<div th:replace="fragment/header :: navBar"></div>
+
+	<div class="container-md"
+		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+		<div class="row" style="color: #fff; padding: 30px;">
+			<div class="container-md">
+				<div class="row">
+					<form action="./mod_upload.do" method="post" enctype="multipart/form-data" onsubmit="return validate();" style="width: 50%">
+						<h2>게임 수정</h2>
+						<div class="Warning">
+						<i class="badge badge-success" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:green;">게임 파일과 썸네일을 새로 등록해주세요.</label>
+						</div>
+						<input type="text" id="number_input" name ="number" style="display: none;"/>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="file">게임파일</label><br>
+							<div style="width:85%; float: left; margin-right: 7px;">
+							<input type="text" class="form-control" id="orgfile" aria-describedby="GameHelp" name="orgfile" readonly>
+							</div>
+							<div class="filebox">
+								<label for="gamefile_file">업로드</label>
+								<input type="file" id="gamefile_file" name="files" accept=".zip">
+							</div>
+							<small id="uploadHelp1" class="form-text text-muted">'.zip'파일만 등록 가능합니다.</small>
+						</div>
+						<div class="fileWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">파일이 첨부되지 않았습니다!</label>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="thumbnail">썸네일</label><br>
+							<div style="width:85%; float: left; margin-right: 7px;">
+							<input type="text" class="form-control" id="thumbnail" aria-describedby="thumbnailHelp" name="thumbnail" readonly>
+							</div>
+							<div class="filebox">
+								<label for="thumbfile_file">업로드</label> <input type="file" id="thumbfile_file" name="thumbs" accept=".jpg, .png">
+							</div>
+							<small id="thumbnailHelp" class="form-text text-muted">'.png','.jpg'파일만 등록 가능하고, 최소
+								500px의 이미지 사이즈를 권장합니다.</small>
+						</div>
+						<div class="thumbnailWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">썸네일이 첨부되지 않았습니다!</label>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="name">YOUTUBE 링크</label> <input type="text"
+								class="form-control" id="youtube"
+								aria-describedby="GamenameHelp" name="youtube">
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="name">게임명</label> <input type="text"
+								class="form-control" id="name"
+								aria-describedby="GamenameHelp" name="name">
+						</div>
+						<div class="nameWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">게임 제목이 입력되지 않았습니다!</label>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="category">게임 카테고리</label> <select
+								class="form-control" id="category" name="category">
+								<option value="shooting">슈팅</option>
+								<option value="action">액션</option>
+								<option value="advanture">어드벤처</option>
+								<option value="simulation">시뮬레이션</option>
+								<option value="sports">스포츠</option>
+								<option value="fps">FPS</option>
+							</select>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="version">게임 버전</label> <input type="text"
+								class="form-control" id="version"
+								aria-describedby="VersionHelp" name="version">
+						</div>
+						<div class="versionWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">게임 버전이 입력되지 않았습니다!</label>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="amount">게임 금액</label> <input type="number"
+								class="form-control" id="amount"
+								aria-describedby="MoneyHelp" name="amount"
+								style="width: 95%; display: inline-flex;">
+							<p style="float: right; line-height: 36px; font-weight: bold;">원</p>
+						</div>
+						<div class="amountWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">게임 금액이 입력되지 않았습니다!</label>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="explain">게임 설명</label>
+							<textarea cols="50" rows="4" onkeyup="chkword(this, 100)" id="explain" name="explain"></textarea>
+							<div class="countWord" id="countWord" style="text-align: right; font-weight:bold; color: gray;">0</div>
+							<small id="explainHelp" class="form-text text-muted">최대 100글자까지만 입력이 가능합니다.</small>
+						</div>
+						<div class="explainWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">게임 설명이 입력되지 않았습니다!</label>
+						</div>
+						<div class="submitit" style="text-align: right;">
+							<input type="submit" class="btn btn-black" value="수정"
+								style="background: rgb(39, 65, 85); color: rgb(103, 169, 183); border: none; font-weight: bold;">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragment/footer :: footer"></div>
+</body>
+</html>

@@ -62,8 +62,8 @@ public class UploadService {
 		return upDAO.uploadList(id);
 	}
 	
-	public List<UploadDTO> gameDetail(){		
-		return upDAO.gameDetail();
+	public List<UploadDTO> gameDetail(String number){		
+		return upDAO.gameDetail(number);
 	}
 	
 	public List<UploadDTO> viewRecent(){		
@@ -119,6 +119,56 @@ public class UploadService {
 		}
 		
 		upDAO.setThumbFile(upDTO);
+	}
+	
+	public void modUpload (UploadDTO upDTO) throws Exception{		
+		SimpleDateFormat format1 = new SimpleDateFormat ("yyyy년 MM월 dd일 HH시 mm분 ss초");
+		Date time = new Date();		
+		String orgtime = format1.format(time);
+		
+		upDTO.setNewdate(orgtime);
+		
+		System.out.println(upDTO);
+		upDAO.modUpload(upDTO);
+	}
+	
+	public void modFileSet(UploadDTO upDTO, MultipartFile mf, HttpSession session) throws Exception{
+		long time = System.currentTimeMillis();
+		final String path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\upload";
+		mf = upDTO.getFiles();
+		
+		if(!mf.isEmpty()) {
+			String zippath = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\upload\\";
+			String orgName = mf.getOriginalFilename();
+			String newName = zippath + time + "_" + orgName;
+			File files =  new File(path + File.separator + time + "_" + orgName);
+			upDTO.setOrgfile(orgName);
+			upDTO.setNewfile(newName);
+			mf.transferTo(files);
+		}
+		
+		upDAO.modNewFile(upDTO);
+	}
+	
+	public void modThumbSet(UploadDTO upDTO, MultipartFile mf2, HttpSession session) throws Exception{
+		long time = System.currentTimeMillis();
+		final String path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnail";
+		mf2 = upDTO.getThumbs();
+		
+		if(!mf2.isEmpty()) {
+			String imgpath = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnail\\";
+			String orgName = mf2.getOriginalFilename();
+			String newName = imgpath + time + "_" + orgName;
+			File thumbnail =  new File(path + File.separator + time + "_" + orgName);
+			upDTO.setThumbnail(newName);
+			mf2.transferTo(thumbnail);
+		}
+		
+		upDAO.modThumbFile(upDTO);
+	}
+	
+	public void delUpload(UploadDTO upDTO) {
+		upDAO.delUpload(upDTO);
 	}
 	
 	@Transactional

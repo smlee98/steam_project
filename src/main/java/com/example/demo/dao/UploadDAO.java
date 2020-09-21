@@ -38,12 +38,28 @@ public class UploadDAO{
 		return sqlSession.selectList("upload.uploadList", id);
 	}
 	
+	public void modUpload(UploadDTO UploadDTO){
+		sqlSession.selectList("upload.modUpload", UploadDTO);
+	}
+	
+	public void modNewFile(UploadDTO UploadDTO) {
+		sqlSession.update("upload.modfileName", UploadDTO);
+	}
+	
+	public void modThumbFile(UploadDTO UploadDTO) {
+		sqlSession.update("upload.modthumbName", UploadDTO);
+	}
+	
+	public void delUpload(UploadDTO UploadDTO) {
+		sqlSession.delete("upload.delUpload", UploadDTO);
+	}
+	
 	public List<UploadDTO> searchList(String keyword){
 		return sqlSession.selectList("upload.searchList", keyword);
 	}
 	
-	public List<UploadDTO> gameDetail(){
-		return sqlSession.selectList("upload.gameDetail");
+	public List<UploadDTO> gameDetail(String number){
+		return sqlSession.selectList("upload.gameDetail", number);
 	}
 	
 	public List<UploadDTO> viewRecent(){
