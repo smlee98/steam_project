@@ -95,7 +95,7 @@ var category = [[ ${category} ]];
 								</thead>
 								<tbody id="tableContent">
 									<tr th:if="${#lists.size(genre)} > 0" th:each="genre:${genre}">
-										<td><a href="#" th:text="${genre.name}" style="text-decoration:none; color: blue; font-weight: bold;"></a></td>
+										<td><a th:href="@{/game(number=${genre.number})}" th:text="${genre.name}" style="text-decoration:none; color: blue; font-weight: bold;"></a></td>
 										<td th:text="${genre.version}"></td>
 										<td th:text="${genre.amount}"></td>
 									</tr>

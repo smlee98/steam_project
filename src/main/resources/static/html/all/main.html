@@ -129,7 +129,6 @@ var imagedir_new = "..\\thumbnail";
 			<div class="col-sm-3">
 				<ul id="sidebar">
 					<li class="submenu_header">카테고리</li>
-					<li class="submenu_context"><a href="/genre?category=all">전체</a></li>
 					<li class="submenu_context"><a href="/genre?category=shooting">슈팅</a></li>
 					<li class="submenu_context"><a href="/genre?category=action">액션</a></li>
 					<li class="submenu_context"><a href="/genre?category=advanture">어드벤처</a></li>
@@ -182,7 +181,7 @@ var imagedir_new = "..\\thumbnail";
 				<div class="row row-cols-1 row-cols-md-2">
 					<div class="col mb-4">
 						<div class="card">
-						<a href="game">
+						<a th:href="@{/game(number=${list[0].number})}" >
 						<img class="card-img-top" alt="..." id="one_image">
 						</a>
 							<div class="card-body">
@@ -200,7 +199,7 @@ var imagedir_new = "..\\thumbnail";
 					</div>
 					<div class="col mb-4">
 						<div class="card">
-						<a href="game">
+						<a th:href="@{/game(number=${list[1].number})}" >
 						<img class="card-img-top" alt="..." id="two_image">
 						</a>
 							<div class="card-body">
@@ -218,7 +217,7 @@ var imagedir_new = "..\\thumbnail";
 					</div>
 					<div class="col mb-4">
 						<div class="card">
-						<a href="game">
+						<a th:href="@{/game(number=${list[2].number})}" >
 						<img class="card-img-top" alt="..." id="three_image">
 						</a>
 							<div class="card-body">
@@ -236,7 +235,7 @@ var imagedir_new = "..\\thumbnail";
 					</div>
 					<div class="col mb-4">
 						<div class="card">
-						<a href="game">
+						<a th:href="@{/game(number=${list[3].number})}" >
 						<img class="card-img-top" alt="..." id="four_image">
 						</a>
 							<div class="card-body">

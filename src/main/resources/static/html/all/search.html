@@ -72,7 +72,7 @@ var list = [[ ${list} ]];
 								</thead>
 								<tbody id="tableContent">
 									<tr th:if="${#lists.size(list)} > 0" th:each="list:${list}">
-										<td><a href="#" th:text="${list.name}" style="text-decoration:none; color: blue; font-weight: bold;"></a></td>
+										<td><a th:href="@{/game(number=${list.number})}" th:text="${list.name}" style="text-decoration:none; color: blue; font-weight: bold;"></a></td>
 										<td th:text="${list.category}"></td>
 										<td th:text="${list.version}"></td>
 										<td th:text="${list.amount}"></td>

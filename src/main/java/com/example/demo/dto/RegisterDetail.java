@@ -14,6 +14,7 @@ public class RegisterDetail extends User {
 	String phone;
 	String favorite;
 	String role;
+	String auth;
 	
 	public RegisterDetail(RegisterDTO user) {
 		super(
@@ -27,6 +28,7 @@ public class RegisterDetail extends User {
 		this.phone = user.getPhone();
 		this.favorite = user.getFavorite();
 		this.role = user.getRole();
+		this.auth = user.getAuth();
 	}
 
 	public String getId() {
@@ -91,6 +93,14 @@ public class RegisterDetail extends User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getAuth() {
+		return auth;
+	}
+
+	public void setAuth(String auth) {
+		this.auth = auth;
 	}
 
 	@Override

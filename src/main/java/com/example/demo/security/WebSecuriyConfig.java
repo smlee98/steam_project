@@ -9,10 +9,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.example.demo.dto.RegisterDetail;
+import com.example.demo.handler.LoginHandler;
 import com.example.demo.service.RegisterService;
 
 @Configuration
@@ -32,6 +36,11 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 		return new StandardPasswordEncoder();
 	}
 	
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+		return new LoginHandler("/main");
+	}
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		http.csrf().disable() // 이게 있어야지만 post에 접근이 가능했다...
@@ -47,6 +56,7 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/search").permitAll()
 				.antMatchers("/game").permitAll()
 				.antMatchers("/genre").permitAll()
+				.antMatchers("/admin/mod_upload").permitAll()
 				.antMatchers("/fragment/**").permitAll()
 				.antMatchers(HttpMethod.POST,"/mypage.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/authpw.**").permitAll()
@@ -61,6 +71,7 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 				.usernameParameter("id")
 				.passwordParameter("password")
 				.defaultSuccessUrl("/main", true)
+				.successHandler(successHandler())
 				/* .failureHandler("loginFailureHandler") */
 				.permitAll()
 				.and()
@@ -73,7 +84,7 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 			.exceptionHandling()
 				.accessDeniedPage("/denied");
 	}
-	
+
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(resService).passwordEncoder(passwordEncoder());
