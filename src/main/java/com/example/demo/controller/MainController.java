@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -12,6 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
@@ -29,6 +37,7 @@ import org.thymeleaf.extras.springsecurity5.util.SpringSecurityContextUtils;
 import com.example.demo.dto.RegisterDTO;
 import com.example.demo.dto.RegisterDetail;
 import com.example.demo.dto.UploadDTO;
+import com.example.demo.dto.UploadDetail;
 import com.example.demo.handler.LoginHandler;
 import com.example.demo.security.GetInfo;
 import com.example.demo.service.UploadService;
@@ -237,6 +246,19 @@ public class MainController {
 		upService.delUpload(upDTO);
 		
 		return "redirect:/admin/upload_my";
+	}
+	
+	@RequestMapping(value="admin/download")
+	public ResponseEntity<Resource> download(String file) throws IOException {
+		System.out.println("file : " + file);
+		Path path = Paths.get(file);
+		//String contentType = Files.probeContentType(path);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + path.getFileName().toString());
+		
+		Resource resource = new InputStreamResource(Files.newInputStream(path));
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 
 	/* 슈퍼 관리자 */
