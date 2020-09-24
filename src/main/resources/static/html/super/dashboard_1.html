@@ -21,6 +21,35 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var fulldisk = [[ ${fulldisk} ]];
+var usabledisk = [[ ${usabledisk} ]];
+var cpuprocess = [[ ${cpuprocess} ]];
+var fullmemory = [[ ${fullmemory} ]];
+var usablememory = [[ ${usablememory} ]];
+var avgdata = [[ ${avgdata} ]];
+
+/*]]*/
+
+    $(document).ready(function(){    	
+    	document.getElementById("fulldisk").innerHTML = fulldisk + "GB";
+    	document.getElementById("usabledisk").innerHTML = usabledisk + "GB";
+    	document.getElementById("cpuprocess").innerHTML = cpuprocess + "%";
+    	document.getElementById("fullmemory").innerHTML = fullmemory +"GB";
+    	document.getElementById("usablememory").innerHTML = usablememory+"GB";
+    	
+    	document.getElementById("diskAvg").innerHTML = avgdata[0] + "%";
+    	document.getElementById("cpuAvg").innerHTML = avgdata[1] + "%";
+    	document.getElementById("memAvg").innerHTML = avgdata[2] + "%";
+    	
+    	console.log(avgdata);
+    });
+
+</script>
+
 <script type="text/javascript">
 	function maxLengthCheck(object) {
 		if (object.value.length > object.maxLength) {
@@ -29,31 +58,12 @@
 	}
 </script>
 
-<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
+<link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
 
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
-		style="height: 15vh;">
-		<div class="container">
-			<a class="navbar-brand" href="main"><img src="image/logo.png"
-				width="50" height="50" alt="logo"></a>
-			<div class="collapse navbar-collapse" id="navbarsExample07">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="#"
-						style="font-size: 18px; font-weight: bold;">스토어<span
-							class="sr-only">(current)</span></a></li>
-				</ul>
-				<form class="form-inline my-2 my-md-0">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="login"
-							style="font-size: 18px; font-weight: bold;">로그인</a></li>
-					</ul>
-				</form>
-			</div>
-		</div>
-	</nav>
+	<div th:replace="fragment/header :: navBar"></div>
 
 	<div class="container-md"
 		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
@@ -69,42 +79,51 @@
 									<li class="nav-item" style="font-weight: bold;"><a
 										class="nav-link" style="color: white;" href="#">서버 자원</a></li>
 									<li class="nav-item" style="font-weight: bold;"><a
-										class="nav-link" style="color: white;" href="#">통계</a></li>
+										class="nav-link" style="color: white;" href="dashboard_2">통계</a></li>
 								</ul>
 							</div>
 						</nav>
 					</div>
 					<div class="container-md" style="margin-top: 25px;">
+					<table border="1" style="border: 2px solid white; width: 100%; text-align: center; margin-bottom: 25px;">
+							<thead>
+								<tr style="border-bottom: double white;">
+									<th>DISK</th>
+									<th>CPU</th>
+									<th>MEMORY</th>
+								</tr>
+								</thead>
+								<tbody id="tableContent">
+									<td id="diskAvg" style="width:33%">-</td>
+									<td id="cpuAvg" style="width:33%">-</td>
+									<td id="memAvg" style="width:33%">-</td>
+								</tbody>
+							</table>
 							<div class="numval">
 								<label
 									style="padding: 15px; border: none; font-weight: bold; background: rgb(39, 65, 85);">디스크
-									용량</label><br> <small>O월 O일 기준</small><br>
-									<label>d3.js 이용 예정</label>
+									용량</label><br>
+									<label>총 디스크 : </label>&nbsp;<label id="fulldisk">-</label><br>
+									<label>여유 디스크 : </label>&nbsp;<label id="usabledisk">-</label>
 							</div>
 							<div class="numval">
 								<label
 									style="padding: 15px; border: none; font-weight: bold; background: rgb(39, 65, 85);">CPU
-									사용량</label><br> <small>O월 O일 기준</small><br>
-									<label>d3.js 이용 예정</label>
+									사용량</label><br>
+									<label>CPU 사용률 : </label>&nbsp;<label id="cpuprocess">-</label>
 							</div>
 							<div class="numval">
 								<label
 									style="padding: 15px; border: none; font-weight: bold; background: rgb(39, 65, 85);">메모리
-									사용량</label><br> <small>O월 O일 기준</small><br>
-									<label>d3.js 이용 예정</label>
+									사용량</label><br>
+									<label>총 메모리 : </label>&nbsp;<label id="fullmemory">-</label><br>
+									<label>여유 메모리 : </label>&nbsp;<label id="usablememory">-</label>
 							</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<footer class="section footer-classic context-dark bg-image">
-		<div class="container">
-			<div class="rule"></div>
-			<h5>Steam Project</h5>
-			<p>개발자 : 이승민 | TEL : 010-4146-8375</p>
-			<div class="rule"></div>
-		</div>
-	</footer>
+	<div th:replace="fragment/footer :: footer"></div>
 </body>
 </html>

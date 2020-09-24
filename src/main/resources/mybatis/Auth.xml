@@ -3,7 +3,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="auth">	
+<mapper namespace="auth">
+
+	<insert id="pwSuccess" parameterType="com.example.demo.dto.RegisterDTO">
+		update tb_user
+		set password = #{password}
+		where id = #{id}
+	</insert>
+		
 	<insert id="authSuccess" parameterType="com.example.demo.dto.RegisterDTO">
 		update tb_user
 		set auth = #{auth}

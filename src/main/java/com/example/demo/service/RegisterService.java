@@ -36,11 +36,28 @@ public class RegisterService implements UserDetailsService {
 	@Autowired
 	RegisterDAO resDAO;
 
+	public List<RegisterDTO> memberList(){
+		return resDAO.memberList();
+	}
+	
+	public void myPage(RegisterDTO resDTO){
+		resDAO.myPage(resDTO);
+	}
+	
 	public int userIDCheck(String id) {
 
 		int result = resDAO.checkID(id);
 
 		return result;
+	}
+	
+	public String login(RegisterDTO resDTO) {
+
+		String role = resDTO.getRole();
+		
+		System.out.println(role);
+
+		return role;
 	}
 
 
@@ -75,6 +92,9 @@ public class RegisterService implements UserDetailsService {
 		} else {
 			authorities.add(new SimpleGrantedAuthority(Role.USER.getValue()));
 		}
+		
+		System.out.println(id+"의 Role = "+resDTO.getRole());
+		System.out.println(id+"의 인증 상태 : "+resDTO.getAuth());
 
 		return new RegisterDetail(resDTO);
 	}

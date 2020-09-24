@@ -21,6 +21,21 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var gameCount = [[ ${gameCount} ]];
+
+
+/*]]*/
+
+    $(document).ready(function(){    	
+    	document.getElementById("gameCount").innerHTML = gameCount + "개";
+    });
+
+</script>
+
 <script type="text/javascript">
 	function maxLengthCheck(object) {
 		if (object.value.length > object.maxLength) {
@@ -29,31 +44,14 @@
 	}
 </script>
 
-<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
+<link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
 
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="/js/barChart.js"></script>
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
-		style="height: 15vh;">
-		<div class="container">
-			<a class="navbar-brand" href="main"><img src="image/logo.png"
-				width="50" height="50" alt="logo"></a>
-			<div class="collapse navbar-collapse" id="navbarsExample07">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="#"
-						style="font-size: 18px; font-weight: bold;">스토어<span
-							class="sr-only">(current)</span></a></li>
-				</ul>
-				<form class="form-inline my-2 my-md-0">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="login"
-							style="font-size: 18px; font-weight: bold;">로그인</a></li>
-					</ul>
-				</form>
-			</div>
-		</div>
-	</nav>
+	<div th:replace="fragment/header :: navBar"></div>
 
 	<div class="container-md"
 		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
@@ -67,9 +65,11 @@
 							<div class="collapse navbar-collapse" id="navbarColor03">
 								<ul class="navbar-nav mr-auto">
 									<li class="nav-item" style="font-weight: bold;"><a
-										class="nav-link" style="color: white;" href="#">서버 자원</a></li>
+										class="nav-link" style="color: white;" href="dashboard_1">서버 자원</a></li>
 									<li class="nav-item" style="font-weight: bold;"><a
 										class="nav-link" style="color: white;" href="#">통계</a></li>
+									<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;">|</a></li>
+									<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;"><label style="margin: 0;">등록된 게임 개수 : </label>&nbsp;<label id="gameCount" style="margin: 0;">-</label></a></li>
 								</ul>
 							</div>
 						</nav>
@@ -108,7 +108,7 @@
 								</form>
 							</div>
 							<div class="col-sm-7">
-								<label>d3.js 이용 예정</label>
+								<svg viewBox="0,0,954,500"><g fill="steelblue"><rect x="43.50191570881219" y="40.0861538461539" height="429.9138461538461" width="31.517241379310352"></rect><rect x="78.5210727969348" y="163.48923076923074" height="306.51076923076926" width="31.517241379310352"></rect><rect x="113.54022988505741" y="193.5784615384615" height="276.4215384615385" width="31.517241379310352"></rect><rect x="148.55938697318004" y="215.91692307692307" height="254.08307692307693" width="31.517241379310352"></rect><rect x="183.57854406130264" y="234.2276923076923" height="235.7723076923077" width="31.517241379310352"></rect><rect x="218.59770114942523" y="241.57230769230773" height="228.42769230769227" width="31.517241379310352"></rect><rect x="253.61685823754786" y="255.8553846153846" height="214.1446153846154" width="31.517241379310352"></rect><rect x="288.6360153256705" y="263.7415384615384" height="206.25846153846157" width="31.517241379310352"></rect><rect x="323.6551724137931" y="267.3630769230769" height="202.6369230769231" width="31.517241379310352"></rect><rect x="358.6743295019157" y="326.0523076923077" height="143.9476923076923" width="31.517241379310352"></rect><rect x="393.6934865900383" y="333.7692307692308" height="136.23076923076923" width="31.517241379310352"></rect><rect x="428.71264367816093" y="375.84000000000003" height="94.15999999999997" width="31.517241379310352"></rect><rect x="463.7318007662835" y="376.6523076923077" height="93.34769230769228" width="31.517241379310352"></rect><rect x="498.7509578544061" y="388.56615384615384" height="81.43384615384616" width="31.517241379310352"></rect><rect x="533.7701149425288" y="390.1230769230769" height="79.8769230769231" width="31.517241379310352"></rect><rect x="568.7892720306513" y="392.56" height="77.44" width="31.517241379310352"></rect><rect x="603.808429118774" y="401.79999999999995" height="68.20000000000005" width="31.517241379310352"></rect><rect x="638.8275862068965" y="403.1876923076923" height="66.81230769230768" width="31.517241379310352"></rect><rect x="673.8467432950192" y="404.71076923076924" height="65.28923076923076" width="31.517241379310352"></rect><rect x="708.8659003831417" y="419.5015384615385" height="50.49846153846153" width="31.517241379310352"></rect><rect x="743.8850574712644" y="436.89846153846156" height="33.10153846153844" width="31.517241379310352"></rect><rect x="778.9042145593871" y="443.8707692307692" height="26.129230769230787" width="31.517241379310352"></rect><rect x="813.9233716475096" y="464.82153846153847" height="5.178461538461534" width="31.517241379310352"></rect><rect x="848.9425287356323" y="464.92307692307696" height="5.076923076923038" width="31.517241379310352"></rect><rect x="883.9616858237548" y="466.78461538461534" height="3.2153846153846644" width="31.517241379310352"></rect><rect x="918.9808429118775" y="467.49538461538464" height="2.504615384615363" width="31.517241379310352"></rect></g><g transform="translate(0,470)" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle"><path class="domain" stroke="currentColor" d="M40.5,0.5H954.5"></path><g class="tick" opacity="1" transform="translate(59.260536398467366,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">E</text></g><g class="tick" opacity="1" transform="translate(94.27969348658998,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">T</text></g><g class="tick" opacity="1" transform="translate(129.2988505747126,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">A</text></g><g class="tick" opacity="1" transform="translate(164.3180076628352,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">O</text></g><g class="tick" opacity="1" transform="translate(199.3371647509578,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">I</text></g><g class="tick" opacity="1" transform="translate(234.3563218390804,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">N</text></g><g class="tick" opacity="1" transform="translate(269.37547892720306,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">S</text></g><g class="tick" opacity="1" transform="translate(304.39463601532566,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">H</text></g><g class="tick" opacity="1" transform="translate(339.41379310344826,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">R</text></g><g class="tick" opacity="1" transform="translate(374.43295019157085,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">D</text></g><g class="tick" opacity="1" transform="translate(409.45210727969345,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">L</text></g><g class="tick" opacity="1" transform="translate(444.4712643678161,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">C</text></g><g class="tick" opacity="1" transform="translate(479.4904214559387,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">U</text></g><g class="tick" opacity="1" transform="translate(514.5095785440614,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">M</text></g><g class="tick" opacity="1" transform="translate(549.5287356321841,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">W</text></g><g class="tick" opacity="1" transform="translate(584.5478927203065,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">F</text></g><g class="tick" opacity="1" transform="translate(619.5670498084293,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">G</text></g><g class="tick" opacity="1" transform="translate(654.5862068965517,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">Y</text></g><g class="tick" opacity="1" transform="translate(689.6053639846745,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">P</text></g><g class="tick" opacity="1" transform="translate(724.6245210727969,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">B</text></g><g class="tick" opacity="1" transform="translate(759.6436781609196,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">V</text></g><g class="tick" opacity="1" transform="translate(794.6628352490424,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">K</text></g><g class="tick" opacity="1" transform="translate(829.6819923371648,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">J</text></g><g class="tick" opacity="1" transform="translate(864.7011494252876,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">X</text></g><g class="tick" opacity="1" transform="translate(899.72030651341,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">Q</text></g><g class="tick" opacity="1" transform="translate(934.7394636015327,0)"><line stroke="currentColor" y2="6"></line><text fill="currentColor" y="9" dy="0.71em">Z</text></g></g><g transform="translate(40,0)" fill="none" font-size="10" font-family="sans-serif" text-anchor="end"><g class="tick" opacity="1" transform="translate(0,470.5)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">0%</text></g><g class="tick" opacity="1" transform="translate(0,436.6538461538462)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">1%</text></g><g class="tick" opacity="1" transform="translate(0,402.8076923076923)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">2%</text></g><g class="tick" opacity="1" transform="translate(0,368.96153846153845)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">3%</text></g><g class="tick" opacity="1" transform="translate(0,335.1153846153846)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">4%</text></g><g class="tick" opacity="1" transform="translate(0,301.2692307692308)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">5%</text></g><g class="tick" opacity="1" transform="translate(0,267.42307692307696)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">6%</text></g><g class="tick" opacity="1" transform="translate(0,233.57692307692304)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">7%</text></g><g class="tick" opacity="1" transform="translate(0,199.7307692307692)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">8%</text></g><g class="tick" opacity="1" transform="translate(0,165.8846153846154)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">9%</text></g><g class="tick" opacity="1" transform="translate(0,132.03846153846152)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">10%</text></g><g class="tick" opacity="1" transform="translate(0,98.1923076923077)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">11%</text></g><g class="tick" opacity="1" transform="translate(0,64.34615384615387)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">12%</text></g><g class="tick" opacity="1" transform="translate(0,30.5)"><line stroke="currentColor" x2="-6"></line><text fill="currentColor" x="-9" dy="0.32em">13%</text></g><text x="-40" y="10" fill="currentColor" text-anchor="start">↑ Frequency</text></g></svg>
 							</div>
 						</div>
 					</div>
@@ -116,13 +116,6 @@
 			</div>
 		</div>
 	</div>
-	<footer class="section footer-classic context-dark bg-image">
-		<div class="container">
-			<div class="rule"></div>
-			<h5>Steam Project</h5>
-			<p>개발자 : 이승민 | TEL : 010-4146-8375</p>
-			<div class="rule"></div>
-		</div>
-	</footer>
+	<div th:replace="fragment/footer :: footer"></div>
 </body>
 </html>

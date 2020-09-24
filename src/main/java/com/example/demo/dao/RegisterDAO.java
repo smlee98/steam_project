@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class RegisterDAO implements RegisterMapper{
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public void joinUser(RegisterDTO registerDTO) {
-		sqlSession.insert("register.joinUser", registerDTO);
+	public void joinUser(RegisterDTO resDTO) {
+		sqlSession.insert("register.joinUser", resDTO);
 	}
 	
 	public int checkID(String id) {			
@@ -31,5 +32,13 @@ public class RegisterDAO implements RegisterMapper{
 	@Override
 	public RegisterDTO validateMember(HashMap<String, String> map) {
 		return sqlSession.selectOne("register.validateMember", map);
+	}
+	
+	public List<RegisterDTO> memberList(){
+		return sqlSession.selectList("register.memberList");
+	}
+	
+	public void myPage(RegisterDTO resDTO){
+		sqlSession.update("register.myPage", resDTO);
 	}
 }

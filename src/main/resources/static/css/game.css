@@ -37,40 +37,6 @@ h4 {
 	font-weight: bold;
 }
 
-@charset "UTF-8";
-
-body {
-	background-image: url('/image/bg.jpg');
-	}
-	
-h2 {
-	margin: 0;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	font-size: 2em;
-	letter-spacing: 2px;
-	font-weight: bold;
-	color: white;
-}
-
-h4 {
-	margin: 0;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	font-size: 1em;
-	letter-spacing: 2px;
-	font-weight: bold;
-	color: white;
-}
-
-#sidebar{
-	padding: 0;
-}
-
-#sidebar li{
-	list-style-type: none;
-}
-
 .container-md::-webkit-scrollbar{
 	display: none;	
 }
@@ -187,10 +153,9 @@ input[type="number"]::-webkit-inner-spin-button{
 	height: inherit;
 }
 
-footer{
-	color: white;
+.add_button button{
+	background: rgb(39,65,85);
+	color: rgb(103,169,183);
+	border: none;
+	font-weight: bold;
 }
-
-footer .rule {
-    height: 8px;
-    border-top: 1px solid #363c44;

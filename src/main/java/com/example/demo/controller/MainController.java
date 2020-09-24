@@ -1,34 +1,54 @@
 package com.example.demo.controller;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Random;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.extras.springsecurity5.util.SpringSecurityContextUtils;
 
+import com.example.demo.dto.DownloadDTO;
+import com.example.demo.dto.PurchaseDTO;
+import com.example.demo.dto.PurchaseDetail;
 import com.example.demo.dto.RegisterDTO;
+import com.example.demo.dto.RegisterDetail;
 import com.example.demo.dto.UploadDTO;
+import com.example.demo.dto.UploadDetail;
+import com.example.demo.handler.LoginHandler;
+import com.example.demo.security.GetInfo;
 import com.example.demo.service.UploadService;
 import com.example.demo.service.AuthService;
+import com.example.demo.service.DashService;
+import com.example.demo.service.DownloadService;
+import com.example.demo.service.PurchaseService;
 import com.example.demo.service.RegisterService;
 
 @Controller
@@ -40,15 +60,62 @@ public class MainController {
 	AuthService authService;
 	@Autowired
 	UploadService upService;
-
-	/* 권한 상관 X */
-	@RequestMapping(value="/main")
-	public String main() {
-		return "all/main";
+	@Autowired
+	DashService dashService;
+	@Autowired
+	PurchaseService purchaseService;
+	@Autowired
+	DownloadService downService;
+	
+	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다... */
+	public void getMoney(Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		int money = purchaseService.getMoney(id);
+		System.out.println("money : "+ money);
+		m.addAttribute("money", money);
 	}
 
-	@RequestMapping(value="/login")
-	public String login() {
+	/* 권한 상관 X */	
+	@RequestMapping(value="/main")
+	public String main(Model m) {
+		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
+			getMoney(m);
+		}
+		
+		List<UploadDTO> list = upService.viewRecent();
+		m.addAttribute("list", list);
+		
+		return "all/main";
+	}
+	
+	@RequestMapping(value="/genre")
+	public String genre(Model m, String category) {
+		List<UploadDTO> genre = upService.viewGenre(category);
+		m.addAttribute("genre", genre);
+		m.addAttribute("category", category);
+		
+		getMoney(m);
+		
+		return "all/genre";
+	}
+	
+	@RequestMapping(value="/search")
+	public String search(@RequestParam(value = "keyword") String keyword, Model m) {
+		List<UploadDTO> list = upService.searchList(keyword);
+		m.addAttribute("list", list);
+		System.out.println(list);
+		
+		getMoney(m);
+		
+		return "all/search";
+	}
+	
+	@GetMapping("/login")
+	public String Login() {
 		return "all/login";
 	}
 
@@ -58,10 +125,20 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/register.do")
-	public String register(Model m, @RequestParam("id")String id, @RequestParam("password")String password, @RequestParam("name")String name, @RequestParam("gender")String gender, @RequestParam("address")String address, @RequestParam("phone")String phone, @RequestParam("favorite")String favorite) throws Exception{
-		RegisterDTO resDTO= new RegisterDTO(id, password, name, gender, address, phone, favorite);
+	public String register(Model m, RegisterDTO resDTO, PurchaseDTO purchaseDTO) throws Exception{
 		resService.joinUser(resDTO);
+		
+		String id = resDTO.getId();
+		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
+		
+		purchaseService.enroll(purchaseDTO);
+		System.out.println("purchaseDTO : "+ purchaseDTO);
+		
+		String authCode = authService.authMail(id);
+		System.out.println("authCode : "+ authCode);
+		m.addAttribute("code", authCode);
+		
 		return "all/authmail";
 	}
 	
@@ -75,89 +152,237 @@ public class MainController {
 
 	}
 	
-	@RequestMapping(value = "/findpw.do", method = RequestMethod.POST)
-	@ResponseBody
-	public String findpw() throws Exception {
-
-		return "/findpw.do";
-
-	}
-
-	@RequestMapping(value="/authmail", method = RequestMethod.GET)
-	@ResponseBody
-	public String authmail(String id){
-		String authCode = authService.authMail(id);
+	@RequestMapping(value="/mypage", method=RequestMethod.GET)
+	public String mypage_admin(Model m, RegisterDTO resDTO) throws Exception { 
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println("user : "+ user);
+		m.addAttribute("user", user);
 		
-		System.out.println("authCode : "+ authCode);
-		return authCode;
+		getMoney(m);
+		
+		return "all/mypage";
+	}
+	
+	@RequestMapping(value = "/mypage.do", method = RequestMethod.POST)
+	public String mypage(RegisterDTO resDTO, HttpSession session) {
+		resService.myPage(resDTO);
+		session.invalidate();
+		return "redirect:/main";
 	}
 
 	@RequestMapping(value="/authmail.do", method = RequestMethod.POST)
-	public String authcode(String id) throws Exception {
-		RegisterDTO resDTO = new RegisterDTO(id);
+	public String authcode(RegisterDTO resDTO) throws Exception {
+		String id = resDTO.getId();
+		System.out.println("id : "+ id);
 		authService.authSuccess(resDTO);
-		return "all/main";
+		return "redirect:/main";
+	}
+	
+	@RequestMapping(value = "/findpw", method = RequestMethod.GET)
+	public String findpw() throws Exception {
+		return "all/findPw";
+	}
+	
+	@RequestMapping(value="/authpw", method = RequestMethod.POST)
+	public String authpw(Model m, RegisterDTO resDTO) throws Exception {
+		String id = resDTO.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		String authCode = authService.authpw(id);
+		System.out.println("authCode : "+ authCode);
+		m.addAttribute("code", authCode);
+		
+		return "all/authPw";
+	}
+	
+	@RequestMapping(value="/authpw.do", method = RequestMethod.POST)
+	public String changepw(RegisterDTO resDTO) throws Exception {
+		authService.pwSuccess(resDTO);
+		return "redirect:/main";
 	}
 
 
-	@RequestMapping(value="/game_1", method=RequestMethod.GET)
-	public String game_1() {
-		return "all/game_1";
+	@RequestMapping(value="/game", method=RequestMethod.GET)
+	public String game(Model m, UploadDTO upDTO, RegisterDTO resDTO, PurchaseDTO purchaseDTO, String number, ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
+		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
+			getMoney(m);
+		}
+		else {
+			m.addAttribute("id", "anonymous");
+		}
+		
+		upService.doFilter(servletRequest, servletResponse);
+		
+		List<UploadDTO> list = upService.gameDetail(number);
+		m.addAttribute("list", list);
+		
+		return "all/game";
 	}
 
 	/* 유저 */
-	@RequestMapping(value="user/main_user", method=RequestMethod.GET)
-	public String main_user() {
-		return "user/main_user";
+	@RequestMapping(value="/download")
+	public ResponseEntity<Resource> download(DownloadDTO downDTO, PurchaseDTO purchaseDTO, int money, String file, String number, Model m) throws IOException {
+		System.out.println("file : " + file);
+		Path path = Paths.get(file);
+		
+		String filename = new String(((path.getFileName().toString()).split("_")[1].getBytes("UTF-8")), "ISO-8859-1");
+		System.out.println("filename change " + filename);
+		//String contentType = Files.probeContentType(path);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+		
+		Resource resource = new InputStreamResource(Files.newInputStream(path));	
+		
+		purchaseService.setMoney(purchaseDTO, money);
+		System.out.println("purchaseDTO : "+ purchaseDTO);
+		
+		downService.enroll(downDTO);
+		
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="user/purchase")
+	public String purchaseList (Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		List<DownloadDTO> list = downService.downloadList(id);
+		m.addAttribute("list", list);
+		
+		getMoney(m);
+		
+		return "user/purchaseList";
 	}
 
-	@RequestMapping(value="user/mypage_user", method=RequestMethod.GET)
-	public String mypage_user() {
-		return "user/mypage_user";
+	@RequestMapping(value = "user/charge")
+	public String charge (Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		return "user/charge";
 	}
-
+	
+	@RequestMapping(value = "/charge.do")
+	public String charge (int money, PurchaseDTO purchaseDTO, Model m) {
+		purchaseService.charge(purchaseDTO, money);
+		System.out.println("purchaseDTO : "+ purchaseDTO);
+		
+		return "user/charge";
+	}
+	
 	/* 관리자 */
-
-	@RequestMapping(value="admin/main_admin", method=RequestMethod.GET)
-	public String main_admin() {
-		return "admin/main_admin";
-	}
-
-	@RequestMapping(value="admin/mypage_admin", method=RequestMethod.GET)
-	public String mypage_admin() {
-		return "admin/mypage_admin";
-	}
-
 	@RequestMapping(value="admin/upload", method=RequestMethod.GET)
-	public String upload() {
+	public String upload(Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		getMoney(m);
+		
 		return "admin/upload";
 	}
 	
+	@RequestMapping(value="admin/upload_my", method=RequestMethod.GET)
+	public String upload_my(Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println(id);
+		
+		getMoney(m);
+		
+		List<UploadDTO> list = upService.uploadList(id);
+		m.addAttribute("list", list);
+		
+		return "admin/uploadList";
+	}
+	
 	@RequestMapping(value="admin/upload.do", method = RequestMethod.POST)
-	public String upload(Model m, MultipartFile mf, HttpSession session, @RequestParam("orgfile")String orgfile, @RequestParam("thumbnail")String thumbnail, @RequestParam("name")String name, @RequestParam("category")String category, @RequestParam("version")String version, @RequestParam("amount")int amount, @RequestParam("explain")String explain, @RequestParam("files")MultipartFile files) throws Exception{
-		UploadDTO upDTO= new UploadDTO(orgfile, thumbnail, name, category, version, amount, explain, files);
+	public String upload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{		
 		upService.uploadGame(upDTO);
 		upService.fileSet(upDTO, mf, session);
+		upService.thumbSet(upDTO, mf2, session);
 		
+		String name = upDTO.getName();
+		System.out.println("name : "+ name);
 		m.addAttribute("name", name);
 		
-		return "admin/main_admin";
+		return "redirect:/main";
+	}
+	
+	@RequestMapping(value="admin/mod_upload", method=RequestMethod.GET)
+	public String modUpload(Model m, String number) {
+		List<UploadDTO> list = upService.gameDetail(number);
+		m.addAttribute("list", list);
+		
+		getMoney(m);
+		
+		return "admin/mod_upload";
+	}
+	
+	@RequestMapping(value="admin/mod_upload.do", method=RequestMethod.POST)
+	public String modUpload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{
+		upService.modUpload(upDTO);
+		upService.modFileSet(upDTO, mf, session);
+		upService.modThumbSet(upDTO, mf2, session);
+		
+		return "redirect:/admin/upload_my";
+	}
+	
+	@RequestMapping(value="admin/del_upload", method=RequestMethod.GET)
+	public String delUpload(Model m, UploadDTO upDTO) throws Exception{
+		upService.delUpload(upDTO);
+		
+		return "redirect:/admin/upload_my";
 	}
 
 	/* 슈퍼 관리자 */
 
-	@RequestMapping(value="super/main_super", method=RequestMethod.GET)
-	public String main_super() {
-		return "super/main_super";
-	}
-
 	@RequestMapping(value="super/dashboard_1", method=RequestMethod.GET)
-	public String dashboard_1() {
+	public String dashboard_1(Model m) {		
+		String fulldisk = dashService.getFulldisk();
+		String usabledisk = dashService.getUsabledisk();
+		String cpuprocess = dashService.getCpuprocess();
+		String fullmemory = dashService.getFullMem();
+		String usablememory = dashService.getUsableMem();
+		String[] avgdata = dashService.getAvgData();
+		
+		m.addAttribute("fulldisk", fulldisk);
+		m.addAttribute("usabledisk", usabledisk);
+		m.addAttribute("cpuprocess", cpuprocess);
+		m.addAttribute("fullmemory", fullmemory);
+		m.addAttribute("usablememory", usablememory);
+		m.addAttribute("avgdata", avgdata);
+		
+		getMoney(m);
+		
 		return "super/dashboard_1";
 	}
 
 	@RequestMapping(value="super/dashboard_2", method=RequestMethod.GET)
-	public String dashboard_2() {
+	public String dashboard_2(Model m) {
+		int gameCount = dashService.getGameCount();
+		m.addAttribute("gameCount", gameCount);
+		
+		getMoney(m);
+		
 		return "super/dashboard_2";
+	}
+	
+	@RequestMapping(value="super/memberList", method=RequestMethod.GET)
+	public String memberList(Model m) {
+		List<RegisterDTO> list = resService.memberList();
+		m.addAttribute("list", list);
+		
+		getMoney(m);
+		
+		return "super/memberList";
 	}
 }

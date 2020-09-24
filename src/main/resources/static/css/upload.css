@@ -154,11 +154,9 @@ textarea{
 	border-bottom: 1px solid rgb(69, 85, 108);
 }
 
-footer {
-	color: white;
-}
-
-footer .rule {
-	height: 8px;
-	border-top: 1px solid #363c44;
+button[type="submit"] {
+	background: rgb(39, 65, 85);
+	color: rgb(103, 169, 183);
+	border: none;
+	font-weight: bold;
 }

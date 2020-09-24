@@ -24,36 +24,33 @@
 <link rel="stylesheet" type="text/css" href="/css/upload.css" />
 <script type="text/javascript" src="/js/upload.js"></script>
 
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var id = [[ ${id} ]];
+
+/*]]*/
+    $(document).ready(function(){
+    	console.log(id);
+    	
+    	$('#id_input').val(id);
+    });
+
+</script>
+
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
-		style="height: 15vh;">
-		<div class="container">
-			<a class="navbar-brand" href="main"><img src="/image/logo.png"
-				width="50" height="50" alt="logo"></a>
-			<div class="collapse navbar-collapse" id="navbarsExample07">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="#"
-						style="font-size: 18px; font-weight: bold;">스토어<span
-							class="sr-only">(current)</span></a></li>
-				</ul>
-				<form class="form-inline my-2 my-md-0">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item"><a class="nav-link" href="/logout"
-							style="font-size: 18px; font-weight: bold;">로그아웃</a></li>
-					</ul>
-				</form>
-			</div>
-		</div>
-	</nav>
+	<div th:replace="fragment/header :: navBar"></div>
 
 	<div class="container-md"
 		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
 		<div class="row" style="color: #fff; padding: 30px;">
 			<div class="container-md">
 				<div class="row">
-					<form action="./upload.do" method="post" enctype="multipart/form-data" style="width: 50%">
+					<form action="./upload.do" method="post" enctype="multipart/form-data" onsubmit="return validate();" style="width: 50%">
 						<h2>게임 등록</h2>
+						<input type="text" id="id_input" name ="id" style="display: none;"/>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="file">게임파일 등록</label>
 							<div style="width:85%; float: left; margin-right: 7px;">
@@ -64,21 +61,38 @@
 							</div>
 							<small id="uploadHelp1" class="form-text text-muted">'.zip'파일만 등록 가능합니다.</small>
 						</div>
+						<div class="fileWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">파일이 첨부되지 않았습니다!</label>
+						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="thumbnail">썸네일 등록</label>
 							<div style="width:85%; float: left; margin-right: 7px;">
 							<input type="text" class="form-control" id="thumbnail" aria-describedby="thumbnailHelp" name="thumbnail" readonly>
 							</div>
 							<div class="filebox">
-								<label for="thumbfile_file">업로드</label> <input type="file" id="thumbfile_file" accept=".jpg, .png">
+								<label for="thumbfile_file">업로드</label> <input type="file" id="thumbfile_file" name="thumbs" accept=".jpg, .png">
 							</div>
 							<small id="thumbnailHelp" class="form-text text-muted">'.png','.jpg'파일만 등록 가능하고, 최소
 								500px의 이미지 사이즈를 권장합니다.</small>
+						</div>
+						<div class="thumbnailWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">썸네일이 첨부되지 않았습니다!</label>
+						</div>
+						<div class="form-group" style="margin-top: 10px;">
+							<label for="name">YOUTUBE 링크</label> <input type="text"
+								class="form-control" id="youtube"
+								aria-describedby="GamenameHelp" name="youtube">
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="name">게임명</label> <input type="text"
 								class="form-control" id="name"
 								aria-describedby="GamenameHelp" name="name">
+						</div>
+						<div class="nameWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">게임 제목이 입력되지 않았습니다!</label>
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="category">게임 카테고리</label> <select
@@ -96,6 +110,10 @@
 								class="form-control" id="version"
 								aria-describedby="VersionHelp" name="version">
 						</div>
+						<div class="versionWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">게임 버전이 입력되지 않았습니다!</label>
+						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="amount">게임 금액</label> <input type="number"
 								class="form-control" id="amount"
@@ -103,11 +121,19 @@
 								style="width: 95%; display: inline-flex;">
 							<p style="float: right; line-height: 36px; font-weight: bold;">원</p>
 						</div>
+						<div class="amountWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">게임 금액이 입력되지 않았습니다!</label>
+						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="explain">게임 설명</label>
 							<textarea cols="50" rows="4" onkeyup="chkword(this, 100)" id="explain" name="explain"></textarea>
 							<div class="countWord" id="countWord" style="text-align: right; font-weight:bold; color: gray;">0</div>
 							<small id="explainHelp" class="form-text text-muted">최대 100글자까지만 입력이 가능합니다.</small>
+						</div>
+						<div class="explainWarn" style="display: none;">
+						<i class="badge badge-danger" style="font-style: normal;">!</i>
+						<label style="font-weight: bold; color:red;">게임 설명이 입력되지 않았습니다!</label>
 						</div>
 						<div class="submitit" style="text-align: right;">
 							<input type="submit" class="btn btn-black" value="파일 업로드"
@@ -118,13 +144,6 @@
 			</div>
 		</div>
 	</div>
-	<footer class="section footer-classic context-dark bg-image">
-		<div class="container">
-			<div class="rule"></div>
-			<h5>Steam Project</h5>
-			<p>개발자 : 이승민 | TEL : 010-4146-8375</p>
-			<div class="rule"></div>
-		</div>
-	</footer>
+	<div th:replace="fragment/footer :: footer"></div>
 </body>
 </html>

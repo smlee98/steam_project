@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="purchase">
+
+	<insert id="enroll" parameterType="com.example.demo.dto.PurchaseDTO">
+		insert into tb_purchase
+		values(#{id},#{money})
+	</insert>
+
+	<select id="getMoney" resultType="int">
+		select money
+		from tb_purchase
+		where id = #{id}
+	</select>
+	
+	<update id="setMoney" parameterType="com.example.demo.dto.PurchaseDTO">
+		update tb_purchase
+		set money = #{money}
+		where id = #{id}
+	</update>
+	
+	<update id="charge" parameterType="com.example.demo.dto.PurchaseDTO">
+		update tb_purchase
+		set money = #{money}
+		where id = #{id}
+	</update>
+	
+</mapper>

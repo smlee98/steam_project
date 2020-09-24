@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+	
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var user = [[ ${user} ]];
+
+/*]]*/
+
+var number = user.phone;
+var role = user.role;
+
+if (role == "ROLE_USER"){
+	role = "유저";
+}
+else if (role == "ROLE_ADMIN"){
+	role = "관리자";
+}
+else{
+	role = "알 수 없음";
+}
+
+    $(document).ready(function(){    	
+    	$('#id_input').val(user.id);
+    	$('#name_input').val(user.name);
+    	$('#address_input').val(user.address);
+    	$('#phone2_input').val(number.substring(4,8));
+    	$('#phone3_input').val(number.substring(9,13));
+    	$('#role_input').val(role);
+    });
+
+</script>
+
+<script type="text/javascript">
+function maxLengthCheck(object) {
+	if (object.value.length > object.maxLength) {
+		object.value = object.value.slice(0, object.maxLength);
+	}
+}
+
+function validate(){
+	var name = document.getElementById("name_input");
+	var address = document.getElementById("address_input");
+	var phone = document.getElementById("phone_input");
+	var phone1 = document.getElementById("phone1_input");
+	var phone2 = document.getElementById("phone2_input");
+	var phone3 = document.getElementById("phone3_input");
+	
+	if (name.value == "") {
+		name.focus();
+		alert("빈칸을 확인해주세요!");
+		return false;
+	}
+
+	if (address.value == "") {
+		address.focus();
+		alert("빈칸을 확인해주세요!");
+		return false;
+	}
+	
+	if (phone2.value == "") {
+		phone2.focus();
+		alert("빈칸을 확인해주세요!");
+		return false;
+	}
+	
+	if (phone3.value == "") {
+		phone3.focus();
+		alert("빈칸을 확인해주세요!");
+		return false;
+	}
+	
+	phone_str = phone1.value+"-"+phone2.value+"-"+phone3.value;
+	phone.value = phone_str;
+	alert("개인정보 변경에 성공하였습니다.\n다시 로그인해주세요.");
+}
+</script>
+
+<link rel="stylesheet" type="text/css" href="/css/register.css" />
+
+
+</head>
+<body>
+	<div th:replace="fragment/header :: navBar"></div>
+
+	<div class="container" style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+		<div class="row" style="color: #fff; padding: 30px;">
+				<div class="login-form" style="height: 80%">
+					<h2>마이페이지</h2>
+					<form name="mypage" action="../mypage.do" method="post" onsubmit="return validate();">
+						<div class="form-group" style="margin-top: 10px;">
+							<label>아이디</label> <input type="text" class="form-control"
+								placeholder="" id="id_input" name="id" readonly/>
+							<div class="warning" >
+								<i class="badge badge-danger" style="font-style: normal;">!</i>
+								<label style="font-weight: bold; color:red;">아이디는 변경할 수 없습니다.</label>
+							</div>
+							<label>이름</label> <input type="text" class="form-control"
+							id="name_input" name="name">
+							<label>주소</label> <input type="text" class="form-control"
+							id="address_input" name="address">
+							<label for="phone">전화번호</label><br>
+							<input type="text" id="phone_input" name="phone" style="display: none;"/>
+							<div class="numberSet" style="display: inline-flex">
+								<input type="number" class="form-control" id="phone1_input"
+									readonly="readonly" value="010">
+								<label style="margin-left: 5px; margin-right: 5px;">-</label> <input
+									type="number" class="form-control" id="phone2_input"
+									maxlength="4" oninput="maxLengthCheck(this)"> <label
+									style="margin-left: 5px; margin-right: 5px;">-</label> <input
+									type="number" class="form-control" id="phone3_input"
+									maxlength="4" oninput="maxLengthCheck(this)">
+							</div><br>
+							<label>역할</label> <input type="text" class="form-control"
+								placeholder="" id="role_input" name="role" readonly/>
+						</div>
+						<div class="submit" style="text-align: right;">
+							<button type="submit" class="btn btn-primary">변경</button>
+						</div>
+					</form>
+				</div>
+		</div>
+	</div>
+	<div th:replace="fragment/footer :: footer"></div>
+</body>
+</html>

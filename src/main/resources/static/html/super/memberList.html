@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var list = [[ ${list} ]];
+var memCount = list.length;
+
+/*]]*/
+
+    $(document).ready(function(){
+    	document.getElementById("allMember").innerHTML = memCount + "명";
+    	console.log(list);
+    });
+
+</script>
+
+<script type="text/javascript">
+	function maxLengthCheck(object) {
+		if (object.value.length > object.maxLength) {
+			object.value = object.value.slice(0, object.maxLength);
+		}
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
+
+
+</head>
+<body>
+	<div th:replace="fragment/header :: navBar"></div>
+
+	<div class="container-md"
+		style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+		<div class="row" style="color: #fff; padding: 30px;">
+			<div class="container-md">
+				<div class="row">
+					<h2>회원목록</h2>
+					<div class="container-md" style="margin-top: 25px;">
+						<label>총 회원 수 : </label>&nbsp;<label id="allMember">-</label>
+							<table border="1" style="border: 2px solid white; width: 100%; text-align: center;">
+							<thead>
+								<tr style="border-bottom: double white;">
+									<th>아이디</th>
+									<th>이름</th>
+									<th>성별</th>
+									<th>주소</th>
+									<th>전화번호</th>
+									<th>관심분야</th>
+									<th>역할</th>
+									<th>인증</th>
+								</tr>
+								</thead>
+								<tbody id="tableContent" th:each="list:${list}" >
+									<td th:text="${list.id}"></td>
+									<td th:text="${list.name}"></td>
+									<td th:text="${list.gender}"></td>
+									<td th:text="${list.address}"></td>
+									<td th:text="${list.phone}"></td>
+									<td th:text="${list.favorite}"></td>
+									<td th:text="${list.role}"></td>
+									<td th:text="${list.auth}"></td>
+								</tbody>
+							</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragment/footer :: footer"></div>
+</body>
+</html>

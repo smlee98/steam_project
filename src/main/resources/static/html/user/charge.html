@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var id = [[ ${id} ]];
+
+/*]]*/
+
+    $(document).ready(function(){
+    	console.log(id);
+    	
+    	document.getElementById("myId").value = id;
+    });
+
+</script>
+
+<script type="text/javascript">
+	function maxLengthCheck(object) {
+		if (object.value.length > object.maxLength) {
+			object.value = object.value.slice(0, object.maxLength);
+		}
+	}
+	
+	function Winclose(){
+		alert("충전이 완료되었습니다.");
+		
+		var id = document.getElementById("myId").value;
+		var money = document.getElementById("money_input").value;
+		var url = "../charge.do?id="+id+"&money="+money;
+		
+		window.location = url;
+		
+		window.opener.document.location.href=window.opener.document.URL;
+
+		window.close();
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="/css/upload.css" />
+
+
+</head>
+<body>
+	<div class="container-md"
+		style="margin-top: 25px; margin-bottom: 15px; height: 90vh; background: rgba(0, 0, 0, 0.5); -ms-overflow-style: none;">
+		<div class="row" style="color: #fff; padding: 30px;">
+			<div class="container-md">
+				<div class="row">
+					<h2>충전</h2>
+					<div class="container-md" style="margin-top: 25px;">
+							<div class="form-group" style="margin-top: 10px; background: rgba(0, 0, 0, 0.5); -ms-overflow-style: none;">
+							<label for="gender">금액</label> <select
+								class="form-control" id="money_input" name="money">
+								<option value="3000">3000원</option>
+								<option value="5000">5000원</option>
+								<option value="10000">10000원</option>
+								<option value="30000">30000원</option>
+								<option value="50000">50000원</option>
+							</select>
+						</div>
+						<div class="submit" style="text-align: right;">
+							<input type="text" id="myId" name="id" style="display: none;"/>
+							<button type="button" class="btn btn-primary" onclick="Winclose();">충전</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

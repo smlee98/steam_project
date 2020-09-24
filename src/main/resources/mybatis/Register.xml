@@ -27,6 +27,18 @@
 	where id = #{id} and password = #{password}
 	</select>
 	
+	<select id="memberList" resultType="com.example.demo.dto.RegisterDTO">
+		select id, name, gender, address, phone, favorite, role, auth
+		from tb_user
+		order by id
+	</select>
+	
+	<update id="myPage" parameterType="com.example.demo.dto.RegisterDTO">
+		update tb_user
+		set name = #{name}, address = #{address}, phone = #{phone}
+		where id = #{id}
+	</update>
+	
 	<select id="login" parameterType="com.example.demo.dto.RegisterDTO">
 		select count(*)
 		from tb_user
