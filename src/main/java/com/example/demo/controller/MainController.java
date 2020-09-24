@@ -19,6 +19,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -34,6 +35,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.extras.springsecurity5.util.SpringSecurityContextUtils;
 
+import com.example.demo.dto.DownloadDTO;
+import com.example.demo.dto.PurchaseDTO;
+import com.example.demo.dto.PurchaseDetail;
 import com.example.demo.dto.RegisterDTO;
 import com.example.demo.dto.RegisterDetail;
 import com.example.demo.dto.UploadDTO;
@@ -43,6 +47,8 @@ import com.example.demo.security.GetInfo;
 import com.example.demo.service.UploadService;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.DashService;
+import com.example.demo.service.DownloadService;
+import com.example.demo.service.PurchaseService;
 import com.example.demo.service.RegisterService;
 
 @Controller
@@ -56,12 +62,33 @@ public class MainController {
 	UploadService upService;
 	@Autowired
 	DashService dashService;
+	@Autowired
+	PurchaseService purchaseService;
+	@Autowired
+	DownloadService downService;
+	
+	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다... */
+	public void getMoney(Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		int money = purchaseService.getMoney(id);
+		System.out.println("money : "+ money);
+		m.addAttribute("money", money);
+	}
 
-	/* 권한 상관 X */
+	/* 권한 상관 X */	
 	@RequestMapping(value="/main")
-	public String main(Model m) {		
+	public String main(Model m) {
+		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
+			getMoney(m);
+		}
+		
 		List<UploadDTO> list = upService.viewRecent();
 		m.addAttribute("list", list);
+		
 		return "all/main";
 	}
 	
@@ -71,6 +98,8 @@ public class MainController {
 		m.addAttribute("genre", genre);
 		m.addAttribute("category", category);
 		
+		getMoney(m);
+		
 		return "all/genre";
 	}
 	
@@ -79,6 +108,9 @@ public class MainController {
 		List<UploadDTO> list = upService.searchList(keyword);
 		m.addAttribute("list", list);
 		System.out.println(list);
+		
+		getMoney(m);
+		
 		return "all/search";
 	}
 	
@@ -93,12 +125,15 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/register.do")
-	public String register(Model m, RegisterDTO resDTO) throws Exception{
+	public String register(Model m, RegisterDTO resDTO, PurchaseDTO purchaseDTO) throws Exception{
 		resService.joinUser(resDTO);
 		
 		String id = resDTO.getId();
 		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
+		
+		purchaseService.enroll(purchaseDTO);
+		System.out.println("purchaseDTO : "+ purchaseDTO);
 		
 		String authCode = authService.authMail(id);
 		System.out.println("authCode : "+ authCode);
@@ -122,6 +157,8 @@ public class MainController {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println("user : "+ user);
 		m.addAttribute("user", user);
+		
+		getMoney(m);
 		
 		return "all/mypage";
 	}
@@ -167,12 +204,9 @@ public class MainController {
 
 
 	@RequestMapping(value="/game", method=RequestMethod.GET)
-	public String game(Model m, UploadDTO upDTO, RegisterDTO resDTO, String number, ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
+	public String game(Model m, UploadDTO upDTO, RegisterDTO resDTO, PurchaseDTO purchaseDTO, String number, ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
-			RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			String id = user.getId();
-			System.out.println("id : "+ id);
-			m.addAttribute("id", id);
+			getMoney(m);
 		}
 		else {
 			m.addAttribute("id", "anonymous");
@@ -182,11 +216,67 @@ public class MainController {
 		
 		List<UploadDTO> list = upService.gameDetail(number);
 		m.addAttribute("list", list);
+		
 		return "all/game";
 	}
 
 	/* 유저 */
+	@RequestMapping(value="/download")
+	public ResponseEntity<Resource> download(DownloadDTO downDTO, PurchaseDTO purchaseDTO, int money, String file, String number, Model m) throws IOException {
+		System.out.println("file : " + file);
+		Path path = Paths.get(file);
+		
+		String filename = new String(((path.getFileName().toString()).split("_")[1].getBytes("UTF-8")), "ISO-8859-1");
+		System.out.println("filename change " + filename);
+		//String contentType = Files.probeContentType(path);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+		
+		Resource resource = new InputStreamResource(Files.newInputStream(path));	
+		
+		purchaseService.setMoney(purchaseDTO, money);
+		System.out.println("purchaseDTO : "+ purchaseDTO);
+		
+		downService.enroll(downDTO);
+		
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="user/purchase")
+	public String purchaseList (Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		List<DownloadDTO> list = downService.downloadList(id);
+		m.addAttribute("list", list);
+		
+		getMoney(m);
+		
+		return "user/purchaseList";
+	}
 
+	@RequestMapping(value = "user/charge")
+	public String charge (Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		return "user/charge";
+	}
+	
+	@RequestMapping(value = "/charge.do")
+	public String charge (int money, PurchaseDTO purchaseDTO, Model m) {
+		purchaseService.charge(purchaseDTO, money);
+		System.out.println("purchaseDTO : "+ purchaseDTO);
+		
+		return "user/charge";
+	}
+	
 	/* 관리자 */
 	@RequestMapping(value="admin/upload", method=RequestMethod.GET)
 	public String upload(Model m) {
@@ -195,6 +285,8 @@ public class MainController {
 		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
 		
+		getMoney(m);
+		
 		return "admin/upload";
 	}
 	
@@ -202,8 +294,9 @@ public class MainController {
 	public String upload_my(Model m) {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String id = user.getId();
-		
 		System.out.println(id);
+		
+		getMoney(m);
 		
 		List<UploadDTO> list = upService.uploadList(id);
 		m.addAttribute("list", list);
@@ -229,6 +322,8 @@ public class MainController {
 		List<UploadDTO> list = upService.gameDetail(number);
 		m.addAttribute("list", list);
 		
+		getMoney(m);
+		
 		return "admin/mod_upload";
 	}
 	
@@ -246,19 +341,6 @@ public class MainController {
 		upService.delUpload(upDTO);
 		
 		return "redirect:/admin/upload_my";
-	}
-	
-	@RequestMapping(value="admin/download")
-	public ResponseEntity<Resource> download(String file) throws IOException {
-		System.out.println("file : " + file);
-		Path path = Paths.get(file);
-		//String contentType = Files.probeContentType(path);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + path.getFileName().toString());
-		
-		Resource resource = new InputStreamResource(Files.newInputStream(path));
-		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 
 	/* 슈퍼 관리자 */
@@ -279,6 +361,8 @@ public class MainController {
 		m.addAttribute("usablememory", usablememory);
 		m.addAttribute("avgdata", avgdata);
 		
+		getMoney(m);
+		
 		return "super/dashboard_1";
 	}
 
@@ -287,6 +371,8 @@ public class MainController {
 		int gameCount = dashService.getGameCount();
 		m.addAttribute("gameCount", gameCount);
 		
+		getMoney(m);
+		
 		return "super/dashboard_2";
 	}
 	
@@ -294,6 +380,8 @@ public class MainController {
 	public String memberList(Model m) {
 		List<RegisterDTO> list = resService.memberList();
 		m.addAttribute("list", list);
+		
+		getMoney(m);
 		
 		return "super/memberList";
 	}
