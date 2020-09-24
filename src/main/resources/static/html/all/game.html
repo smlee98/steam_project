@@ -25,22 +25,28 @@
 /*<![CDATA[*/
 
 var list = [[ ${list} ]];
+var money = [[ ${money} ]];
 var id = [[ ${id} ]];
+var result = money - list[0].amount;
 
 /*]]*/
 
     $(document).ready(function(){
     	console.log(list);
     	console.log(id);
-    	console.log(list[0].newfile);
+    	console.log(list[0].orgfile);
+    	console.log(result);
     	
     	if(id == list[0].id){
     		$('.add_button').css('display', '');
     	}
     	
-    	document.getElementById("file").value = list[0].newfile;
+    	document.getElementById("myId").value = id;
+    	document.getElementById("myAmount").value = list[0].amount;
+    	document.getElementById("thisGame").value = list[0].name;
+    	
     	document.getElementById("youtube_info").src = list[0].youtube;
-    	document.getElementById("explain_info").innerHTML = list[0].explain;
+    	document.getElementById("explain_info").innerHTML = list[0].explain.replaceAll("\n","<br>");
     	document.getElementById("uploader_info").innerHTML = list[0].id;
     	document.getElementById("reldate_info").innerHTML = list[0].orgdate;
     	document.getElementById("moddate_info").innerHTML = list[0].newdate;
@@ -76,6 +82,19 @@ var id = [[ ${id} ]];
     		$('#moddate').css('display', 'none');
     	}
     });
+    
+    function moneyCheck(){
+    	
+    	if(result < 0){
+    		alert("금액이 부족합니다.\n금액을 충전해주세요.");
+    		return false;
+    	} else {
+    		alert(list[0].name+"을(를) 다운로드 합니다.");
+    		location.reload();
+    		return true;
+    	}
+    	
+    }
 
 </script>
 
@@ -103,7 +122,6 @@ var id = [[ ${id} ]];
 		<div class="row" style="color: #fff; padding: 30px;  height: 85%;">
 			<div class="container-md">
 				<div class="add_button" sec:authorize="hasAnyRole('ADMIN,SUPER')" style="text-align: right; display: none;">
-					<input type="text" id="file" name="file" style="display: none"/>
 					<a th:href="@{/admin/mod_upload(number=${list[0].number})}"><button type="button">수정</button></a>
 					<a th:href="@{/admin/del_upload(number=${list[0].number})}"><button type="submit" onclick="question()">삭제</button></a>
 				</div>
@@ -141,7 +159,7 @@ var id = [[ ${id} ]];
 			<div class="col-sm-6" style="align-self: center;">
 				<div class="purchase">
 					<label class="game" id="name_info" style="font-weight: bold; margin-bottom: 0;">-</label>
-					<span>구매하기</sppn>
+					<span>구매하기</span>
 				</div>
 			</div>
 			<div class="col-sm-1" style="align-self: center;">
@@ -151,9 +169,14 @@ var id = [[ ${id} ]];
 						<div class="amount" style="align-self: center; margin-top: 0; margin-bottom: 0; margin-left: 15px; margin-right: 25px;">
 							<label id="amount_info" style="margin-bottom: 0; font-size: 24px;">-</label>
 						</div>
-						<div class="purchase" style="align-self: center; padding-left: 0; padding-right: 0;">
-							<a th:href="@{/admin/download(file=${list[0].newfile})}"><button type="button" class="btn btn-primary" id="purchase_button">구매하기</button></a>
-						</div>
+						<form class="form-inline my-2 my-md-0" name="buyit" th:action="@{/download(file=${list[0].newfile})}" onsubmit="return moneyCheck();" method="POST">
+							<div class="purchase" style="align-self: center; padding-left: 0; padding-right: 0;">
+								<button type="submit" class="btn btn-primary" id="purchase_button">구매하기</button>
+								<input type="text" id="thisGame" name="name" style="display: none;"/>
+								<input type="text" id="myId" name="id" style="display: none;"/>
+								<input type="text" id="myAmount" name="money" style="display: none;"/>
+							</div>
+						</form>
 			</div>
 		</div>
 	</div>
