@@ -22,6 +22,20 @@
 
 <link rel="stylesheet" type="text/css" href="../css/fragment.css" />
 
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+
+var money = [[ ${money} ]];
+
+/*]]*/
+
+    $(document).ready(function(){
+    	console.log(money);
+    });
+
+</script>
+
 </head>
 <body>
 <div th:fragment="navBar">
@@ -38,6 +52,7 @@
 				<form class="form-inline my-2 my-md-0">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" style="font-size: 12px; font-weight: bold; color:white; line-height: 24px;"><label sec:authentication="principal.name" style="float:left;"></label><label>님 환영합니다 :)</label></a></li>
+						<li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" style="font-size: 12px; font-weight: bold; color:white; line-height: 24px; border: 2px solid white;"><label th:text="${money}" style="float:left;"></label><label>원</label></a></li>
 						<li class="nav-item"><a class="nav-link" href="../login" sec:authorize="isAnonymous()" style="font-size: 18px; font-weight: bold;">로그인</a></li>
 						<li class="nav-item"><a class="nav-link" href="../logout" sec:authorize="isAuthenticated()" style="font-size: 18px; font-weight: bold;">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link" href="../mypage" sec:authorize="hasAnyRole('USER,ADMIN')" style="font-size: 18px; font-weight: bold;">마이페이지</a></li>

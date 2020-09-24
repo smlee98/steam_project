@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="download">
+
+	<insert id="enroll" parameterType="com.example.demo.dto.DownloadDTO">
+		insert into tb_download
+		values(#{number},#{id},#{name},#{time})
+	</insert>
+	
+	<select id="downloadList" resultType="com.example.demo.dto.DownloadDTO">
+		select *
+		from tb_download
+		where id = #{id}
+		order by number
+	</select>
+	
+</mapper>
