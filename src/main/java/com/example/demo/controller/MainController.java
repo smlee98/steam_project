@@ -79,7 +79,7 @@ public class MainController {
 		m.addAttribute("money", money);
 	}
 
-	/* 권한 상관 X */	
+	/* 권한 상관 없음 */	
 	@RequestMapping(value="/main")
 	public String main(Model m) {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
