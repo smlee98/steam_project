@@ -14,14 +14,14 @@ import com.example.demo.dto.UploadDTO;
 
 @Repository
 public class DownloadDAO {
-	
+
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	public int enroll(DownloadDTO downDTO){
 		return sqlSession.insert("download.enroll", downDTO);
 	}
-	
+
 	public List<DownloadDTO> downloadList(String id){
 		return sqlSession.selectList("download.downloadList", id);
 	}

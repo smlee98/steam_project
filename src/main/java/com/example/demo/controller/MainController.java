@@ -66,58 +66,60 @@ public class MainController {
 	PurchaseService purchaseService;
 	@Autowired
 	DownloadService downService;
-	
+
 	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다... */
 	public void getMoney(Model m) {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String id = user.getId();
 		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
-		
+
 		int money = purchaseService.getMoney(id);
 		System.out.println("money : "+ money);
 		m.addAttribute("money", money);
 	}
 
-	/* 권한 상관 X */	
+	/* 권한 상관 X */
 	@RequestMapping(value="/main")
 	public String main(Model m) {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
 			getMoney(m);
 		}
-		
+
 		List<UploadDTO> list = upService.viewRecent();
 		m.addAttribute("list", list);
-		
+
 		return "all/main";
 	}
-	
+
 	@RequestMapping(value="/genre")
 	public String genre(Model m, String category) {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
 			getMoney(m);
 		}
-		
+
 		List<UploadDTO> genre = upService.viewGenre(category);
 		m.addAttribute("genre", genre);
 		m.addAttribute("category", category);
-		
+
+		getMoney(m);
+
 		return "all/genre";
 	}
-	
+
 	@RequestMapping(value="/search")
 	public String search(@RequestParam(value = "keyword") String keyword, Model m) {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
 			getMoney(m);
 		}
-		
+
 		List<UploadDTO> list = upService.searchList(keyword);
 		m.addAttribute("list", list);
-		System.out.println(list);		
-		
+		System.out.println(list);
+
 		return "all/search";
 	}
-	
+
 	@GetMapping("/login")
 	public String Login() {
 		return "all/login";
@@ -131,21 +133,21 @@ public class MainController {
 	@RequestMapping(value="/register.do")
 	public String register(Model m, RegisterDTO resDTO, PurchaseDTO purchaseDTO) throws Exception{
 		resService.joinUser(resDTO);
-		
+
 		String id = resDTO.getId();
 		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
-		
+
 		purchaseService.enroll(purchaseDTO);
 		System.out.println("purchaseDTO : "+ purchaseDTO);
-		
+
 		String authCode = authService.authMail(id);
 		System.out.println("authCode : "+ authCode);
 		m.addAttribute("code", authCode);
-		
+
 		return "all/authmail";
 	}
-	
+
 	@RequestMapping(value = "/check", method = RequestMethod.GET)
 	@ResponseBody
 	public int idCheck(@RequestParam("id") String id) {
@@ -155,18 +157,18 @@ public class MainController {
 		return result;
 
 	}
-	
+
 	@RequestMapping(value="/mypage", method=RequestMethod.GET)
-	public String mypage_admin(Model m, RegisterDTO resDTO) throws Exception { 
+	public String mypage_admin(Model m, RegisterDTO resDTO) throws Exception {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println("user : "+ user);
 		m.addAttribute("user", user);
-		
+
 		getMoney(m);
-		
+
 		return "all/mypage";
 	}
-	
+
 	@RequestMapping(value = "/mypage.do", method = RequestMethod.POST)
 	public String mypage(RegisterDTO resDTO, HttpSession session) {
 		resService.myPage(resDTO);
@@ -181,25 +183,25 @@ public class MainController {
 		authService.authSuccess(resDTO);
 		return "redirect:/main";
 	}
-	
+
 	@RequestMapping(value = "/findpw", method = RequestMethod.GET)
 	public String findpw() throws Exception {
 		return "all/findPw";
 	}
-	
+
 	@RequestMapping(value="/authpw", method = RequestMethod.POST)
 	public String authpw(Model m, RegisterDTO resDTO) throws Exception {
 		String id = resDTO.getId();
 		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
-		
+
 		String authCode = authService.authpw(id);
 		System.out.println("authCode : "+ authCode);
 		m.addAttribute("code", authCode);
-		
+
 		return "all/authPw";
 	}
-	
+
 	@RequestMapping(value="/authpw.do", method = RequestMethod.POST)
 	public String changepw(RegisterDTO resDTO) throws Exception {
 		authService.pwSuccess(resDTO);
@@ -215,12 +217,12 @@ public class MainController {
 		else {
 			m.addAttribute("id", "anonymous");
 		}
-		
+
 		upService.doFilter(servletRequest, servletResponse);
-		
+
 		List<UploadDTO> list = upService.gameDetail(number);
 		m.addAttribute("list", list);
-		
+
 		return "all/game";
 	}
 
@@ -229,37 +231,37 @@ public class MainController {
 	public ResponseEntity<Resource> download(DownloadDTO downDTO, PurchaseDTO purchaseDTO, int money, String file, String number, Model m) throws IOException {
 		System.out.println("file : " + file);
 		Path path = Paths.get(file);
-		
+
 		String filename = new String(((path.getFileName().toString()).split("_")[1].getBytes("UTF-8")), "ISO-8859-1");
 		System.out.println("filename change " + filename);
 		//String contentType = Files.probeContentType(path);
-		
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
-		
-		Resource resource = new InputStreamResource(Files.newInputStream(path));	
-		
+
+		Resource resource = new InputStreamResource(Files.newInputStream(path));
+
 		purchaseService.setMoney(purchaseDTO, money);
 		System.out.println("purchaseDTO : "+ purchaseDTO);
-		
+
 		downService.enroll(downDTO);
-		
+
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value="user/purchase")
 	public String purchaseList (Model m) {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String id = user.getId();
 		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
-		
+
 		List<DownloadDTO> list = downService.downloadList(id);
 		m.addAttribute("list", list);
-		
+
 		getMoney(m);
-		
+
 		return "user/purchaseList";
 	}
 
@@ -269,18 +271,18 @@ public class MainController {
 		String id = user.getId();
 		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
-		
+
 		return "user/charge";
 	}
-	
+
 	@RequestMapping(value = "/charge.do")
 	public String charge (int money, PurchaseDTO purchaseDTO, Model m) {
 		purchaseService.charge(purchaseDTO, money);
 		System.out.println("purchaseDTO : "+ purchaseDTO);
-		
+
 		return "user/charge";
 	}
-	
+
 	/* 관리자 */
 	@RequestMapping(value="admin/upload", method=RequestMethod.GET)
 	public String upload(Model m) {
@@ -288,85 +290,85 @@ public class MainController {
 		String id = user.getId();
 		System.out.println("id : "+ id);
 		m.addAttribute("id", id);
-		
+
 		getMoney(m);
-		
+
 		return "admin/upload";
 	}
-	
+
 	@RequestMapping(value="admin/upload_my", method=RequestMethod.GET)
 	public String upload_my(Model m) {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String id = user.getId();
 		System.out.println(id);
-		
+
 		getMoney(m);
-		
+
 		List<UploadDTO> list = upService.uploadList(id);
 		m.addAttribute("list", list);
-		
+
 		return "admin/uploadList";
 	}
-	
+
 	@RequestMapping(value="admin/upload.do", method = RequestMethod.POST)
-	public String upload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{		
+	public String upload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{
 		upService.uploadGame(upDTO);
 		upService.fileSet(upDTO, mf, session);
 		upService.thumbSet(upDTO, mf2, session);
-		
+
 		String name = upDTO.getName();
 		System.out.println("name : "+ name);
 		m.addAttribute("name", name);
-		
+
 		return "redirect:/main";
 	}
-	
+
 	@RequestMapping(value="admin/mod_upload", method=RequestMethod.GET)
 	public String modUpload(Model m, String number) {
 		List<UploadDTO> list = upService.gameDetail(number);
 		m.addAttribute("list", list);
-		
+
 		getMoney(m);
-		
+
 		return "admin/mod_upload";
 	}
-	
+
 	@RequestMapping(value="admin/mod_upload.do", method=RequestMethod.POST)
 	public String modUpload(Model m, MultipartFile mf, MultipartFile mf2, HttpSession session, UploadDTO upDTO) throws Exception{
 		upService.modUpload(upDTO);
 		upService.modFileSet(upDTO, mf, session);
 		upService.modThumbSet(upDTO, mf2, session);
-		
+
 		return "redirect:/admin/upload_my";
 	}
-	
+
 	@RequestMapping(value="admin/del_upload", method=RequestMethod.GET)
 	public String delUpload(Model m, UploadDTO upDTO) throws Exception{
 		upService.delUpload(upDTO);
-		
+
 		return "redirect:/admin/upload_my";
 	}
 
 	/* 슈퍼 관리자 */
 
 	@RequestMapping(value="super/dashboard_1", method=RequestMethod.GET)
-	public String dashboard_1(Model m) {		
+	public String dashboard_1(Model m) {
 		String fulldisk = dashService.getFulldisk();
 		String usabledisk = dashService.getUsabledisk();
 		String cpuprocess = dashService.getCpuprocess();
 		String fullmemory = dashService.getFullMem();
 		String usablememory = dashService.getUsableMem();
 		String[] avgdata = dashService.getAvgData();
-		
+
 		m.addAttribute("fulldisk", fulldisk);
 		m.addAttribute("usabledisk", usabledisk);
 		m.addAttribute("cpuprocess", cpuprocess);
 		m.addAttribute("fullmemory", fullmemory);
 		m.addAttribute("usablememory", usablememory);
 		m.addAttribute("avgdata", avgdata);
-		
+
 		getMoney(m);
-		
+
 		return "super/dashboard_1";
 	}
 
@@ -374,19 +376,19 @@ public class MainController {
 	public String dashboard_2(Model m) {
 		int gameCount = dashService.getGameCount();
 		m.addAttribute("gameCount", gameCount);
-		
+
 		getMoney(m);
-		
+
 		return "super/dashboard_2";
 	}
-	
+
 	@RequestMapping(value="super/memberList", method=RequestMethod.GET)
 	public String memberList(Model m) {
 		List<RegisterDTO> list = resService.memberList();
 		m.addAttribute("list", list);
-		
+
 		getMoney(m);
-		
+
 		return "super/memberList";
 	}
 }

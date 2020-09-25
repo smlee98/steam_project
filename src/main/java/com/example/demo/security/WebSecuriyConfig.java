@@ -22,25 +22,25 @@ import com.example.demo.service.RegisterService;
 @Configuration
 @EnableWebSecurity
 public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
-	
+
 	@Autowired
 	RegisterService resService;
-	
+
 	@Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/css/**", "/js/**", "/image/**","/thumbnail/**","/upload/**","/fragment/**");
     }
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new StandardPasswordEncoder();
 	}
-	
+
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
 		return new LoginHandler("/main");
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		http.csrf().disable() // 이게 있어야지만 post에 접근이 가능했다...
