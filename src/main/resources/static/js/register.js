@@ -124,6 +124,9 @@ function pw_check(){
 		}
 	}
 	else{
+		$('.pwWarn').css('display', '');
+		$('.pwCheckOn').css('display', 'none');
+		$('.pwCheckOff').css('display', 'none');
 		console.log("비밀번호 규격에 맞지않음");
 	}
 }
