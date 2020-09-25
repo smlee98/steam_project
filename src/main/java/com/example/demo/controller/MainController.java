@@ -94,22 +94,26 @@ public class MainController {
 	
 	@RequestMapping(value="/genre")
 	public String genre(Model m, String category) {
+		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
+			getMoney(m);
+		}
+		
 		List<UploadDTO> genre = upService.viewGenre(category);
 		m.addAttribute("genre", genre);
 		m.addAttribute("category", category);
-		
-		getMoney(m);
 		
 		return "all/genre";
 	}
 	
 	@RequestMapping(value="/search")
 	public String search(@RequestParam(value = "keyword") String keyword, Model m) {
+		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
+			getMoney(m);
+		}
+		
 		List<UploadDTO> list = upService.searchList(keyword);
 		m.addAttribute("list", list);
-		System.out.println(list);
-		
-		getMoney(m);
+		System.out.println(list);		
 		
 		return "all/search";
 	}

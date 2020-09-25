@@ -31,6 +31,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,11 +54,14 @@ import com.example.demo.dto.RegisterDTO;
 import com.example.demo.dto.RegisterDetail;
 import com.example.demo.dto.UploadDTO;
 
+@PropertySource("classpath:/application.properties")
 @Service
 public class UploadService {
 
 	@Autowired
 	UploadDAO upDAO;
+	@Autowired
+	ApplicationContext context;
 	
 	public List<UploadDTO> uploadList(String id){		
 		return upDAO.uploadList(id);
@@ -88,13 +93,12 @@ public class UploadService {
 	
 	public void fileSet(UploadDTO upDTO, MultipartFile mf, HttpSession session) throws Exception{
 		long time = System.currentTimeMillis();
-		final String path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\upload";
+		final String path = context.getEnvironment().getProperty("steam.project.path-zip");
 		mf = upDTO.getFiles();
 		
 		if(!mf.isEmpty()) {
-			String zippath = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\upload\\";
 			String orgName = mf.getOriginalFilename();
-			String newName = zippath + time + "_" + orgName;
+			String newName = path + "\\" + time + "_" + orgName;
 			File files =  new File(path + File.separator + time + "_" + orgName);
 			upDTO.setOrgfile(orgName);
 			upDTO.setNewfile(newName);
@@ -106,13 +110,12 @@ public class UploadService {
 	
 	public void thumbSet(UploadDTO upDTO, MultipartFile mf2, HttpSession session) throws Exception{
 		long time = System.currentTimeMillis();
-		final String path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnail";
+		final String path = context.getEnvironment().getProperty("steam.project.path-thumbnail");
 		mf2 = upDTO.getThumbs();
 		
 		if(!mf2.isEmpty()) {
-			String imgpath = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnail\\";
 			String orgName = mf2.getOriginalFilename();
-			String newName = imgpath + time + "_" + orgName;
+			String newName = path + "\\" + time + "_" + orgName;
 			File thumbnail =  new File(path + File.separator + time + "_" + orgName);
 			upDTO.setThumbnail(newName);
 			mf2.transferTo(thumbnail);
@@ -134,13 +137,12 @@ public class UploadService {
 	
 	public void modFileSet(UploadDTO upDTO, MultipartFile mf, HttpSession session) throws Exception{
 		long time = System.currentTimeMillis();
-		final String path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\upload";
+		final String path = context.getEnvironment().getProperty("steam.project.path-zip");
 		mf = upDTO.getFiles();
 		
 		if(!mf.isEmpty()) {
-			String zippath = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\upload\\";
 			String orgName = mf.getOriginalFilename();
-			String newName = zippath + time + "_" + orgName;
+			String newName = path + "\\" + time + "_" + orgName;
 			File files =  new File(path + File.separator + time + "_" + orgName);
 			upDTO.setOrgfile(orgName);
 			upDTO.setNewfile(newName);
@@ -152,13 +154,12 @@ public class UploadService {
 	
 	public void modThumbSet(UploadDTO upDTO, MultipartFile mf2, HttpSession session) throws Exception{
 		long time = System.currentTimeMillis();
-		final String path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnail";
+		final String path = context.getEnvironment().getProperty("steam.project.path-thumbnail");
 		mf2 = upDTO.getThumbs();
 		
 		if(!mf2.isEmpty()) {
-			String imgpath = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnail\\";
 			String orgName = mf2.getOriginalFilename();
-			String newName = imgpath + time + "_" + orgName;
+			String newName = path + "\\" + time + "_" + orgName;
 			File thumbnail =  new File(path + File.separator + time + "_" + orgName);
 			upDTO.setThumbnail(newName);
 			mf2.transferTo(thumbnail);
