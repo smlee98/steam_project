@@ -281,6 +281,16 @@ public class MainController {
 		return "user/charge";
 	}
 	
+	@RequestMapping(value = "/evaluate")
+	public String evaluate (Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+		
+		return "all/game";
+	}
+	
 	/* 관리자 */
 	@RequestMapping(value="admin/upload", method=RequestMethod.GET)
 	public String upload(Model m) {

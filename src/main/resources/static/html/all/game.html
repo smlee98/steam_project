@@ -20,6 +20,8 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 	
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	
 <script th:inline="javascript">
 
 /*<![CDATA[*/
@@ -149,6 +151,20 @@ var result = money - list[0].amount;
 								<label id="moddate_info">-</label>
 							</div>
 							<span class="badge badge-primary" id="genre_info">-</span>
+						</div>
+						<div class="evaluate" sec:authorize="isAuthenticated()">
+							<span id="like" style="margin-right: 10px;">
+								<button type="button" class="btn btn-outline-primary" style="background-color: #24c960; color: white;">
+									<i class='fas fa-thumbs-up' style='font-size:18px'></i> 좋아요
+								</button>
+								<label id="like_status">0</label>
+							</span>
+							<span id="dislike">
+								<button type="button" class="btn btn-outline-primary" style="background-color: #ff745b; color: white;">
+									<i class='fas fa-thumbs-down' style='font-size:18px'></i> 싫어요
+								</button>
+								<label id="dislike_status">0</label>
+							</span>
 						</div>
 					</div>
 				</div>
