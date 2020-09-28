@@ -35,12 +35,12 @@ var imagedir_new = "..\\thumbnail";
     $(document).ready(function(){
     	console.log(list);
     	console.log(list[0].thumbnail.replaceAll(imagedir_org, imagedir_new));
-    	
+
     	/* Recent 1 */
     	document.getElementById("one_image").src = list[0].thumbnail.replaceAll(imagedir_org, imagedir_new);
     	document.getElementById("one_name").innerHTML = list[0].name;
-    	document.getElementById("one_explain").innerHTML = list[0].explain.replaceAll("\n", "<br>");    	
-    	
+    	/* document.getElementById("one_explain").innerHTML = list[0].explain.replaceAll("\n", "<br>");  */
+
     	if(list[0].amount != 0){
     		document.getElementById("one_amount").innerHTML = list[0].amount + "원";
     	}
@@ -50,8 +50,8 @@ var imagedir_new = "..\\thumbnail";
     	/* Recent 2 */
     	document.getElementById("two_image").src = list[1].thumbnail.replaceAll(imagedir_org, imagedir_new);
     	document.getElementById("two_name").innerHTML = list[1].name;
-    	document.getElementById("two_explain").innerHTML = list[1].explain.replaceAll("\n", "<br>");    	
-    	
+    	/* document.getElementById("two_explain").innerHTML = list[1].explain.replaceAll("\n", "<br>");  */
+
     	if(list[1].amount != 0){
     		document.getElementById("two_amount").innerHTML = list[1].amount + "원";
     	}
@@ -61,8 +61,8 @@ var imagedir_new = "..\\thumbnail";
     	/* Recent 3 */
     	document.getElementById("three_image").src = list[2].thumbnail.replaceAll(imagedir_org, imagedir_new);
     	document.getElementById("three_name").innerHTML = list[2].name;
-    	document.getElementById("three_explain").innerHTML = list[2].explain.replaceAll("\n", "<br>");    	
-    	
+    	/* document.getElementById("three_explain").innerHTML = list[2].explain.replaceAll("\n", "<br>");  */
+
     	if(list[2].amount != 0){
     		document.getElementById("three_amount").innerHTML = list[2].amount + "원";
     	}
@@ -72,8 +72,8 @@ var imagedir_new = "..\\thumbnail";
     	/* Recent 4 */
     	document.getElementById("four_image").src = list[3].thumbnail.replaceAll(imagedir_org, imagedir_new);
     	document.getElementById("four_name").innerHTML = list[3].name;
-    	document.getElementById("four_explain").innerHTML = list[3].explain.replaceAll("\n", "<br>");    	
-    	
+    	/* document.getElementById("four_explain").innerHTML = list[3].explain.replaceAll("\n", "<br>");   */
+
     	if(list[3].amount != 0){
     		document.getElementById("four_amount").innerHTML = list[3].amount + "원";
     	}
@@ -81,7 +81,7 @@ var imagedir_new = "..\\thumbnail";
     		document.getElementById("four_amount").innerHTML = "무료";
     	}
     });
-    
+
     function blankchk(){
     	var keyword = document.getElementById("keyword");
        	if(keyword.value == ""){
@@ -89,7 +89,7 @@ var imagedir_new = "..\\thumbnail";
     		return false;
     	}
     }
-    
+
     function popup(){
         var url = "../user/charge";
         var name = "충전";
@@ -170,7 +170,7 @@ var imagedir_new = "..\\thumbnail";
 						</div>
 						<div class="carousel-item">
 							<a href="https://www.rockstargames.com/kr/"><img src="../image/ny.jpg" alt="New York" width="1100" height="500"></a>
-							<div class="carousel-caption" style="background-color: rgba(0,0,0,0.5)"> 
+							<div class="carousel-caption" style="background-color: rgba(0,0,0,0.5)">
 								<h3>GTA V</h3>
 								<p>by Rockstar North</p>
 							</div>
@@ -192,7 +192,7 @@ var imagedir_new = "..\\thumbnail";
 						</a>
 							<div class="card-body">
 								<h5 class="card-title" id="one_name" style="font-weight: bold;">-</h5>
-								<p class="card-text" id="one_explain">-</p>
+								<!-- <p class="card-text" id="one_explain">-</p> -->
 								<div class="container">
 									<div class="row" style="text-align: right;">
 										<div class="card bg-success text-white">
@@ -210,9 +210,9 @@ var imagedir_new = "..\\thumbnail";
 						</a>
 							<div class="card-body">
 								<h5 class="card-title" id="two_name" style="font-weight: bold;">-</h5>
-								<p class="card-text" id="two_explain">-</p>
-								<div class="container">
-									<div class="row" style="text-align: right;">
+								<!-- <p class="card-text" id="two_explain">-</p> -->
+								<div class="container" style="text-align: right;">
+									<div class="row" >
 										<div class="card bg-success text-white">
 												<div class="card-body" id="two_amount">-</div>
 											</div>
@@ -228,7 +228,7 @@ var imagedir_new = "..\\thumbnail";
 						</a>
 							<div class="card-body">
 								<h5 class="card-title" id="three_name" style="font-weight: bold;">-</h5>
-								<p class="card-text" id="three_explain">-</p>
+								<!-- <p class="card-text" id="three_explain">-</p> -->
 								<div class="container">
 									<div class="row" style="text-align: right;">
 										<div class="card bg-success text-white">
@@ -246,7 +246,7 @@ var imagedir_new = "..\\thumbnail";
 						</a>
 							<div class="card-body">
 								<h5 class="card-title" id="four_name" style="font-weight: bold;">-</h5>
-								<p class="card-text" id="four_explain">-</p>
+								<!-- <p class="card-text" id="four_explain">-</p> -->
 								<div class="container">
 									<div class="row" style="text-align: right;">
 										<div class="card bg-success text-white">

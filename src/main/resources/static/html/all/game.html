@@ -19,7 +19,9 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
-	
+
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
 <script th:inline="javascript">
 
 /*<![CDATA[*/
@@ -36,29 +38,29 @@ var result = money - list[0].amount;
     	console.log(id);
     	console.log(list[0].orgfile);
     	console.log(result);
-    	
+
     	if(id == list[0].id){
     		$('.add_button').css('display', '');
     	}
-    	
+
     	document.getElementById("myId").value = id;
     	document.getElementById("myAmount").value = list[0].amount;
     	document.getElementById("thisGame").value = list[0].name;
-    	
+
     	document.getElementById("youtube_info").src = list[0].youtube;
     	document.getElementById("explain_info").innerHTML = list[0].explain.replaceAll("\n","<br>");
     	document.getElementById("uploader_info").innerHTML = list[0].id;
     	document.getElementById("reldate_info").innerHTML = list[0].orgdate;
     	document.getElementById("moddate_info").innerHTML = list[0].newdate;
     	document.getElementById("name_info").innerHTML = list[0].name;
-    	
+
     	if(list[0].amount != 0){
     		document.getElementById("amount_info").innerHTML = list[0].amount + "원";
     	}
     	else{
     		document.getElementById("amount_info").innerHTML = "무료";
     	}
-    	
+
     	if(list[0].category == "advanture"){
     		document.getElementById("genre_info").innerHTML = "어드벤쳐"
     	}
@@ -77,14 +79,14 @@ var result = money - list[0].amount;
     	else if(list[0].category == "fps"){
     		document.getElementById("genre_info").innerHTML = "FPS"
     	}
-    	
+
     	if(list[0].orgdate == list[0].newdate){
     		$('#moddate').css('display', 'none');
     	}
     });
-    
+
     function moneyCheck(){
-    	
+
     	if(result < 0){
     		alert("금액이 부족합니다.\n금액을 충전해주세요.");
     		return false;
@@ -93,7 +95,7 @@ var result = money - list[0].amount;
     		location.reload();
     		return true;
     	}
-    	
+
     }
 
 </script>
@@ -104,7 +106,7 @@ var result = money - list[0].amount;
 			object.value = object.value.slice(0, object.maxLength);
 		}
 	}
-	
+
 	function question(){
 		alert("게임이 삭제되었습니다.");
 	}
@@ -149,6 +151,20 @@ var result = money - list[0].amount;
 								<label id="moddate_info">-</label>
 							</div>
 							<span class="badge badge-primary" id="genre_info">-</span>
+						</div>
+						<div class="evaluate" sec:authorize="isAuthenticated()">
+							<span id="like" style="margin-right: 10px;">
+								<button type="button" class="btn btn-outline-primary" style="background-color: #24c960; color: white;">
+									<i class='fas fa-thumbs-up' style='font-size:18px'></i> 좋아요
+								</button>
+								<label id="like_status">0</label>
+							</span>
+							<span id="dislike">
+								<button type="button" class="btn btn-outline-primary" style="background-color: #ff745b; color: white;">
+									<i class='fas fa-thumbs-down' style='font-size:18px'></i> 싫어요
+								</button>
+								<label id="dislike_status">0</label>
+							</span>
 						</div>
 					</div>
 				</div>

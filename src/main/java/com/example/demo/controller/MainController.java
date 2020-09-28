@@ -66,7 +66,7 @@ public class MainController {
 	PurchaseService purchaseService;
 	@Autowired
 	DownloadService downService;
-
+	
 	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다... */
 	public void getMoney(Model m) {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -79,7 +79,7 @@ public class MainController {
 		m.addAttribute("money", money);
 	}
 
-	/* 권한 상관 X */
+	/* 권한 상관 없음 */
 	@RequestMapping(value="/main")
 	public String main(Model m) {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
@@ -101,8 +101,6 @@ public class MainController {
 		List<UploadDTO> genre = upService.viewGenre(category);
 		m.addAttribute("genre", genre);
 		m.addAttribute("category", category);
-
-		getMoney(m);
 
 		return "all/genre";
 	}
@@ -281,6 +279,16 @@ public class MainController {
 		System.out.println("purchaseDTO : "+ purchaseDTO);
 
 		return "user/charge";
+	}
+
+	@RequestMapping(value = "/evaluate")
+	public String evaluate (Model m) {
+		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = user.getId();
+		System.out.println("id : "+ id);
+		m.addAttribute("id", id);
+
+		return "all/game";
 	}
 
 	/* 관리자 */
