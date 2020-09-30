@@ -24,6 +24,10 @@
 <link rel="stylesheet" type="text/css" href="/css/upload.css" />
 <script type="text/javascript" src="/js/upload.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.js"></script>
+
 <script th:inline="javascript">
 
 /*<![CDATA[*/
@@ -44,6 +48,13 @@ var path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnai
     	document.getElementById("explain").value = list[0].explain;
     	
     	console.log(list);
+    	
+    	$('.summernote').summernote({
+    		height: 200,
+    		minHeight: null,
+    		maxHeight: null,
+    		lang : 'ko-KR'
+    	});
     });
 
 </script>
@@ -141,9 +152,7 @@ var path = "D:\\mentoring\\steam_project\\src\\main\\resources\\static\\thumbnai
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="explain">게임 설명</label>
-							<textarea cols="50" rows="4" onkeyup="chkword(this, 100)" id="explain" name="explain"></textarea>
-							<div class="countWord" id="countWord" style="text-align: right; font-weight:bold; color: gray;">0</div>
-							<small id="explainHelp" class="form-text text-muted">최대 100글자까지만 입력이 가능합니다.</small>
+							<textarea class="summernote" id="explain" name="explain"></textarea>
 						</div>
 						<div class="explainWarn" style="display: none;">
 						<i class="badge badge-danger" style="font-style: normal;">!</i>

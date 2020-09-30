@@ -29,6 +29,11 @@
 var list = [[ ${list} ]];
 var money = [[ ${money} ]];
 var id = [[ ${id} ]];
+var name = list[0].name;
+var myStatus = [[ ${myStatus} ]];
+var already = [[ ${already} ]];
+var likeCount = [[ ${likeCount} ]];
+var dislikeCount = [[ ${dislikeCount} ]];
 var result = money - list[0].amount;
 
 /*]]*/
@@ -43,9 +48,26 @@ var result = money - list[0].amount;
     		$('.add_button').css('display', '');
     	}
 
+    	if(id != "anonymous" && (likeCount != 0 || dislikeCount != 0)){
+    		document.getElementById("likeCount").innerHTML = likeCount;
+        	document.getElementById("dislikeCount").innerHTML = dislikeCount;
+    	}
+
+    	if(already > 0){
+    		var likebtn = document.getElementById('like_btn');
+    		var dislikebtn = document.getElementById('dislike_btn');
+
+    		likebtn.disabled = 'disabled';
+    		dislikebtn.disabled = 'disabled';
+
+    		$('.myStatus').css('display', '');
+
+    		document.getElementById("myStatus").innerHTML = myStatus;
+    	}
+
     	document.getElementById("myId").value = id;
+    	document.getElementById("thisGame").value = name;
     	document.getElementById("myAmount").value = list[0].amount;
-    	document.getElementById("thisGame").value = list[0].name;
 
     	document.getElementById("youtube_info").src = list[0].youtube;
     	document.getElementById("explain_info").innerHTML = list[0].explain.replaceAll("\n","<br>");
@@ -154,16 +176,30 @@ var result = money - list[0].amount;
 						</div>
 						<div class="evaluate" sec:authorize="isAuthenticated()">
 							<span id="like" style="margin-right: 10px;">
-								<button type="button" class="btn btn-outline-primary" style="background-color: #24c960; color: white;">
+								<a th:href="@{/evaluate(id=${id},number=${list[0].number},status=좋아요)}">
+								<button type="button" class="btn btn-outline-primary" style="background-color: #24c960; color: white;" id="like_btn">
 									<i class='fas fa-thumbs-up' style='font-size:18px'></i> 좋아요
 								</button>
-								<label id="like_status">0</label>
+								</a>
+								<label id="likeCount">0</label>
 							</span>
 							<span id="dislike">
-								<button type="button" class="btn btn-outline-primary" style="background-color: #ff745b; color: white;">
+								<a th:href="@{/evaluate(id=${id},number=${list[0].number},status=싫어요)}">
+								<button type="button" class="btn btn-outline-primary" style="background-color: #ff745b; color: white;" id="dislike_btn">
 									<i class='fas fa-thumbs-down' style='font-size:18px'></i> 싫어요
 								</button>
-								<label id="dislike_status">0</label>
+								</a>
+								<label id="dislikeCount">0</label>
+							</span>
+						</div>
+						<div class="myStatus" style="display: none;">
+							<span id="myChoice"><label id="myStatus">-</label><label>를 선택하였습니다.</label></span>&nbsp;
+							<span id="delete">
+									<a th:href="@{/evaluate_del(id=${id},name=${list[0].name})}">
+									<button type="button" class="btn btn-outline-primary" style="background-color: #2a92e7; color: white;" id="dislike_btn">
+										<i class='fas fa-undo' style='font-size:18px'></i> 선택 취소
+									</button>
+									</a>
 							</span>
 						</div>
 					</div>
@@ -187,7 +223,7 @@ var result = money - list[0].amount;
 						</div>
 						<form class="form-inline my-2 my-md-0" name="buyit" th:action="@{/download(file=${list[0].newfile})}" onsubmit="return moneyCheck();" method="POST">
 							<div class="purchase" style="align-self: center; padding-left: 0; padding-right: 0;">
-								<button type="submit" class="btn btn-primary" id="purchase_button">구매하기</button>
+								<button type="submit" class="btn btn-primary" id="purchase_button" sec:authorize="isAuthenticated()">구매하기</button>
 								<input type="text" id="thisGame" name="name" style="display: none;"/>
 								<input type="text" id="myId" name="id" style="display: none;"/>
 								<input type="text" id="myAmount" name="money" style="display: none;"/>

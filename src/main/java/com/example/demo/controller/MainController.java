@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.Format;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -36,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.extras.springsecurity5.util.SpringSecurityContextUtils;
 
 import com.example.demo.dto.DownloadDTO;
+import com.example.demo.dto.EvaluateDTO;
 import com.example.demo.dto.PurchaseDTO;
 import com.example.demo.dto.PurchaseDetail;
 import com.example.demo.dto.RegisterDTO;
@@ -48,6 +51,7 @@ import com.example.demo.service.UploadService;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.DashService;
 import com.example.demo.service.DownloadService;
+import com.example.demo.service.EvaluateService;
 import com.example.demo.service.PurchaseService;
 import com.example.demo.service.RegisterService;
 
@@ -66,7 +70,9 @@ public class MainController {
 	PurchaseService purchaseService;
 	@Autowired
 	DownloadService downService;
-	
+	@Autowired
+	EvaluateService evalService;
+
 	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다... */
 	public void getMoney(Model m) {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -208,11 +214,17 @@ public class MainController {
 
 
 	@RequestMapping(value="/game", method=RequestMethod.GET)
-	public String game(Model m, UploadDTO upDTO, RegisterDTO resDTO, PurchaseDTO purchaseDTO, String number, ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
+	public String game(Model m, UploadDTO upDTO, EvaluateDTO evaluateDTO, PurchaseDTO purchaseDTO, String id, String number, ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
 			getMoney(m);
+
+			RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			id = user.getId();
+			m.addAttribute("id", id);
+			System.out.println("아이디 : " + id);
 		}
 		else {
+			id = "anonymous";
 			m.addAttribute("id", "anonymous");
 		}
 
@@ -220,6 +232,25 @@ public class MainController {
 
 		List<UploadDTO> list = upService.gameDetail(number);
 		m.addAttribute("list", list);
+
+		number = evaluateDTO.getNumber();
+		m.addAttribute("number", number);
+		System.out.println("number : " + number);
+
+		HashMap<String, String> info = new HashMap<String, String>();
+		info.put("id", id);
+		info.put("number", number);
+
+		String myStatus = evalService.myStatus(info);
+		m.addAttribute("myStatus", myStatus);
+		int already = evalService.already(info);
+		m.addAttribute("already", already);
+		System.out.println("already : "+ already);
+
+		int likeCount = evalService.likeCount(evaluateDTO);
+		m.addAttribute("likeCount", likeCount);
+		int dislikeCount = evalService.dislikeCount(evaluateDTO);
+		m.addAttribute("dislikeCount", dislikeCount);
 
 		return "all/game";
 	}
@@ -282,13 +313,17 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/evaluate")
-	public String evaluate (Model m) {
-		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String id = user.getId();
-		System.out.println("id : "+ id);
-		m.addAttribute("id", id);
+	public String evaluate (EvaluateDTO evaluateDTO) {
+		evalService.enroll(evaluateDTO);
 
-		return "all/game";
+		return "redirect:/main";
+	}
+
+	@RequestMapping(value = "/evaluate_del")
+	public String evaluate_del (EvaluateDTO evaluateDTO) {
+		evalService.delete(evaluateDTO);
+
+		return "redirect:/main";
 	}
 
 	/* 관리자 */
