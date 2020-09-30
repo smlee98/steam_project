@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="evaluate">
+
+	<insert id="enroll" parameterType="com.example.demo.dto.EvaluateDTO">
+		insert into tb_evaluate
+		values(#{id},#{number},#{status})
+	</insert>
+	
+	<delete id="delete" parameterType="com.example.demo.dto.EvaluateDTO">
+		delete from tb_evaluate
+		<where>
+			AND id = #{id}
+			AND number = #{number}
+		</where>
+	</delete>
+	
+	<select id="already" resultType="int">
+		select count(*)
+		from tb_evaluate
+		<where>
+			AND id = #{id}
+			AND number = #{number}
+		</where>
+	</select>
+	
+	<select id="myStatus" resultType="String">
+		select status
+		from tb_evaluate
+		<where>
+			AND id = #{id}
+			AND number = #{number}
+		</where>
+	</select>
+	
+	<select id="likeCount" resultType="int" parameterType="com.example.demo.dto.EvaluateDTO">
+		select count(*)
+		from tb_evaluate
+		<where>
+			AND number = #{number}
+			AND status = '좋아요'
+		</where>
+	</select>
+	
+	<select id="dislikeCount" resultType="int" parameterType="com.example.demo.dto.EvaluateDTO">
+		select count(*)
+		from tb_evaluate
+		<where>
+			AND number = #{number}
+			AND status = '싫어요'
+		</where>
+	</select>
+
+	
+</mapper>
