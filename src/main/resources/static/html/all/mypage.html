@@ -38,6 +38,9 @@ if (role == "ROLE_USER"){
 else if (role == "ROLE_ADMIN"){
 	role = "관리자";
 }
+else if (role == "ROLE_SUPER"){
+	role = "최상위 관리자";
+}
 else{
 	role = "알 수 없음";
 }
@@ -105,7 +108,7 @@ function validate(){
 <body>
 	<div th:replace="fragment/header :: navBar"></div>
 
-	<div class="container" style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+	<div class="container" style="margin-top: 25px; margin-bottom: 15px; height: 75vh; background: rgba(0, 0, 0, 0.5); -ms-overflow-style: none;">
 		<div class="row" style="color: #fff; padding: 30px;">
 				<div class="login-form" style="height: 80%">
 					<h2>마이페이지</h2>

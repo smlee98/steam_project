@@ -91,6 +91,9 @@ public class MainController {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
 			getMoney(m);
 		}
+		if((SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
+			m.addAttribute("auth", "none");
+		}
 		
 		List<UploadDTO> list = upService.viewRecent();
 		m.addAttribute("list", list);
@@ -312,6 +315,19 @@ public class MainController {
 		return "user/charge";
 	}
 	
+	@RequestMapping(value = "/analyze")
+	public String analyze (Model m, RegisterDTO registerDTO) {
+		
+		int downCnt = downService.analyze(registerDTO);
+		m.addAttribute("downCnt", downCnt);
+		int upCnt = upService.analyze(registerDTO);
+		m.addAttribute("upCnt", upCnt);
+		int coin = purchaseService.analyze(registerDTO);
+		m.addAttribute("coin",coin);
+		
+		return "super/analyze";
+	}
+	
 	@RequestMapping(value = "/evaluate")
 	public String evaluate (EvaluateDTO evaluateDTO) {
 		evalService.enroll(evaluateDTO);
@@ -426,10 +442,10 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="super/memberList", method=RequestMethod.GET)
-	public String memberList(Model m) {
+	public String memberList(Model m, RegisterDTO registerDTO) {
 		List<RegisterDTO> list = resService.memberList();
 		m.addAttribute("list", list);
-		
+			
 		getMoney(m);
 		
 		return "super/memberList";

@@ -142,9 +142,9 @@ var result = money - list[0].amount;
 	<div th:replace="fragment/header :: navBar"></div>
 
 	<div class="container"
-		style="margin-top: 25px; margin-bottom: 15px; height: 80vh; background: rgba(0, 0, 0, 0.5); overflow-y: scroll; -ms-overflow-style: none;">
+		style="margin-top: 25px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.5); -ms-overflow-style: none;">
 		<div class="row" style="color: #fff; padding: 30px;  height: 85%;">
-			<div class="container-md">
+			<div class="container-sm">
 				<div class="add_button" sec:authorize="hasAnyRole('ADMIN,SUPER')" style="text-align: right; display: none;">
 					<a th:href="@{/admin/mod_upload(number=${list[0].number})}"><button type="button">수정</button></a>
 					<a th:href="@{/admin/del_upload(number=${list[0].number})}"><button type="submit" onclick="question()">삭제</button></a>
@@ -195,7 +195,7 @@ var result = money - list[0].amount;
 						<div class="myStatus" style="display: none;">
 							<span id="myChoice"><label id="myStatus">-</label><label>를 선택하였습니다.</label></span>&nbsp;
 							<span id="delete">
-									<a th:href="@{/evaluate_del(id=${id},name=${list[0].name})}">
+									<a th:href="@{/evaluate_del(id=${id},number=${list[0].number})}">
 									<button type="button" class="btn btn-outline-primary" style="background-color: #2a92e7; color: white;" id="dislike_btn">
 										<i class='fas fa-undo' style='font-size:18px'></i> 선택 취소
 									</button>
@@ -207,23 +207,21 @@ var result = money - list[0].amount;
 			</div>
 		</div>
 		<div class="row"
-			style="background: rgba(128, 128, 128, 0.5); color: #fff; padding-left: 30px; padding-right: 30px; height: 15%;">
-			<div class="col-sm-6" style="align-self: center;">
+			style="background: rgba(128, 128, 128, 0.5); color: #fff; padding: 25px;">
+			<div class="col-sm-6" style="align-self: center; display: flex; justify-content: space-between; padding-right: 30px;">
 				<div class="purchase">
 					<label class="game" id="name_info" style="font-weight: bold; margin-bottom: 0;">-</label>
 					<span>구매하기</span>
 				</div>
+				<img src="image/windows-logo.png" style="width: 25px; height: 25px; margin-top: 5px;" />
 			</div>
-			<div class="col-sm-1" style="align-self: center;">
-				<img src="image/windows-logo.png" style="width: 25px; height: 25px;" />
-			</div>
-			<div class="col-sm-5"  style="align-self: center; background: black; height: 100%; display: inline-flex;">
+			<div class="col-sm-6"  style="align-self: center; background: black; height: 100%; display: flex; justify-content: space-between; border: 20px solid black;">
 						<div class="amount" style="align-self: center; margin-top: 0; margin-bottom: 0; margin-left: 15px; margin-right: 25px;">
 							<label id="amount_info" style="margin-bottom: 0; font-size: 24px;">-</label>
 						</div>
 						<form class="form-inline my-2 my-md-0" name="buyit" th:action="@{/download(file=${list[0].newfile})}" onsubmit="return moneyCheck();" method="POST">
 							<div class="purchase" style="align-self: center; padding-left: 0; padding-right: 0;">
-								<button type="submit" class="btn btn-primary" id="purchase_button" sec:authorize="isAuthenticated()">구매하기</button>
+								<button type="submit" class="btn btn-primary" id="purchase_button" style="margin-bottom: 2px;" sec:authorize="isAuthenticated()">구매하기</button>
 								<input type="text" id="thisGame" name="name" style="display: none;"/>
 								<input type="text" id="myId" name="id" style="display: none;"/>
 								<input type="text" id="myAmount" name="money" style="display: none;"/>

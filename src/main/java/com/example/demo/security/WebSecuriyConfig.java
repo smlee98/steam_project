@@ -51,6 +51,7 @@ public class WebSecuriyConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/super/**").hasRole("SUPER")
 				.antMatchers("/download").authenticated()
 				.antMatchers("/purchaseList").hasRole("USER")
+				.antMatchers("/analyze").hasRole("SUPER")
 				.antMatchers(HttpMethod.POST,"/authpw.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/login.**").permitAll()
 				.antMatchers(HttpMethod.POST,"/register.**").permitAll()

@@ -84,4 +84,10 @@
 		</where>
      	order by number
 	</select>
+	
+	<select id="upCnt" resultType="int" parameterType="com.example.demo.dto.RegisterDTO">
+		select count(*)
+		from tb_upload
+		where id = #{id}
+	</select>
 </mapper>

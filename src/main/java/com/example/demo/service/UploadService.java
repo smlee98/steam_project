@@ -177,6 +177,10 @@ public class UploadService {
 		return upDAO.searchList(keyword);
 	}
 	
+	public int analyze(RegisterDTO registerDTO){		
+		return upDAO.upCnt(registerDTO);
+	}
+	
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		response.setHeader("X-Frame-Options", "ALLOW-FROM https://www.youtube.com/");

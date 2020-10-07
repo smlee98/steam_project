@@ -17,4 +17,10 @@
 		order by number
 	</select>
 	
+	<select id="downCnt" resultType="int" parameterType="com.example.demo.dto.RegisterDTO">
+		select count(*)
+		from tb_download
+		where id = #{id}
+	</select>
+	
 </mapper>

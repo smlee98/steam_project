@@ -20,6 +20,10 @@ public class PurchaseDAO {
 		return sqlSession.insert("purchase.enroll", purchaseDTO);
 	}
 	
+	public int analyze(RegisterDTO registerDTO){
+		return sqlSession.selectOne("purchase.analyze", registerDTO);
+	}
+	
 	public int getMoney(String id){
 		return sqlSession.selectOne("purchase.getMoney", id);
 	}

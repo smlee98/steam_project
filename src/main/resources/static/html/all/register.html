@@ -78,7 +78,7 @@
 		<div class="row" style="color: #fff; padding: 30px;">
 			<div class="container-md">
 				<div class="row">
-					<form name="register" action="./register.do" method="post" onsubmit="return validate();" style="width: 50%">
+					<form name="register" action="./register.do" method="post" onsubmit="return validate();">
 						<h2>회원가입</h2>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="id">아이디</label> <input type="text"
@@ -218,7 +218,7 @@
 						</div>
 						<div class="form-check" style="padding: 0; width: 120%">
 							<label for="exampleInputFav">관심분야</label><br>
-							<div class="favSet" style="display: inline-flex">
+							<div class="favSet" style="display:inline-block;">
 								<div class="form-group">
 									<input type="checkbox" id="none" name="favorite" value="없음" onclick="ck_none(this)"> <label
 										for="none">없음</label>

@@ -25,4 +25,8 @@ public class DownloadDAO {
 	public List<DownloadDTO> downloadList(String id){
 		return sqlSession.selectList("download.downloadList", id);
 	}
+	
+	public int downCnt(RegisterDTO registerDTO){
+		return sqlSession.selectOne("download.downCnt", registerDTO);
+	}
 }

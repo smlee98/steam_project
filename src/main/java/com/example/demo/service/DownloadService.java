@@ -57,4 +57,8 @@ public class DownloadService {
 	public List<DownloadDTO> downloadList(String id){		
 		return downDAO.downloadList(id);
 	}
+	
+	public int analyze(RegisterDTO registerDTO){		
+		return downDAO.downCnt(registerDTO);
+	}
 }

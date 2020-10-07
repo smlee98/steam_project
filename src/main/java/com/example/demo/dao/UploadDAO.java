@@ -68,4 +68,8 @@ public class UploadDAO{
 	public List<UploadDTO> viewGenre(String category){
 		return sqlSession.selectList("upload.viewGenre", category);
 	}
+	
+	public int upCnt(RegisterDTO registerDTO){
+		return sqlSession.selectOne("upload.upCnt", registerDTO);
+	}
 }
