@@ -27,6 +27,9 @@
 
 var genre = [[ ${genre} ]];
 var category = [[ ${category} ]];
+var cnt = [[ ${cnt} ]];
+var pagination = [[ ${pagination} ]];
+var length = cnt.length;
 
 /*]]*/
 
@@ -55,6 +58,16 @@ var category = [[ ${category} ]];
     	else{
     		document.getElementById("genre_title").innerHTML = "전체";
     	}
+    	
+    	if(pagination.curPage == 1){
+    		$('#first').addClass('disabled');
+    		$('#first2').addClass('disabled');
+    	}
+    	
+    	if(pagination.curPage == pagination.pageCnt){
+    		$('#last').addClass('disabled');
+    		$('#last2').addClass('disabled');
+    	}
     });
 
 </script>
@@ -68,7 +81,7 @@ var category = [[ ${category} ]];
 </script>
 
 <link rel="stylesheet" type="text/css" href="/css/upload.css" />
-
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 </head>
 <body>
@@ -102,6 +115,25 @@ var category = [[ ${category} ]];
 							</table>
 					</div>
 				</div>
+				<nav aria-label="Page navigation example" th:if="${#lists.size(genre)} > 0">
+						  <ul class="pagination justify-content-center">
+						    <li class="page-item" id="first">
+						      <a class="page-link" href="#" th:onclick="fn_paging(1)" tabindex="-1" aria-disabled="true"><i class="fas fa-fast-backward"></i></a>
+						    </li>
+						    <li class="page-item" id="first2">
+						      <a class="page-link" href="#" th:id="${pagination.prevPage}" th:onclick="fn_paging(this.id)" tabindex="-1" aria-disabled="true"><i class="fas fa-backward"></i></a>
+						    </li>
+						    <li class="page-item" th:each="cnt:${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+							    <a class="page-link" th:href="@{/genre(category=${category},curPage=${cnt})}" th:text="${cnt}" style="font-weight: bold;"></a>
+							</li>
+						    <li class="page-item" id="last">
+						      <a class="page-link" href="#" th:id="${pagination.nextPage}" th:onclick="fn_paging(this.id)"><i class="fas fa-forward"></i></a>
+						    </li>
+						    <li class="page-item" id="last2"> 
+						      <a class="page-link" href="#" th:id="${pagination.pageCnt}" th:onclick="fn_paging(this.id)"><i class="fas fa-fast-forward"></i></a>
+						    </li>
+						  </ul>
+				</nav>
 			</div>
 		</div>
 	</div>

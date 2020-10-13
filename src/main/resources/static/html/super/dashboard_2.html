@@ -21,21 +21,6 @@
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
 
-<script th:inline="javascript">
-
-/*<![CDATA[*/
-
-var gameCount = [[ ${gameCount} ]];
-
-
-/*]]*/
-
-    $(document).ready(function(){    	
-    	document.getElementById("gameCount").innerHTML = gameCount + "개";
-    });
-
-</script>
-
 <script type="text/javascript">
 	function maxLengthCheck(object) {
 		if (object.value.length > object.maxLength) {
@@ -68,8 +53,6 @@ var gameCount = [[ ${gameCount} ]];
 										class="nav-link" style="color: white;" href="dashboard_1">서버 자원</a></li>
 									<li class="nav-item" style="font-weight: bold;"><a
 										class="nav-link" style="color: white;" href="#">통계</a></li>
-									<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;">|</a></li>
-									<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;"><label style="margin: 0;">등록된 게임 개수 : </label>&nbsp;<label id="gameCount" style="margin: 0;">-</label></a></li>
 								</ul>
 							</div>
 						</nav>

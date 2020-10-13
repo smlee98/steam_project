@@ -126,7 +126,7 @@ var imagedir_new = "..\\thumbnail";
 					<!-- FOR ADMIN -->
 					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="/admin/upload" sec:authorize="hasAnyRole('ADMIN,SUPER')">업로드</a></li>
 					<!-- FOR SUPER -->
-					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="/super/memberList" sec:authorize="hasRole('SUPER')">회원목록</a></li>
+					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="/super/memberList?curPage=1" sec:authorize="hasRole('SUPER')">회원목록</a></li>
 					<li class="nav-item" style="font-weight: bold;"><a class="nav-link" style="color: white;" href="/super/dashboard_1" sec:authorize="hasRole('SUPER')">대시보드</a></li>
         </ul>
         <form class="form-inline" name="search" action="./search" style="border: 1px solid rgb(49,98,130); border-radius: 3px; padding: 1px 3px; background: rgb(49,98,130); line-height: 32px;" onsubmit="return blankchk();">
@@ -143,14 +143,14 @@ var imagedir_new = "..\\thumbnail";
 			<div class="col-sm-3">
 				<ul id="sidebar">
 					<li class="submenu_header">카테고리</li>
-					<li class="submenu_context"><a href="/genre?category=shooting">슈팅</a></li>
-					<li class="submenu_context"><a href="/genre?category=action">액션</a></li>
+					<li class="submenu_context"><a href="/genre?category=shooting&curPage=1">슈팅</a></li>
+					<li class="submenu_context"><a href="/genre?category=action&curPage=1">액션</a></li>
 					<li class="submenu_context"><a
-						href="/genre?category=advanture">어드벤처</a></li>
+						href="/genre?category=advanture&curPage=1">어드벤처</a></li>
 					<li class="submenu_context"><a
-						href="/genre?category=simulation">시뮬레이션</a></li>
-					<li class="submenu_context"><a href="/genre?category=sports">스포츠</a></li>
-					<li class="submenu_context"><a href="/genre?category=fps">FPS</a></li>
+						href="/genre?category=simulation&curPage=1">시뮬레이션</a></li>
+					<li class="submenu_context"><a href="/genre?category=sports&curPage=1">스포츠</a></li>
+					<li class="submenu_context"><a href="/genre?category=fps&curPage=1">FPS</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9">

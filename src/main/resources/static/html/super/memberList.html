@@ -27,16 +27,26 @@
 
 /*<![CDATA[*/
 	var list = [[ ${list} ]];
-	var length = list.length;
+	var cnt = [[ ${cnt} ]];
+	var pagination = [[ ${pagination} ]];
+	var length = cnt.length;
 
 /*]]*/
 
     $(document).ready(function(){
     	
     	document.getElementById("allMember").innerHTML = length + "명";
-
+    	
+    	if(pagination.curPage == 1){
+    		$('#first').addClass('disabled');
+    		$('#first2').addClass('disabled');
+    	}
+    	
+    	if(pagination.curPage == pagination.pageCnt){
+    		$('#last').addClass('disabled');
+    		$('#last2').addClass('disabled');
+    	}
     });
-
 </script>
 
 <script type="text/javascript">
@@ -45,10 +55,21 @@
 			object.value = object.value.slice(0, object.maxLength);
 		}
 	}
+	
+	function popup(id){
+		var url = "/analyze?id=" + id
+        var name = "통계";
+        var option = "width = 800, height = 800, top = 100, left = 550, location = no, resizable = no"
+        window.open(url, name, option);
+    }
+	
+	function fn_paging(curPage) {
+		location.href = "/super/memberList?curPage=" + curPage;
+	}
 </script>
 
 <link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
-
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 </head>
 <body>
@@ -66,6 +87,7 @@
 							style="font-size: 14px; text-align: center; line-height: 20px;">
 							<thead class="thead-light">
 								<tr>
+									<th scope="col">순번</th>
 									<th scope="col">아이디</th>
 									<th scope="col">이름</th>
 									<th scope="col">성별</th>
@@ -76,14 +98,15 @@
 								</tr>
 							</thead>
 							<tbody id="tableContent">
-								<tr th:if="${#lists.size(list)} > 0" th:each="list, num:${list}">
-									<td id="userId" th:text="${list.id}"></td>
+								<tr th:if="${#lists.size(list)} > 0" th:each="list:${list}">
+									<td th:text="${list.number}"></td>
+									<td th:text="${list.id}"></td>
 									<td th:text="${list.name}"></td>
 									<td th:text="${list.gender}"></td>
 									<td th:text="${list.phone}"></td>
 									<td th:text="${list.role}"></td>
 									<td th:text="${list.auth}"></td>
-									<td><a th:href="@{/analyze(id=${list.id})}"><button id="analyze" type="button" class="btn btn-primary">보기</button></a></td>
+									<td><a onclick="popup(this.id)" th:id="${list.id}"><button id="analyze" type="button" class="btn btn-primary">보기</button></a></td>
 								</tr>
 								<tr th:unless="${#lists.size(list)} > 0">
 									<td colspan="8">회원 내역이 없습니다.</td>
@@ -92,6 +115,25 @@
 						</table>
 					</div>
 				</div>
+				<nav aria-label="Page navigation example" th:if="${#lists.size(list)} > 0">
+						  <ul class="pagination justify-content-center">
+						    <li class="page-item" id="first">
+						      <a class="page-link" href="#" th:onclick="fn_paging(1)" tabindex="-1" aria-disabled="true"><i class="fas fa-fast-backward"></i></a>
+						    </li>
+						    <li class="page-item" id="first2">
+						      <a class="page-link" href="#" th:id="${pagination.prevPage}" th:onclick="fn_paging(this.id)" tabindex="-1" aria-disabled="true"><i class="fas fa-backward"></i></a>
+						    </li>
+						    <li class="page-item" th:if="${#lists.size(list)} > 0" th:each="cnt:${#numbers.sequence(pagination.startPage, pagination.endPage)}">
+							    <a class="page-link" th:href="@{/super/memberList(curPage=${cnt})}" th:text="${cnt}" style="font-weight: bold;"></a>
+							</li>
+						    <li class="page-item" id="last">
+						      <a class="page-link" href="#" th:id="${pagination.nextPage}" th:onclick="fn_paging(this.id)"><i class="fas fa-forward"></i></a>
+						    </li>
+						    <li class="page-item" id="last2"> 
+						      <a class="page-link" href="#" th:id="${pagination.pageCnt}" th:onclick="fn_paging(this.id)"><i class="fas fa-fast-forward"></i></a>
+						    </li>
+						  </ul>
+				</nav>
 			</div>
 		</div>
 	</div>
