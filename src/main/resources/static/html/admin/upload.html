@@ -60,34 +60,34 @@ var id = [[ ${id} ]];
 		<div class="row" style="color: #fff; padding: 30px;">
 			<div class="container-md">
 				<div class="row">
-					<form action="./upload.do" method="post" enctype="multipart/form-data" onsubmit="return validate();" style="width: 50%">
+					<form action="./upload.do" method="post" enctype="multipart/form-data" onsubmit="return validate();">
 						<h2>게임 등록</h2>
 						<input type="text" id="id_input" name ="id" style="display: none;"/>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="file">게임파일 등록</label>
-							<div style="width:85%; float: left; margin-right: 7px;">
+							<div style="display: flex;">
 							<input type="text" class="form-control" id="orgfile" aria-describedby="GameHelp" name="orgfile" readonly>
+							<span class="filebox">
+								<label for="gamefile_file"  style="width: max-content; margin-left: 10px;">업로드</label> <input type="file" id="gamefile_file" name="files" accept=".zip">
+							</span>
 							</div>
-							<div class="filebox">
-								<label for="gamefile_file">업로드</label> <input type="file" id="gamefile_file" name="files" accept=".zip">
-							</div>
-							<small id="uploadHelp1" class="form-text text-muted">'.zip'파일만 등록 가능합니다.</small>
 						</div>
+						<small id="uploadHelp1" class="form-text text-muted">'.zip'파일만 등록 가능합니다.</small>
 						<div class="fileWarn" style="display: none;">
 						<i class="badge badge-danger" style="font-style: normal;">!</i>
 						<label style="font-weight: bold; color:red;">파일이 첨부되지 않았습니다!</label>
 						</div>
 						<div class="form-group" style="margin-top: 10px;">
 							<label for="thumbnail">썸네일 등록</label>
-							<div style="width:85%; float: left; margin-right: 7px;">
+							<div style="display: flex;">
 							<input type="text" class="form-control" id="thumbnail" aria-describedby="thumbnailHelp" name="thumbnail" readonly>
+							<span class="filebox">
+								<label for="thumbfile_file" style="width: max-content; margin-left: 10px;">업로드</label> <input type="file" id="thumbfile_file" name="thumbs" accept=".jpg, .png">
+							</span>
 							</div>
-							<div class="filebox">
-								<label for="thumbfile_file">업로드</label> <input type="file" id="thumbfile_file" name="thumbs" accept=".jpg, .png">
-							</div>
-							<small id="thumbnailHelp" class="form-text text-muted">'.png','.jpg'파일만 등록 가능하고, 최소
-								500px의 이미지 사이즈를 권장합니다.</small>
 						</div>
+						<small id="thumbnailHelp" class="form-text text-muted">'.png','.jpg'파일만 등록 가능하고, 최소
+								500px의 이미지 사이즈를 권장합니다.</small>
 						<div class="thumbnailWarn" style="display: none;">
 						<i class="badge badge-danger" style="font-style: normal;">!</i>
 						<label style="font-weight: bold; color:red;">썸네일이 첨부되지 않았습니다!</label>

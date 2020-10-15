@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
@@ -75,8 +76,12 @@ public class UploadService {
 		return upDAO.viewRecent();
 	}
 	
-	public List<UploadDTO> viewGenre(String category){		
-		return upDAO.viewGenre(category);
+	public List<UploadDTO> viewGenre(Map<String, Object> param){		
+		return upDAO.viewGenre(param);
+	}
+	
+	public List<UploadDTO> genreCnt(String category){		
+		return upDAO.genreCnt(category);
 	}
 
 	public void uploadGame(UploadDTO upDTO) throws Exception{
@@ -173,8 +178,17 @@ public class UploadService {
 	}
 	
 	@Transactional
-	public List<UploadDTO> searchList(String keyword){
-		return upDAO.searchList(keyword);
+	public List<UploadDTO> searchList(Map<String, Object> param){
+		return upDAO.searchList(param);
+	}
+	
+	@Transactional
+	public List<UploadDTO> searchCnt(String keyword){
+		return upDAO.searchCnt(keyword);
+	}
+	
+	public int analyze(RegisterDTO registerDTO){		
+		return upDAO.upCnt(registerDTO);
 	}
 	
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {

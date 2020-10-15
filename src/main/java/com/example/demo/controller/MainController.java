@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.text.Format;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -48,6 +49,7 @@ import com.example.demo.dto.UploadDetail;
 import com.example.demo.handler.LoginHandler;
 import com.example.demo.security.GetInfo;
 import com.example.demo.service.UploadService;
+
 import com.example.demo.service.AuthService;
 import com.example.demo.service.DashService;
 import com.example.demo.service.DownloadService;
@@ -73,7 +75,7 @@ public class MainController {
 	@Autowired
 	EvaluateService evalService;
 
-	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다... */
+	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다...! */
 	public void getMoney(Model m) {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String id = user.getId();
@@ -91,6 +93,9 @@ public class MainController {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
 			getMoney(m);
 		}
+		if((SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
+			m.addAttribute("auth", "none");
+		}
 
 		List<UploadDTO> list = upService.viewRecent();
 		m.addAttribute("list", list);
@@ -99,27 +104,70 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/genre")
-	public String genre(Model m, String category) {
+	public String genre(Model m, @RequestParam(value="category") String category, @RequestParam(value="curPage", required=false, defaultValue="1") int curPage) {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
 			getMoney(m);
 		}
 
-		List<UploadDTO> genre = upService.viewGenre(category);
+		List<UploadDTO> cnt = upService.genreCnt(category);
+		int listCnt = cnt.size();
+
+		Pagination pagination = new Pagination(listCnt, curPage);
+		int index = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("index", index);
+		param.put("pageSize", pageSize);
+		param.put("category", category);
+
+		List<UploadDTO> genre = upService.viewGenre(param);
+
+		System.out.println("genre : " + genre);
+		System.out.println("index : " + index);
+		System.out.println("pageSize : " + pageSize);
+
+		getMoney(m);
+
+		m.addAttribute("pagination", pagination);
+		m.addAttribute("cnt", cnt);
 		m.addAttribute("genre", genre);
 		m.addAttribute("category", category);
+
 
 		return "all/genre";
 	}
 
 	@RequestMapping(value="/search")
-	public String search(@RequestParam(value = "keyword") String keyword, Model m) {
+	public String search(Model m, @RequestParam(value = "keyword") String keyword, @RequestParam(value="curPage", required=false, defaultValue="1") int curPage) {
 		if(!(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).equals("anonymousUser")){
 			getMoney(m);
 		}
 
-		List<UploadDTO> list = upService.searchList(keyword);
+		List<UploadDTO> cnt = upService.searchCnt(keyword);
+		int listCnt = cnt.size();
+
+		Pagination pagination = new Pagination(listCnt, curPage);
+		int index = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("index", index);
+		param.put("pageSize", pageSize);
+		param.put("keyword", keyword);
+
+		List<UploadDTO> list = upService.searchList(param);
+
+		System.out.println("list : " + list);
+		System.out.println("index : " + index);
+		System.out.println("pageSize : " + pageSize);
+
+		getMoney(m);
+
+		m.addAttribute("pagination", pagination);
+		m.addAttribute("cnt", cnt);
 		m.addAttribute("list", list);
-		System.out.println(list);
+		m.addAttribute("keyword", keyword);
 
 		return "all/search";
 	}
@@ -312,18 +360,44 @@ public class MainController {
 		return "user/charge";
 	}
 
+	@RequestMapping(value = "/analyze")
+	public String analyze (Model m, RegisterDTO registerDTO) {
+		String id = registerDTO.getId();
+		List<DownloadDTO> down = downService.downloadList(id);
+		m.addAttribute("down", down);
+		List<UploadDTO> up = upService.uploadList(id);
+		m.addAttribute("up", up);
+
+		int downCnt = downService.analyze(registerDTO);
+		m.addAttribute("downCnt", downCnt);
+		int upCnt = upService.analyze(registerDTO);
+		m.addAttribute("upCnt", upCnt);
+		int coin = purchaseService.analyze(registerDTO);
+		m.addAttribute("coin",coin);
+
+		return "super/analyze";
+	}
+
+	@RequestMapping(value = "/refresh")
+	public String refresh (Model m) {
+
+		getMoney(m);
+
+		return "all/refresh";
+	}
+
 	@RequestMapping(value = "/evaluate")
 	public String evaluate (EvaluateDTO evaluateDTO) {
 		evalService.enroll(evaluateDTO);
 
-		return "redirect:/main";
+		return "redirect:/refresh";
 	}
 
 	@RequestMapping(value = "/evaluate_del")
 	public String evaluate_del (EvaluateDTO evaluateDTO) {
 		evalService.delete(evaluateDTO);
 
-		return "redirect:/main";
+		return "redirect:/refresh";
 	}
 
 	/* 관리자 */
@@ -426,11 +500,25 @@ public class MainController {
 	}
 
 	@RequestMapping(value="super/memberList", method=RequestMethod.GET)
-	public String memberList(Model m) {
-		List<RegisterDTO> list = resService.memberList();
-		m.addAttribute("list", list);
+	public String memberList(Model m, RegisterDTO registerDTO, @RequestParam(value="curPage", required=false, defaultValue="1") int curPage) {
+		List<RegisterDTO> cnt = resService.memberCnt();
+		int listCnt = cnt.size();
+
+		Pagination pagination = new Pagination(listCnt, curPage);
+		int index = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+
+		Map<String, Integer> param = new HashMap<>();
+		param.put("index", index);
+		param.put("pageSize", pageSize);
+
+		List<RegisterDTO> list = resService.memberList(param);
 
 		getMoney(m);
+
+		m.addAttribute("pagination", pagination);
+		m.addAttribute("cnt", cnt);
+		m.addAttribute("list", list);
 
 		return "super/memberList";
 	}

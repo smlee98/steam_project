@@ -47,6 +47,10 @@ public class PurchaseService {
 		return purchaseDAO.getMoney(id);
 	}
 	
+	public int analyze(RegisterDTO registerDTO){
+		return purchaseDAO.analyze(registerDTO);
+	}
+	
 	public void setMoney(PurchaseDTO purchaseDTO, int money){
 		purchaseDTO.setMoney(getMoney(purchaseDTO.getId()) - money);
 		purchaseDAO.setMoney(purchaseDTO);

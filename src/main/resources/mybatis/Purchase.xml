@@ -9,6 +9,12 @@
 		insert into tb_purchase
 		values(#{id},#{money})
 	</insert>
+	
+	<select id="analyze" resultType="int" parameterType="com.example.demo.dto.RegisterDTO">
+		select money
+		from tb_purchase
+		where id = #{id}
+	</select>
 
 	<select id="getMoney" resultType="int">
 		select money

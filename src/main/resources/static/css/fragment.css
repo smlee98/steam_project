@@ -5,3 +5,7 @@
 footer .rule {
     height: 8px; border-top: 1px solid #363c44;
 }
+
+.bg-light{
+	background-color: rgba(23,26,33,0.95)!important;
+}

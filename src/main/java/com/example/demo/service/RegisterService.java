@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
@@ -36,8 +37,12 @@ public class RegisterService implements UserDetailsService {
 	@Autowired
 	RegisterDAO resDAO;
 
-	public List<RegisterDTO> memberList(){
-		return resDAO.memberList();
+	public List<RegisterDTO> memberCnt(){
+		return resDAO.memberCnt();
+	}
+	
+	public List<RegisterDTO> memberList(Map<String, Integer> param){
+		return resDAO.memberList(param);
 	}
 	
 	public void myPage(RegisterDTO resDTO){

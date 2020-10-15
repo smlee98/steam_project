@@ -19,6 +19,8 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
+	
+<script src="https://kit.fontawesome.com/e9c6f54b2b.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" type="text/css" href="../css/fragment.css" />
 
@@ -39,23 +41,22 @@ var money = [[ ${money} ]];
 </head>
 <body>
 <div th:fragment="navBar">
-	<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
-		style="height: 15vh;">
+	<nav class="navbar navbar-expand navbar-dark bg-light"
+		style="height: 15vh; background-color: rgba(23,26,33,0.95)!important;">
 		<div class="container-sm">
 			<a class="navbar-brand" href="../main"><img src="../image/logo.png"
 				width="50" height="50" alt="logo"></a>
-			<div class="collapse navbar-collapse" id="navbarsExample07">
+			<div class="collapse navbar-collapse navbar-expand-sm" id="navbarsExample07">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="/genre?category=all" style="font-size: 18px; font-weight: bold;">스토어<span
+					<li class="nav-item active"><a class="nav-link" href="/genre?category=all&curPage=1" style="font-size: 18px; font-weight: bold;">스토어<span
 							class="sr-only">(current)</span></a></li>
 				</ul>
 				<form class="form-inline my-2 my-md-0">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" style="font-size: 12px; font-weight: bold; color:white; line-height: 24px;"><label sec:authentication="principal.name" style="float:left;"></label><label>님 환영합니다 :)</label></a></li>
-						<li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" style="font-size: 12px; font-weight: bold; color:white; line-height: 24px; border: 2px solid white;"><label th:text="${money}" style="float:left;"></label><label>원</label></a></li>
+						<li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" style="font-size: 12px; font-weight: bold; color:white; line-height: 24px; display: flex;"><label style="color: yellow;">₩</label>&nbsp;<label th:text="${money}"></label><label>원</label></a></li>
 						<li class="nav-item"><a class="nav-link" href="../login" sec:authorize="isAnonymous()" style="font-size: 18px; font-weight: bold;">로그인</a></li>
 						<li class="nav-item"><a class="nav-link" href="../logout" sec:authorize="isAuthenticated()" style="font-size: 18px; font-weight: bold;">로그아웃</a></li>
-						<li class="nav-item"><a class="nav-link" href="../mypage" sec:authorize="hasAnyRole('USER,ADMIN')" style="font-size: 18px; font-weight: bold;">마이페이지</a></li>
 					</ul>
 				</form>
 			</div>

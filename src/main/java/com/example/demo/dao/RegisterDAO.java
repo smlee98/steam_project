@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,12 @@ public class RegisterDAO {
 		return sqlSession.selectOne("register.findByID", id);
 	}
 	
-	public List<RegisterDTO> memberList(){
-		return sqlSession.selectList("register.memberList");
+	public List<RegisterDTO> memberList(Map<String, Integer> param){
+		return sqlSession.selectList("register.memberList", param);
+	}
+	
+	public List<RegisterDTO> memberCnt(){
+		return sqlSession.selectList("register.memberCnt");
 	}
 	
 	public void myPage(RegisterDTO resDTO){

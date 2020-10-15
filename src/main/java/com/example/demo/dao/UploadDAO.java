@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +54,12 @@ public class UploadDAO{
 		sqlSession.delete("upload.delUpload", UploadDTO);
 	}
 	
-	public List<UploadDTO> searchList(String keyword){
-		return sqlSession.selectList("upload.searchList", keyword);
+	public List<UploadDTO> searchList(Map<String, Object> param){
+		return sqlSession.selectList("upload.searchList", param);
+	}
+	
+	public List<UploadDTO> searchCnt(String keyword){
+		return sqlSession.selectList("upload.searchCnt", keyword);
 	}
 	
 	public List<UploadDTO> gameDetail(String number){
@@ -65,7 +70,15 @@ public class UploadDAO{
 		return sqlSession.selectList("upload.viewRecent");
 	}
 	
-	public List<UploadDTO> viewGenre(String category){
-		return sqlSession.selectList("upload.viewGenre", category);
+	public List<UploadDTO> viewGenre(Map<String, Object> param){
+		return sqlSession.selectList("upload.viewGenre", param);
+	}
+	
+	public List<UploadDTO> genreCnt(String category){
+		return sqlSession.selectList("upload.genreCnt", category);
+	}
+	
+	public int upCnt(RegisterDTO registerDTO){
+		return sqlSession.selectOne("upload.upCnt", registerDTO);
 	}
 }

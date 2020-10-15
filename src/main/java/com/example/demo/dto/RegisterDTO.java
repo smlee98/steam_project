@@ -11,6 +11,16 @@ public class RegisterDTO {
 	String favorite;
 	String role;
 	String auth;
+	
+	int curPage;
+
+	public int getCurPage() {
+		return curPage;
+	}
+
+	public void setCurPage(int curPage) {
+		this.curPage = curPage;
+	}
 
 	public String getRole() {
 		return role;

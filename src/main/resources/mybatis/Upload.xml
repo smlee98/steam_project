@@ -60,7 +60,13 @@
 		select *
 		from tb_upload
 		where name like CONCAT('%',#{keyword},'%')
-		order by number
+		order by number asc limit #{index}, #{pageSize}
+	</select>
+	
+	<select id="searchCnt" resultType="com.example.demo.dto.UploadDTO">
+		select *
+		from tb_upload
+		where name like CONCAT('%',#{keyword},'%')
 	</select>
 	
 	<select id="gameDetail" resultType="com.example.demo.dto.UploadDTO">
@@ -75,13 +81,24 @@
 		order by number desc limit 4
 	</select>
 	
-	<select id="viewGenre" parameterType="String" resultType="com.example.demo.dto.UploadDTO">
+	<select id="viewGenre" parameterType="hashMap" resultType="com.example.demo.dto.UploadDTO">
 		select *
 		from tb_upload
 		<where>
-			<if test='_parameter != null and _parameter.equals("all")'>1=1</if>
-    		<if test='_parameter != null and !_parameter.equals("all")'>category = #{category}</if>
+			<if test='category != null and category.equals("all")'>1=1</if>
+    		<if test='category != null and !category.equals("all")'>category = #{category}</if>
 		</where>
-     	order by number
+     	order by number asc limit #{index}, #{pageSize}
+	</select>
+	
+	<select id="genreCnt" parameterType="hashMap" resultType="com.example.demo.dto.UploadDTO">
+		select *
+		from tb_upload
+	</select>
+	
+	<select id="upCnt" resultType="int" parameterType="com.example.demo.dto.RegisterDTO">
+		select count(*)
+		from tb_upload
+		where id = #{id}
 	</select>
 </mapper>
