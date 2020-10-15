@@ -75,7 +75,7 @@ public class MainController {
 	@Autowired
 	EvaluateService evalService;
 	
-	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다... */
+	/* fragment 용 함수인데... 이렇게 모든 컨트롤러 호출은 비효율적인거 같긴하다...! */
 	public void getMoney(Model m) {
 		RegisterDetail user = (RegisterDetail)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String id = user.getId();
